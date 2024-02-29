@@ -43,6 +43,7 @@
 		      %		\item Provide an example of other problems in statistics that face a similar hurdle
 		\item Contrast the reasons for choosing different inferential targets,
 		      particularly those concerning similar estimands
+		\item Explain inference for OWL
 		\item Identify where to look for the theory
 		\item Explain how SMARTs help DTR inference
 	\end{itemize}
@@ -59,67 +60,6 @@
 	No history
 	Markov Decision Process with a varying amount of history
 
-\end{frame}
-
-\section{Background}
-
-\begin{frame}{Key Estimands}
-	\textbf{Non-decision-making Estimands}
-	\begin{itemize}
-		\item Model Parameters
-	\end{itemize}
-	\vfill \pause
-
-	\begin{itemize}
-		\item Value of two embedded DTRs
-	\end{itemize}
-
-	\textbf{Treatment Policies}
-	\begin{itemize}
-		\item Identification of the best embedded treatment policy/eDTR
-		\item Optimal policy $\optpol$
-		\item Optimal policy $\optpol_{\symcal{F}}$ in a restrcited function
-		      class $\symcal{F}$ (e.g. optimal policy among linear decision rules, trees of depth
-		      $c$, or embedded policies)
-	\end{itemize}
-
-	\vfill \pause
-
-	\textbf{Value of a Policy and Value Comparisons}
-	\begin{itemize}
-		\item Fixed: the value of a fixed policy or policies (usually the eDTRs) $\val(\pol)$
-		\item Estimated: Value of the \textbf{estimated} optimal policy $\val(\polhat)$
-		\item Optimal: Value of the optimal policy $\val(\optpol)$
-		\item Comparison of non-overlapping policies e.g. most intensive vs. least intensive
-	\end{itemize}
-
-	\vfill \pause
-
-	\footnotesize The difference between policy and value estimation is analagous to the
-	difference between estimating the parameters of a linear model and estimating
-	the average treatment effect.
-\end{frame}
-
-\begin{frame}{Value Functions}
-	\begin{enumerate}
-		\item Conditional Value of the estimated optimal policy
-
-		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
-
-		\item (Expected) Value of an estimated optimal policy
-		      $$\E_{\covarrv}[\polhatn(\covarrv)]$$
-
-		\item Value of the optimal policy
-		      $$\E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
-	\end{enumerate}
-
-	\vfill \pause
-
-	Are estimators of these functions asymptotically equivalent?
-
-	\vfill \pause
-	Brainstorm a scenario for each of the value functions where that estimand would
-	make the most sense.
 \end{frame}
 
 \section{Notation}
@@ -262,6 +202,68 @@
 
 \end{frame}
 
+\section{Estimands and Inferential Targets}
+
+\begin{frame}{Key Estimands}
+	\textbf{Non-decision-making Estimands}
+	\begin{itemize}
+		\item Model Parameters
+	\end{itemize}
+	\vfill \pause
+
+	\begin{itemize}
+		\item Value of two embedded DTRs
+	\end{itemize}
+
+	\textbf{Treatment Policies}
+	\begin{itemize}
+		\item Identification of the best embedded treatment policy/eDTR
+		\item Optimal policy $\optpol$
+		\item Optimal policy $\optpol_{\symcal{F}}$ in a restrcited function
+		      class $\symcal{F}$ (e.g. optimal policy among linear decision rules, trees of depth
+		      $c$, or embedded policies)
+	\end{itemize}
+
+	\vfill \pause
+
+	\textbf{Value of a Policy and Value Comparisons}
+	\begin{itemize}
+		\item Fixed: the value of a fixed policy or policies (usually the eDTRs) $\val(\pol)$
+		\item Estimated: Value of the \textbf{estimated} optimal policy $\val(\polhat)$
+		\item Optimal: Value of the optimal policy $\val(\optpol)$
+		\item Comparison of non-overlapping policies e.g. most intensive vs. least intensive
+	\end{itemize}
+
+	\vfill \pause
+
+	\footnotesize The difference between policy and value estimation is analagous to the
+	difference between estimating the parameters of a linear model and estimating
+	the average treatment effect.
+\end{frame}
+
+\begin{frame}{Value Functions}
+	\begin{enumerate}
+		\item Conditional Value of the estimated optimal policy
+
+		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
+
+		\item (Expected) Value of an estimated optimal policy
+		      $$\E_{\covarrv}[\polhatn(\covarrv)]$$
+
+		\item Value of the optimal policy
+		      $$\E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
+	\end{enumerate}
+
+	\vfill \pause
+
+	Are estimators of these functions asymptotically equivalent?
+
+	\vfill \pause
+	Brainstorm a scenario for each of the value functions where that estimand would
+	make the most sense.
+\end{frame}
+
+\section{Nonregular Introduction}
 \begin{frame}{Toy Problem: Max of Gaussian Means}
 	Suppose we have a random iid sample of size $n$ where
 	\begin{equation*}
@@ -317,21 +319,6 @@
 	To analyze SMARTs we'll need to address nonregular asymptotics.
 \end{frame}
 
-\section{Loss Functions and their surrogates}
-\begin{frame}{The $0$-$1$ loss}
-\end{frame}
-
-\begin{frame}{Hinge Loss}
-\end{frame}
-
-\begin{frame}{}
-\end{frame}
-
-\begin{frame}{}
-\end{frame}
-
-
-\section{Nonregular Asymptotics}
 
 \begin{frame}{Assumptions}
 \end{frame}
@@ -344,6 +331,22 @@
 \end{frame}
 
 
+\section{OWL Hoot Hoot}
+
+\begin{frame}{}
+\end{frame}
+
+\begin{frame}{}
+\end{frame}
+
+
+\subsection{Loss Functions and their surrogates}
+\begin{frame}{The $0$-$1$ loss}
+\end{frame}
+
+\begin{frame}{Hinge Loss}
+\end{frame}
+
 \section{Approaches to Constructing Confidence Intervals}
 
 \begin{frame}{Bound-based}
@@ -354,6 +357,7 @@
 
 \begin{frame}{The Jackknife+}
 \end{frame}
+
 \end{document}
 %%% Local Variables:
 %%% mode: LaTeX
