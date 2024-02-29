@@ -1,0 +1,361 @@
+\documentclass[aspectratio=169, professionalfonts]{beamer}
+
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+
+\usepackage{hyperref} \hypersetup{ colorlinks=true,
+	linkcolor=blue, filecolor=magenta, urlcolor=cyan, pdftitle={Overleaf Example},
+	pdfpagemode=FullScreen}
+
+\input{components/combined-macros.tex}
+
+\usepackage[style=verbose-ibid,backend=bibtex, isbn=false, url=false, doi=false,
+	eprint=false, dashed=false]{biblatex}
+\addbibresource{my-biblatex-library.bib}
+
+% Assumed directory structure is structure both VK and its associated files
+% live in ./components/vk-theme
+\usepackage{components/vk-theme/beamerthemeVK}
+
+\author{John Sperger}
+\date{March 8\textsuperscript{th} 2024}
+\title{Introduction to SMART\textsuperscript{*} Inference}
+\subtitle{\textsuperscript{*}DTR, but that doesn't sound as catchy}
+\begin{document}
+\maketitle
+
+\section{Overview}
+\begin{frame}{Outline}
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+\begin{frame}[label={overview:objectives}]{Learning Objectives}
+	At the end of today's talk you should be able to:
+	\begin{itemize}
+		\item Explain the fundamental challenge facing most inferential DTR problems
+		      %		\item Provide an example of other problems in statistics that face a similar hurdle
+		\item Contrast the reasons for choosing different inferential targets,
+		      particularly those concerning similar estimands
+		\item Identify where to look for the theory
+		\item Explain how SMARTs help DTR inference
+	\end{itemize}
+	\vfill
+\end{frame}
+
+\begin{frame}[label={overview:time}]{Temporal Settings}
+	Often categorized as:
+	Single stage
+	Multistage
+	Infinite Horizon
+
+	Might be useful to think of as
+	No history
+	Markov Decision Process with a varying amount of history
+
+\end{frame}
+
+\section{Background}
+
+\begin{frame}{Key Estimands}
+	\textbf{Non-decision-making Estimands}
+	\begin{itemize}
+		\item Model Parameters
+	\end{itemize}
+	\vfill \pause
+
+	\begin{itemize}
+		\item Value of two embedded DTRs
+	\end{itemize}
+
+	\textbf{Treatment Policies}
+	\begin{itemize}
+		\item Identification of the best embedded treatment policy/eDTR
+		\item Optimal policy $\optpol$
+		\item Optimal policy $\optpol_{\symcal{F}}$ in a restrcited function
+		      class $\symcal{F}$ (e.g. optimal policy among linear decision rules, trees of depth
+		      $c$, or embedded policies)
+	\end{itemize}
+
+	\vfill \pause
+
+	\textbf{Value of a Policy and Value Comparisons}
+	\begin{itemize}
+		\item Fixed: the value of a fixed policy or policies (usually the eDTRs) $\val(\pol)$
+		\item Estimated: Value of the \textbf{estimated} optimal policy $\val(\polhat)$
+		\item Optimal: Value of the optimal policy $\val(\optpol)$
+		\item Comparison of non-overlapping policies e.g. most intensive vs. least intensive
+	\end{itemize}
+
+	\vfill \pause
+
+	\footnotesize The difference between policy and value estimation is analagous to the
+	difference between estimating the parameters of a linear model and estimating
+	the average treatment effect.
+\end{frame}
+
+\begin{frame}{Value Functions}
+	\begin{enumerate}
+		\item Conditional Value of the estimated optimal policy
+
+		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
+
+		\item (Expected) Value of an estimated optimal policy
+		      $$\E_{\covarrv}[\polhatn(\covarrv)]$$
+
+		\item Value of the optimal policy
+		      $$\E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
+	\end{enumerate}
+
+	\vfill \pause
+
+	Are estimators of these functions asymptotically equivalent?
+
+	\vfill \pause
+	Brainstorm a scenario for each of the value functions where that estimand would
+	make the most sense.
+\end{frame}
+
+\section{Notation}
+\begin{frame}[label={sec:org00d2d44}]{Notation}
+
+	Let $[K]$ denote the set $\{1, \ldots, K \}$ for a positive integer $K$. For
+	individual $\obsindex \in [\maxobsindex]$ at stage $\stageindex \in
+		[\maxstageindex]$ their data is given by:
+	\pause
+	\begin{itemize}
+		\item $\covarrv_{\stageindex \obsindex} \in \covarspace_{\stageindex} \subseteq
+			      \symbb{R}^{\dimarmparam_{\stageindex}}$ denotes the covariates
+
+		\item $\armrv_{\stageindex \obsindex} \in \armspace_{\stageindex}$ denotes the treatment arm
+
+		\item $\resprv_{\stageindex \obsindex} \in \symbb{R}$ denotes the response
+	\end{itemize}
+
+	\vfill \pause
+	We'll consider a two-stage SMART for exposition. The generalization to finitely
+	many more stages is straightforward. The study data is comprised of iid replicates
+
+	\vfill
+	\pause
+
+	\begin{equation}
+		\left\{{\covarrv}_{1\obsindex},\, {\armrv}_{1\obsindex},\,
+		{\resprv}_{1\obsindex}, {\covarrv}_{2\obsindex},\, {\armrv}_{2\obsindex},\,
+		{\resprv}_{2\obsindex}\right\}_{\obsindex = 1}^{\maxobsindex}
+	\end{equation}
+
+	\pause \vfill
+
+	Depending on author, context etc. $\resprv_{\stageindex \obsindex}$ may be
+	included in $\covarrv_{(\stageindex + 1) \obsindex}$ for $\stageindex = 2, \ldots,
+		\maxstageindex -1$. Then there is only a single $\resprv$ and it is the
+	ultimate response ($\resprv_{\maxstageindex \obsindex}$ in the other notation)
+\end{frame}
+
+
+\begin{frame}{General Notation \& Potential Outcomes}
+	\vfill
+	For a process $Z$ define $\overline{Z}_{\obsindex} = (Z_1, \ldots, Z_{\obsindex})$
+	for a positive integer $\obsindex$.
+
+	\pause \vfill
+
+	Denote the potential outcome under a treatment sequence $\overline{\armobs} =
+		(\armobs_1, \armobs_2)$ for an individual with covariates $\overline{\covarobs}$  by
+
+	$$\po(\overline{\armobs}, \overline{\covarobs}) = \po(\covarrv_1 = \covarobs_1, \armrv_1 = \armobs_1, \covarrv_2 = \covarobs_2,\armrv_{2} = \armobs_{2})$$
+
+	\pause \vfill
+
+
+	We will suppress the dependence of $\po$ on $\overline{\covarobs}$ and write
+	$$\po(\overline{\armobs}) = \po(\armrv_1 = \armobs_1, \armrv_{2} = \armobs_{2})$$
+\end{frame}
+
+
+\begin{frame}{What does it mean for a policy to be optimal?}
+	Define the value of a policy $\pol$ as
+	\begin{equation}
+		\val(\pol) = \E_{\covarrv}[\po(\overline{\armobs} = \pol(\covarrv))]
+	\end{equation}
+
+	\vfill
+
+	An optimal policy $\optpol$ is any policy that satisfies
+	\begin{equation}
+		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
+	\end{equation}
+\end{frame}
+
+
+
+\begin{frame}{Operator notation}
+	\begin{itemize}
+		\item $\covarrv_1, \ldots, \covarrv_{\maxobsindex}$ is an iid random sample from a
+		      fixed but unknown distribution $\Pop$
+		\item $\genericfun$ is a generic parametric function indexed by $\theta \in \Theta$
+		\item $\hat{\theta} \in \Theta$ is a random variable constructed from the sample
+		      $\covarrv_1, \ldots, \covarrv_{\maxasymindex}$
+	\end{itemize}
+	\vfill
+
+	$\Pop$ denotes the probability measure:
+	\begin{equation*}
+		\Pop \genericfun(\covarrv; \hat{\theta}) = \int \genericfun(\covarobs;\,\widehat{\theta}) \dv
+		\Pop(\covarobs))
+	\end{equation*}
+
+	\vfill $\Pn$ denotes the corresponding empirical measure:
+
+	\begin{equation*}
+		\Pn \genericfun(\covarrv; \hat{\theta}) = \asymindex^{-1}\sum_{i =
+			1}^{\asymindex} \genericfun(\covarobs_{i};\,\hat{\theta})
+	\end{equation*}
+	\vfill
+
+	$\leadsto$ denotes convergence in distribution.
+
+	\vfill
+\end{frame}
+
+\begin{frame}{Operator Notation Exercise}
+	Rewrite the following in operator notation:
+	\vfill
+	\begin{itemize}
+
+		\item Conditional Value of the estimated optimal policy
+
+		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = ?$$
+
+		\item Value of the optimal policy
+		      $$\E_{\covarrv}[\optpol(\covarrv)] = ?$$
+
+		\item Estimated Value of the optimal policy
+
+		      $$\valhatn(\polhatn(\covarrv)) = ?$$
+	\end{itemize}
+	\vfill
+
+\end{frame}
+
+
+\begin{frame}{Operator Notation Exercise}
+	Rewrite the following in operator notation:
+	\vfill
+	\begin{itemize}
+
+		\item Conditional Value of the estimated optimal policy
+
+		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
+
+		\item Value of the optimal policy
+		      $$\E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
+	\end{itemize}
+	\vfill
+
+\end{frame}
+
+\begin{frame}{Toy Problem: Max of Gaussian Means}
+	Suppose we have a random iid sample of size $n$ where
+	\begin{equation*}
+		X_i \sim \MVN \left(\symbf{\mu} = \begin{pmatrix}2 \\ -1 \end{pmatrix},\, \Sigma = \begin{bmatrix}1 & 0
+               \\ 0 & 1\end{bmatrix} \right)
+	\end{equation*}
+
+	\vfill
+	\pause
+
+	In the general case let $p$ denote the dimension of $\symbf{\mu}$ and assume that
+	the covariance matrix is the identity matrix. Suppose we are interested in $\theta$:
+
+	$$\theta = \max_{j \in
+			[p]} \mu_j = \displaystyle \land_{j = 1}^{p} \mu_j$$
+	\vfill
+
+	Here $\theta = \max \{2, -1\} = 2$
+
+	\vfill
+	\pause
+	Let $$\hat{\theta}_n = \max_{j \in \{1, 2 \}} \Pn {X}_j $$
+	\vfill
+	\pause
+	What is the limiting distribution of $\rootn (\hat{\theta} - \theta)$ for $\symbf{\mu} =
+		(2, -1 )^{\trans}$?
+
+	Hint: don't overthink it
+\end{frame}
+
+\begin{frame}{Max of Gaussian Means continued}
+	A: $\rootn (\hat{\theta} - \theta) \convd \symtt{N}(0, 1)$
+	\pause
+	\vfill
+	Suppose $\symbf{\mu} = (0 , 0)^{\trans}$
+
+	Now what is the limiting distribution of $ \rootn (\hat{\theta} - \theta)$?
+
+	\vfill \pause
+
+	$$\rootn (\hat{\theta} - \theta) \convd \max(\symtt{N}(0, 1), \symtt{N}(0, 1))$$
+
+	Now the limiting distribution is the maximum of two independent standard
+	normal RVs.
+
+	\vfill \pause
+
+	Problem: the limiting distribution depends on the value of the parameter
+	$\symbf{\mu}$
+
+	\vfill
+
+	To analyze SMARTs we'll need to address nonregular asymptotics.
+\end{frame}
+
+\section{Loss Functions and their surrogates}
+\begin{frame}{The $0$-$1$ loss}
+\end{frame}
+
+\begin{frame}{Hinge Loss}
+\end{frame}
+
+\begin{frame}{}
+\end{frame}
+
+\begin{frame}{}
+\end{frame}
+
+
+\section{Nonregular Asymptotics}
+
+\begin{frame}{Assumptions}
+\end{frame}
+
+\begin{frame}{Method-specific Inference}
+\end{frame}
+
+\begin{frame}{Outcome-weighted Learning}
+	<insert how to draw an owl image here>
+\end{frame}
+
+
+\section{Approaches to Constructing Confidence Intervals}
+
+\begin{frame}{Bound-based}
+\end{frame}
+
+\begin{frame}{The $m$-out-of-$n$ Bootstrap}
+\end{frame}
+
+\begin{frame}{The Jackknife+}
+\end{frame}
+\end{document}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
