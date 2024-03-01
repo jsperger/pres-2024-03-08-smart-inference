@@ -26,8 +26,7 @@
 
 \author{John Sperger}
 \date{March 8\textsuperscript{th} 2024}
-\title{Introduction to SMART\textsuperscript{*} Inference}
-\subtitle{\textsuperscript{*}DTR, but that doesn't sound as catchy}
+\title{Introduction to Value Function Inference}
 \begin{document}
 \maketitle
 
@@ -44,8 +43,7 @@
 		\item Contrast the reasons for choosing different inferential targets,
 		      particularly those concerning similar estimands
 		\item Explain inference for OWL
-		\item Identify where to look for the theory
-		\item Explain how SMARTs help DTR inference
+		\item Name the keywords to search for to find relevant theory
 	\end{itemize}
 	\vfill
 \end{frame}
@@ -263,6 +261,12 @@
 	make the most sense.
 \end{frame}
 
+\section{OWL}
+\begin{frame}{OWL}
+	<insert how to draw an owl image here>
+\end{frame}
+
+
 \section{Nonregular Introduction}
 \begin{frame}{Toy Problem: Max of Gaussian Means}
 	Suppose we have a random iid sample of size $n$ where
@@ -320,18 +324,49 @@
 \end{frame}
 
 
+
+\section{Asymptotics --- What are we doing here?}
+\begin{frame}{Why (when) do we trust asymptotic approximations?}
+	Assuming standard regularity condition hold, what does the Central Limit
+	Theorem tell us about $\Pn \covarrv$?
+
+	Taylor Series
+\end{frame}
+
+\begin{frame}{Berry Essen Theorem}
+	Suppose $\covarrv_1, \ldots, \covarrv_{\asymindex}$ are iid with
+	\begin{align*}
+		\E[X]     & = 0                 \\
+		\E[X^2]   & = \sigma^2 < \infty \\
+		\E[|X|^3] & = \rho < \infty
+	\end{align*}
+	And let $Y_{\asymindex} = \Pn \covarrv$. Then
+	\vfill
+	\begin{equation}
+		\sup_{x \in \mathbb{R}}|F_{\asymindex}(\covarobs) - \Phi(\covarobs)| \leq \frac{C
+			\rho}{\sigma^{3} \rootn }
+	\end{equation}
+
+	Where $C$ is a universal constant and according to the wiki I haven't fact
+	checked our current best bounds are $.4097 \leq C \leq .4748$
+	\vfill
+\end{frame}
+
+\begin{frame}{But wait --- aren't all treatment effects nonzero?}
+	Even if the effect is $\epsilon^{-35}$ for some $\epsilon \ll 1$ we have asymptotic
+	normality. Don't all treatments have an  effect at that level even if it's
+	just the sugar in the pill?
+\end{frame}
+
+\
+
+\section{OWL Hoot Hoot}
 \begin{frame}{Assumptions}
 \end{frame}
 
 \begin{frame}{Method-specific Inference}
 \end{frame}
 
-\begin{frame}{Outcome-weighted Learning}
-	<insert how to draw an owl image here>
-\end{frame}
-
-
-\section{OWL Hoot Hoot}
 
 \begin{frame}{Outcome Weighted Learning}
 	Setup: Two treatments $\{-1, +1\} \subseteq \armspace$
@@ -352,16 +387,19 @@
 \end{frame}
 
 \section{Approaches to Constructing Confidence Intervals}
-
+\subsection{Bound-based}
 \begin{frame}{Bound-based}
 \end{frame}
-
+\subsection{Bootstrap}
 \begin{frame}{The $m$-out-of-$n$ Bootstrap}
 \end{frame}
 
 \begin{frame}{The Jackknife+}
 \end{frame}
 
+\section{Avoiding Nonregularity}
+\begin{frame}
+\end{frame}
 \end{document}
 %%% Local Variables:
 %%% mode: LaTeX
