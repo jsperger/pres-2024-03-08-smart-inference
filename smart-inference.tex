@@ -278,7 +278,7 @@
 	the covariance matrix is the identity matrix. Suppose we are interested in $\theta$:
 
 	$$\theta = \max_{j \in
-			[p]} \mu_j = \displaystyle \land_{j = 1}^{p} \mu_j$$
+			[p]} \mu_j = \displaystyle \lor_{j = 1}^{p} \mu_j$$
 	\vfill
 
 	Here $\theta = \max \{2, -1\} = 2$
@@ -333,7 +333,11 @@
 
 \section{OWL Hoot Hoot}
 
-\begin{frame}{}
+\begin{frame}{Outcome Weighted Learning}
+	Setup: Two treatments $\{-1, +1\} \subseteq \armspace$
+
+	$$\E[\poa{1}(\covarobs) - \poa{-1}(\covarobs) \mid \covarrv = \covarobs]$$
+
 \end{frame}
 
 \begin{frame}{}
