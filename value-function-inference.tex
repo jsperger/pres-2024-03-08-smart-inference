@@ -70,6 +70,12 @@
 	\vfill
 \end{frame}
 
+\section{OWL}
+\begin{frame}{OWL}
+	\begin{figure}
+		\includegraphics[width=.6\textwidth]{figures/how-to-draw-an-owl}
+	\end{figure}
+\end{frame}
 \section{Notation}
 \subsection{Math notation}
 \begin{frame}[label={sec:org00d2d44}]{Notation}
@@ -243,11 +249,12 @@
 	\vfill
 	\pause
 
-	In the general case let $p$ denote the dimension of $\symbf{\mu}$ and assume that
-	the covariance matrix is the identity matrix. Suppose we are interested in $\theta$:
+	In the general case let $p$ denote the dimension of $\symbf{\mu}$ and assume
+	that the covariance matrix is the identity matrix. Suppose we are interested
+	in $\theta$:
 
 	$$\theta = \max_{j \in
-			[p]} \mu_j = \displaystyle \lor_{j = 1}^{p} \mu_j$$
+			[p]} \mu_j = \maxsym_{j = 1}^{p} \mu_j$$
 	\vfill
 
 	Here $\theta = \max \{2, -1\} = 2$
@@ -289,13 +296,6 @@
 \end{frame}
 
 
-\section{OWL}
-\begin{frame}{OWL}
-	<insert how to draw an owl image here>
-\end{frame}
-
-
-
 \section{Asymptotics --- What are we doing here?}
 \begin{frame}{Why (when) do we trust asymptotic approximations?}
 	Assuming standard regularity condition hold, what does the Central Limit
@@ -332,6 +332,14 @@
 
 
 \section{Approaches to Constructing Confidence Intervals}
+\subsection{Projections}
+\begin{frame}{Projection Region Big Picture}
+	Recall our formulation $\theta_n = \theta_0 + h(n)s$
+	\begin{enumerate}
+		\item The empirical estimator $\widehat{\mu}_n = \Pn X$ is well-behaved (regular, asymptotically normal)
+		\item If we knew $\mu_0$ forming confidence intervals for $\widehat{\mu}_n$
+	\end{enumerate}
+\end{frame}
 \subsection{Bound-based}
 \begin{frame}{Bound-based}
 \end{frame}
