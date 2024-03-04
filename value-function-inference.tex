@@ -16,7 +16,7 @@
 
 \input{components/combined-macros.tex}
 
-\usepackage[style=verbose-ibid,backend=bibtex, isbn=false, url=false, doi=false,
+\usepackage[style=verbose-ibid,backend=biber, isbn=false, url=false, doi=false,
 	eprint=false, dashed=false]{biblatex}
 \addbibresource{my-biblatex-library.bib}
 
@@ -26,7 +26,8 @@
 
 \author{John Sperger}
 \date{March 8\textsuperscript{th} 2024}
-\title{Introduction to Value Function Inference}
+\title{Value Function Inference}
+\subtitle{A Moderately Technical Introduction}
 \begin{document}
 \maketitle
 
@@ -70,13 +71,13 @@
 	\vfill
 \end{frame}
 
-\section{OWL}
+\subsection{OWL}
 \begin{frame}{OWL}
 	\begin{figure}
 		\includegraphics[width=.6\textwidth]{figures/how-to-draw-an-owl}
 	\end{figure}
 \end{frame}
-\section{Notation}
+\subsection{Notation}
 \subsection{Math notation}
 \begin{frame}[label={sec:org00d2d44}]{Notation}
 
@@ -296,7 +297,7 @@
 \end{frame}
 
 
-\section{Asymptotics --- What are we doing here?}
+\subsection{Asymptotics --- What are we doing here?}
 \begin{frame}{Why (when) do we trust asymptotic approximations?}
 	Assuming standard regularity condition hold, what does the Central Limit
 	Theorem tell us about $\Pn \covarrv$?
@@ -331,7 +332,7 @@
 
 
 
-\section{Approaches to Constructing Confidence Intervals}
+\section{Constructing Asymptotic Confidence Intervals}
 \subsection{Projections}
 \begin{frame}{Projection Region Big Picture}
 	Recall our formulation $\theta_n = \theta_0 + h(n)s$
@@ -356,6 +357,68 @@
 
 
 \end{frame}
+
+\section{Where Next?}
+
+\begin{frame}{Where to Start}
+	\vfill
+
+	Start with Chapter 10 of \cite{tsiatis2019Dynamic}
+	\vfill
+
+\end{frame}
+
+\begin{frame}{General Theory -- Asymptotic}
+	\vfill
+	\begin{itemize}
+		\item Chapter 3 of \cite{tsiatis2006Semiparametric}
+		      \vfill
+		\item Chapters 6 and 7 of \cite{vandervaart2000Asymptotic}
+		      \vfill
+		\item \cite{kosorok2008Introduction}
+		      \vfill
+		\item Important Paper: \cite{hirano2012Impossibility}
+		      \vfill
+
+
+		\item 	\cite{bibaut2021PostContextualBandit}
+		      \vfill
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Precision Medicine}
+	\vfill
+	\begin{itemize}
+		\item \cite{laber2014Dynamic}
+		      \vfill
+
+		\item 	\cite{luedtke2016Statistical}
+		      \vfill
+
+		\item 	\cite{shi2022Statistical}
+
+		\item \cite{hadad2021Confidence}
+	\end{itemize}
+	\vfill
+
+\end{frame}
+
+\begin{frame}{General Theory -- Non-asymptotic}
+	\vfill
+	\begin{itemize}
+		\item \cite{waudby-smith2022Anytimevalid}
+		      \vfill
+
+		      \item\cite{howard2021Timeuniform}
+	\end{itemize}
+	\vfill
+
+
+\end{frame}
+
+\appendix
+\printbibliography
+
 \end{document}
 %%% Local Variables:
 %%% mode: LaTeX
