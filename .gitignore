@@ -12,6 +12,9 @@
 *.cb2
 .*.lb
 
+## Temp files
+*~
+
 ## Intermediate documents:
 *.dvi
 *.xdv

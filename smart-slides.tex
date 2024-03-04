@@ -1,0 +1,44 @@
+%%%%%
+%%% Slides removed from presentation to refocus on value function inference
+%
+
+\begin{frame}{General Notation \& Potential Outcomes}
+	\vfill
+	For a process $Z$ define $\overline{Z}_{\obsindex} = (Z_1, \ldots, Z_{\obsindex})$
+	for a positive integer $\obsindex$.
+	\pause \vfill
+	Denote the potential outcome under a treatment sequence $\overline{\armobs} =
+		(\armobs_1, \armobs_2)$ for an individual with covariates $\overline{\covarobs}$  by
+	$$\po(\overline{\armobs}, \overline{\covarobs}) = \po(\covarrv_1 = \covarobs_1, \armrv_1 = \armobs_1, \covarrv_2 = \covarobs_2,\armrv_{2} = \armobs_{2})$$
+	\pause \vfill
+	We will suppress the dependence of $\po$ on $\overline{\covarobs}$ and write
+	$$\po(\overline{\armobs}) = \po(\armrv_1 = \armobs_1, \armrv_{2} = \armobs_{2})$$
+\end{frame}
+
+
+
+\begin{frame}{Key Estimands}
+\textbf{Non-decision-making Estimands}
+\begin{itemize}
+	\item Model Parameters
+\end{itemize}
+\vfill \pause
+
+\begin{itemize}
+	\item Value of two embedded DTRs
+\end{itemize}
+
+\textbf{Treatment Policies}
+\begin{itemize}
+	\item Identification of the best embedded treatment policy/eDTR
+	\item Optimal policy $\optpol$
+	\item Optimal policy $\optpol_{\symcal{F}}$ in a restrcited function
+	      class $\symcal{F}$ (e.g. optimal policy among linear decision rules, trees of depth
+	      $c$, or embedded policies)
+\end{itemize}
+
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
