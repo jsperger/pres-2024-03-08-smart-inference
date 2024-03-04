@@ -35,97 +35,87 @@
 	\tableofcontents[hideallsubsections]
 \end{frame}
 
+\begin{frame}[label={overview:time}]{Inference for DTRs}
+
+	Differences in temporal setup: Single-stage, Multi-stage, Infinite Horizon
+	\vfill
+	Assumptions about these settings, e.g. recent seminar speaker Chengchun
+	Shi's work on testing the Markov Assumption in MDPs
+	\vfill
+	Estimands: model parameters, value-function-related, and SMARTs have
+	multiple non-DTR
+	\vfill \pause
+	Today's focus: Value Function Inference in the Single-stage Setting
+\end{frame}
+
+% \begin{frame}{SMARTs and DTRs are not synonymous}
+% \end{frame}
+
 \begin{frame}[label={overview:objectives}]{Learning Objectives}
 	At the end of today's talk you should be able to:
 	\begin{itemize}
-		\item Explain the fundamental challenge facing most inferential DTR problems
+		\item Explain the fundamental challenge facing value function inference
+		      that applies to all temporal settings.
 		      %		\item Provide an example of other problems in statistics that face a similar hurdle
-		\item Contrast the reasons for choosing different inferential targets,
-		      particularly those concerning similar estimands
-		\item Explain inference for OWL
-		\item Name the keywords to search for to find relevant theory
+		\item Define the potential value function estimands and contrast the
+		      reasons for choosing them.
+
+		\item Summarize the asymptotic techniques used in value function inference.
+
+		\item Identify alternative approaches to asymptotic inference for the
+		      value function.
+		      %		\item Explain inference for OWL
+		      %		\item Name the keywords to search for to find relevant theory
 	\end{itemize}
 	\vfill
-\end{frame}
-
-\begin{frame}[label={overview:time}]{Temporal Settings}
-	Often categorized as:
-	Single stage
-	Multistage
-	Infinite Horizon
-
-	Might be useful to think of as
-	No history
-	Markov Decision Process with a varying amount of history
-
 \end{frame}
 
 \section{Notation}
 \begin{frame}[label={sec:org00d2d44}]{Notation}
 
-	Let $[K]$ denote the set $\{1, \ldots, K \}$ for a positive integer $K$. For
-	individual $\obsindex \in [\maxobsindex]$ at stage $\stageindex \in
-		[\maxstageindex]$ their data is given by:
-	\pause
+	Let $[K]$ denote the set $\{1, \ldots, K \}$ for a positive integer $K$. Assume
+	the data is comprised of iid replicates:
+
+	\begin{equation}
+		\left\{{\covarrv}_{\obsindex},\, {\armrv}_{\obsindex},\,
+		{\resprv}_{\obsindex} \right\}_{\obsindex = 1}^{\maxobsindex}
+	\end{equation}
+
+	where
+	\vfill \pause
+
 	\begin{itemize}
-		\item $\covarrv_{\stageindex \obsindex} \in \covarspace_{\stageindex} \subseteq
-			      \symbb{R}^{\dimarmparam_{\stageindex}}$ denotes the covariates
+		\item $\covarrv_{\obsindex} \in \covarspace \subseteq
+			      \symbb{R}^{\dimarmparam}$ denotes the covariates (contexts)
 
-		\item $\armrv_{\stageindex \obsindex} \in \armspace_{\stageindex}$ denotes the treatment arm
+		\item $\armrv_{ \obsindex} \in \armspace$ denotes the treatment arm (arm,
+		      intervention, action)
 
-		\item $\resprv_{\stageindex \obsindex} \in \symbb{R}$ denotes the response
+		\item $\resprv_{ \obsindex} \in \symbb{R}$ denotes the response (reward)
 	\end{itemize}
 
 	\vfill \pause
-	We'll consider a two-stage SMART for exposition. The generalization to finitely
-	many more stages is straightforward. The study data is comprised of iid replicates
 
-	\vfill
-	\pause
+	We'll use the potential outcome framework and denote the potential outcome 	$\po(\armobs)$
 
-	\begin{equation}
-		\left\{{\covarrv}_{1\obsindex},\, {\armrv}_{1\obsindex},\,
-		{\resprv}_{1\obsindex}, {\covarrv}_{2\obsindex},\, {\armrv}_{2\obsindex},\,
-		{\resprv}_{2\obsindex}\right\}_{\obsindex = 1}^{\maxobsindex}
-	\end{equation}
-
-	\pause \vfill
-
-	Depending on author, context etc. $\resprv_{\stageindex \obsindex}$ may be
-	included in $\covarrv_{(\stageindex + 1) \obsindex}$ for $\stageindex = 2, \ldots,
-		\maxstageindex -1$. Then there is only a single $\resprv$ and it is the
-	ultimate response ($\resprv_{\maxstageindex \obsindex}$ in the other notation)
 \end{frame}
 
+\begin{frame}{Treatment Policy Notation}
+	A policy (aka DTR, treatment rule) $\pol$ maps contexts to actions $\pol: \covarspace \mapsto \armspace$.
 
-\begin{frame}{General Notation \& Potential Outcomes}
-	\vfill
-	For a process $Z$ define $\overline{Z}_{\obsindex} = (Z_1, \ldots, Z_{\obsindex})$
-	for a positive integer $\obsindex$.
+	\vfill \pause
+	The expected response given
+	the covariates and arm assignment $\E[\resprv \vert \covarobs, \armobs =
+			\armindex]$is given by $\meanfun(\covarobs, \armobs = \armindex) \equiv \meanfunk(x)$
+	for some function $\meanfun \in \funclass$.
 
-	\pause \vfill
-
-	Denote the potential outcome under a treatment sequence $\overline{\armobs} =
-		(\armobs_1, \armobs_2)$ for an individual with covariates $\overline{\covarobs}$  by
-
-	$$\po(\overline{\armobs}, \overline{\covarobs}) = \po(\covarrv_1 = \covarobs_1, \armrv_1 = \armobs_1, \covarrv_2 = \covarobs_2,\armrv_{2} = \armobs_{2})$$
-
-	\pause \vfill
-
-
-	We will suppress the dependence of $\po$ on $\overline{\covarobs}$ and write
-	$$\po(\overline{\armobs}) = \po(\armrv_1 = \armobs_1, \armrv_{2} = \armobs_{2})$$
-\end{frame}
-
-
-\begin{frame}{What does it mean for a policy to be optimal?}
+	\vfill \pause
 	Define the value of a policy $\pol$ as
 	\begin{equation}
-		\val(\pol) = \E_{\covarrv}[\po(\overline{\armobs} = \pol(\covarrv))]
+		\val(\pol) = \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
 	\end{equation}
 
-	\vfill
-
+	\vfill \pause
 	An optimal policy $\optpol$ is any policy that satisfies
 	\begin{equation}
 		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
@@ -142,7 +132,7 @@
 		\item $\hat{\theta} \in \Theta$ is a random variable constructed from the sample
 		      $\covarrv_1, \ldots, \covarrv_{\maxasymindex}$
 	\end{itemize}
-	\vfill
+	\vfill \pause
 
 	$\Pop$ denotes the probability measure:
 	\begin{equation*}
@@ -150,13 +140,13 @@
 		\Pop(\covarobs))
 	\end{equation*}
 
-	\vfill $\Pn$ denotes the corresponding empirical measure:
+	\vfill \pause $\Pn$ denotes the corresponding empirical measure:
 
 	\begin{equation*}
 		\Pn \genericfun(\covarrv; \hat{\theta}) = \asymindex^{-1}\sum_{i =
 			1}^{\asymindex} \genericfun(\covarobs_{i};\,\hat{\theta})
 	\end{equation*}
-	\vfill
+	\vfill \pause
 
 	$\leadsto$ denotes convergence in distribution.
 
@@ -202,41 +192,21 @@
 
 \section{Estimands and Inferential Targets}
 
-\begin{frame}{Key Estimands}
-	\textbf{Non-decision-making Estimands}
-	\begin{itemize}
-		\item Model Parameters
-	\end{itemize}
-	\vfill \pause
+\vfill \pause
 
-	\begin{itemize}
-		\item Value of two embedded DTRs
-	\end{itemize}
+\textbf{Value of a Policy and Value Comparisons}
+\begin{itemize}
+	\item Fixed: the value of a fixed policy or policies (usually the eDTRs) $\val(\pol)$
+	\item Estimated: Value of the \textbf{estimated} optimal policy $\val(\polhat)$
+	\item Optimal: Value of the optimal policy $\val(\optpol)$
+	\item Comparison of non-overlapping policies e.g. most intensive vs. least intensive
+\end{itemize}
 
-	\textbf{Treatment Policies}
-	\begin{itemize}
-		\item Identification of the best embedded treatment policy/eDTR
-		\item Optimal policy $\optpol$
-		\item Optimal policy $\optpol_{\symcal{F}}$ in a restrcited function
-		      class $\symcal{F}$ (e.g. optimal policy among linear decision rules, trees of depth
-		      $c$, or embedded policies)
-	\end{itemize}
+\vfill \pause
 
-	\vfill \pause
-
-	\textbf{Value of a Policy and Value Comparisons}
-	\begin{itemize}
-		\item Fixed: the value of a fixed policy or policies (usually the eDTRs) $\val(\pol)$
-		\item Estimated: Value of the \textbf{estimated} optimal policy $\val(\polhat)$
-		\item Optimal: Value of the optimal policy $\val(\optpol)$
-		\item Comparison of non-overlapping policies e.g. most intensive vs. least intensive
-	\end{itemize}
-
-	\vfill \pause
-
-	\footnotesize The difference between policy and value estimation is analagous to the
-	difference between estimating the parameters of a linear model and estimating
-	the average treatment effect.
+\footnotesize The difference between policy and value estimation is analagous to the
+difference between estimating the parameters of a linear model and estimating
+the average treatment effect.
 \end{frame}
 
 \begin{frame}{Value Functions}
@@ -358,7 +328,7 @@
 	just the sugar in the pill?
 \end{frame}
 
-\
+
 
 \section{OWL Hoot Hoot}
 \begin{frame}{Assumptions}
@@ -398,7 +368,10 @@
 \end{frame}
 
 \section{Avoiding Nonregularity}
-\begin{frame}
+\begin{frame}{Alternatives to Asymptotics}
+	If the blow-up happens in the limit, what if we just don't take it to the limit?
+
+
 \end{frame}
 \end{document}
 %%% Local Variables:
