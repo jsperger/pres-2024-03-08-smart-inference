@@ -18,24 +18,67 @@
 
 
 \begin{frame}{Key Estimands}
-\textbf{Non-decision-making Estimands}
-\begin{itemize}
-	\item Model Parameters
-\end{itemize}
-\vfill \pause
+	\textbf{Non-decision-making Estimands}
+	\begin{itemize}
+		\item Model Parameters
+	\end{itemize}
+	\vfill \pause
 
-\begin{itemize}
-	\item Value of two embedded DTRs
-\end{itemize}
+	\begin{itemize}
+		\item Value of two embedded DTRs
+	\end{itemize}
 
-\textbf{Treatment Policies}
-\begin{itemize}
-	\item Identification of the best embedded treatment policy/eDTR
-	\item Optimal policy $\optpol$
-	\item Optimal policy $\optpol_{\symcal{F}}$ in a restrcited function
-	      class $\symcal{F}$ (e.g. optimal policy among linear decision rules, trees of depth
-	      $c$, or embedded policies)
-\end{itemize}
+	\textbf{Treatment Policies}
+	\begin{itemize}
+		\item Identification of the best embedded treatment policy/eDTR
+		\item Optimal policy $\optpol$
+		\item Optimal policy $\optpol_{\symcal{F}}$ in a restrcited function
+		      class $\symcal{F}$ (e.g. optimal policy among linear decision rules, trees of depth
+		      $c$, or embedded policies)
+	\end{itemize}
+	\vfill \pause
+
+	\textbf{Value of a Policy and Value Comparisons}
+	\begin{itemize}
+		\item Fixed: the value of a fixed policy or policies (usually the eDTRs) $\val(\pol)$
+		\item Estimated: Value of the \textbf{estimated} optimal policy $\val(\polhat)$
+		\item Optimal: Value of the optimal policy $\val(\optpol)$
+		\item Comparison of non-overlapping policies e.g. most intensive vs. least intensive
+	\end{itemize}
+
+	\vfill \pause
+
+	\footnotesize The difference between policy and value estimation is analagous to the
+	difference between estimating the parameters of a linear model and estimating
+	the average treatment effect.
+\end{frame}
+
+
+\section{OWL Hoot Hoot}
+\begin{frame}{Assumptions}
+\end{frame}
+
+\begin{frame}{Method-specific Inference}
+\end{frame}
+
+
+\begin{frame}{Outcome Weighted Learning}
+	Setup: Two treatments $\{-1, +1\} \subseteq \armspace$
+
+	$$\E[\poa{1}(\covarobs) - \poa{-1}(\covarobs) \mid \covarrv = \covarobs]$$
+
+\end{frame}
+
+\begin{frame}{}
+\end{frame}
+
+
+\subsection{Loss Functions and their surrogates}
+\begin{frame}{The $0$-$1$ loss}
+\end{frame}
+
+\begin{frame}{Hinge Loss}
+\end{frame}
 
 
 %%% Local Variables:

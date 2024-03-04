@@ -71,6 +71,7 @@
 \end{frame}
 
 \section{Notation}
+\subsection{Math notation}
 \begin{frame}[label={sec:org00d2d44}]{Notation}
 
 	Let $[K]$ denote the set $\{1, \ldots, K \}$ for a positive integer $K$. Assume
@@ -99,29 +100,6 @@
 	We'll use the potential outcome framework and denote the potential outcome 	$\po(\armobs)$
 
 \end{frame}
-
-\begin{frame}{Treatment Policy Notation}
-	A policy (aka DTR, treatment rule) $\pol$ maps contexts to actions $\pol: \covarspace \mapsto \armspace$.
-
-	\vfill \pause
-	The expected response given
-	the covariates and arm assignment $\E[\resprv \vert \covarobs, \armobs =
-			\armindex]$is given by $\meanfun(\covarobs, \armobs = \armindex) \equiv \meanfunk(x)$
-	for some function $\meanfun \in \funclass$.
-
-	\vfill \pause
-	Define the value of a policy $\pol$ as
-	\begin{equation}
-		\val(\pol) = \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
-	\end{equation}
-
-	\vfill \pause
-	An optimal policy $\optpol$ is any policy that satisfies
-	\begin{equation}
-		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
-	\end{equation}
-\end{frame}
-
 
 
 \begin{frame}{Operator notation}
@@ -152,6 +130,46 @@
 
 	\vfill
 \end{frame}
+
+\subsection{Treatment Policy Notation}
+
+\begin{frame}{Treatment Policy Notation}
+	A policy (aka DTR, treatment rule) $\pol$ maps contexts to actions $\pol: \covarspace \mapsto \armspace$.
+
+	\vfill \pause
+	The expected response given
+	the covariates and arm assignment $\E[\resprv \vert \covarobs, \armobs =
+			\armindex]$is given by $\meanfun(\covarobs, \armobs = \armindex) \equiv \meanfunk(x)$
+	for some function $\meanfun \in \funclass$.
+
+	\vfill \pause
+	Define the value of a policy $\pol$ as
+	\begin{equation}
+		\val(\pol) = \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
+	\end{equation}
+
+	\vfill \pause
+	An optimal policy $\optpol$ is any policy that satisfies
+	\begin{equation}
+		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
+	\end{equation}
+\end{frame}
+
+\begin{frame}{The Estimated Optimal Policy}
+	Denote the estimated optimal policy $\polhatn$, and to simplify life assume
+	that there is a unique maximizer for every covariate value, or more formally
+
+	$$\text{For all} \covarrv \in \covarspace \text{ there exists an arm }k^*
+		\text{ such that } \meanfun_{\armindex^*}(\covarrv) > \max_{\armindex \neq
+			\armindex^*} \meanfunk(\covarrv)$$
+
+	\vfill \pause
+	This assumption ensures that the optimal policy is deterministic:
+	$$\polopt(\covarobs) = \argmax_{\armindex \in [\maxarmindex]}\meanfunk(\covarobs)$$
+
+	The estimated optimal policy
+\end{frame}
+
 
 \begin{frame}{Operator Notation Exercise}
 	Rewrite the following in operator notation:
@@ -192,23 +210,6 @@
 
 \section{Estimands and Inferential Targets}
 
-\vfill \pause
-
-\textbf{Value of a Policy and Value Comparisons}
-\begin{itemize}
-	\item Fixed: the value of a fixed policy or policies (usually the eDTRs) $\val(\pol)$
-	\item Estimated: Value of the \textbf{estimated} optimal policy $\val(\polhat)$
-	\item Optimal: Value of the optimal policy $\val(\optpol)$
-	\item Comparison of non-overlapping policies e.g. most intensive vs. least intensive
-\end{itemize}
-
-\vfill \pause
-
-\footnotesize The difference between policy and value estimation is analagous to the
-difference between estimating the parameters of a linear model and estimating
-the average treatment effect.
-\end{frame}
-
 \begin{frame}{Value Functions}
 	\begin{enumerate}
 		\item Conditional Value of the estimated optimal policy
@@ -230,12 +231,6 @@ the average treatment effect.
 	Brainstorm a scenario for each of the value functions where that estimand would
 	make the most sense.
 \end{frame}
-
-\section{OWL}
-\begin{frame}{OWL}
-	<insert how to draw an owl image here>
-\end{frame}
-
 
 \section{Nonregular Introduction}
 \begin{frame}{Toy Problem: Max of Gaussian Means}
@@ -290,7 +285,13 @@ the average treatment effect.
 
 	\vfill
 
-	To analyze SMARTs we'll need to address nonregular asymptotics.
+	To analyze the value function we'll need to address nonregular asymptotics.
+\end{frame}
+
+
+\section{OWL}
+\begin{frame}{OWL}
+	<insert how to draw an owl image here>
 \end{frame}
 
 
@@ -329,32 +330,6 @@ the average treatment effect.
 \end{frame}
 
 
-
-\section{OWL Hoot Hoot}
-\begin{frame}{Assumptions}
-\end{frame}
-
-\begin{frame}{Method-specific Inference}
-\end{frame}
-
-
-\begin{frame}{Outcome Weighted Learning}
-	Setup: Two treatments $\{-1, +1\} \subseteq \armspace$
-
-	$$\E[\poa{1}(\covarobs) - \poa{-1}(\covarobs) \mid \covarrv = \covarobs]$$
-
-\end{frame}
-
-\begin{frame}{}
-\end{frame}
-
-
-\subsection{Loss Functions and their surrogates}
-\begin{frame}{The $0$-$1$ loss}
-\end{frame}
-
-\begin{frame}{Hinge Loss}
-\end{frame}
 
 \section{Approaches to Constructing Confidence Intervals}
 \subsection{Bound-based}
