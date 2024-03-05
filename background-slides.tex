@@ -1,0 +1,271 @@
+\documentclass[aspectratio=169, professionalfonts]{beamer}
+
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+
+\usepackage{hyperref} \hypersetup{ colorlinks=true,
+	linkcolor=blue, filecolor=magenta, urlcolor=cyan, pdftitle={Overleaf Example},
+	pdfpagemode=FullScreen}
+
+%% Personal macros across multiple projects
+\input{components/combined-macros.tex}
+%% Paper-specific macros
+
+\usepackage[style=verbose-ibid,backend=biber, isbn=false, url=false, doi=false,
+	eprint=false, dashed=false]{biblatex}
+\addbibresource{my-biblatex-library.bib}
+
+% Assumed directory structure is structure both VK and its associated files
+% live in ./components/vk-theme
+\usepackage{components/vk-theme/beamerthemeVK}
+
+\author{John Sperger}
+\date{March 8\textsuperscript{th} 2024}
+\title{Value Function Inference}
+\subtitle{Background and Notation Reference}
+\begin{document}
+\maketitle
+\begin{frame}[label={sec:org00d2d44}]{Notation}
+
+	Let $[K]$ denote the set $\{1, \ldots, K \}$ for a positive integer $K$. Assume
+	the data is comprised of iid replicates:
+
+	\begin{equation}
+		\left\{{\covarrv}_{\obsindex},\, {\armrv}_{\obsindex},\,
+		{\resprv}_{\obsindex} \right\}_{\obsindex = 1}^{\maxobsindex}
+	\end{equation}
+
+	where
+	\vfill \pause
+
+	\begin{itemize}
+		\item $\covarrv_{\obsindex} \in \covarspace \subseteq
+			      \symbb{R}^{\dimarmparam}$ denotes the covariates (contexts)
+
+		\item $\armrv_{ \obsindex} \in \armspace$ denotes the treatment arm (arm,
+		      intervention, action)
+
+		\item $\resprv_{ \obsindex} \in \symbb{R}$ denotes the response (reward)
+	\end{itemize}
+
+	\vfill \pause
+
+	We'll use the potential outcome framework and denote the potential outcome 	$\po(\armobs)$
+
+\end{frame}
+
+
+\begin{frame}{Operator notation}
+	\begin{itemize}
+		\item $\covarrv_1, \ldots, \covarrv_{\maxobsindex}$ is an iid random sample from a
+		      fixed but unknown distribution $\Pop$
+		\item $\genericfun$ is a generic parametric function indexed by $\theta \in \Theta$
+		\item $\hat{\theta} \in \Theta$ is a random variable constructed from the sample
+		      $\covarrv_1, \ldots, \covarrv_{\maxasymindex}$
+	\end{itemize}
+	\vfill \pause
+
+	$\Pop$ denotes the probability measure:
+	\begin{equation*}
+		\Pop \genericfun(\covarrv; \hat{\theta}) = \int \genericfun(\covarobs;\,\widehat{\theta}) \dv
+		\Pop(\covarobs))
+	\end{equation*}
+
+	\vfill \pause $\Pn$ denotes the corresponding empirical measure:
+
+	\begin{equation*}
+		\Pn \genericfun(\covarrv; \hat{\theta}) = \asymindex^{-1}\sum_{i =
+			1}^{\asymindex} \genericfun(\covarobs_{i};\,\hat{\theta})
+	\end{equation*}
+	\vfill \pause
+
+	$\leadsto$ denotes convergence in distribution.
+
+	\vfill
+\end{frame}
+
+\subsection{Treatment Policy Notation}
+
+\begin{frame}{Treatment Policy Notation}
+	A policy (aka DTR, treatment rule) $\pol$ maps contexts to actions $\pol: \covarspace \mapsto \armspace$.
+
+	\vfill \pause
+	The expected response given
+	the covariates and arm assignment $\E[\resprv \vert \covarobs, \armobs =
+			\armindex]$is given by $\meanfun(\covarobs, \armobs = \armindex) \equiv \meanfunk(x)$
+	for some function $\meanfun \in \funclass$.
+
+	\vfill \pause
+	Define the value of a policy $\pol$ as
+	\begin{equation}
+		\val(\pol) = \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
+	\end{equation}
+
+	\vfill \pause
+	An optimal policy $\optpol$ is any policy that satisfies
+	\begin{equation}
+		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
+	\end{equation}
+\end{frame}
+
+\begin{frame}{Value Functions}
+	\begin{enumerate}
+		\item Conditional Value of the estimated optimal policy
+
+		      $$\val(\polhatn) = \E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
+
+		      \vfill \pause
+
+		\item (Expected) Value of an estimated optimal policy
+		      $$\E_{\covarrv}[\polhatn(\covarrv)]$$
+
+		      \vfill \pause
+
+		\item Value of the optimal policy
+		      $$\val(\optpol) = \E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
+	\end{enumerate}
+
+	\vfill \pause
+
+	Will estimators of these functions asymptotically equivalent?
+
+	\vfill \pause
+	Brainstorm a scenario for each of the value functions where that estimand
+	would 	make the most sense.
+\end{frame}
+
+
+\begin{frame}{The Estimated Optimal Policy}
+	Denote the estimated optimal policy $\polhatn$, and to simplify life assume
+	that there is a unique maximizer for every covariate value, or more formally
+
+	$$\text{For all} \covarrv \in \covarspace \text{ there exists an arm }k^*
+		\text{ such that } \meanfun_{\armindex^*}(\covarrv) > \max_{\armindex \neq
+			\armindex^*} \meanfunk(\covarrv)$$
+
+	\vfill \pause
+	This assumption ensures that the optimal policy is deterministic:
+	$$\polopt(\covarobs) = \argmax_{\armindex \in [\maxarmindex]}\meanfunk(\covarobs)$$
+
+	The estimated optimal policy
+\end{frame}
+
+
+\begin{frame}{Operator Notation Exercise}
+	Rewrite the following in operator notation:
+	\vfill
+	\begin{itemize}
+
+		\item Conditional Value of the estimated optimal policy
+
+		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = ?$$
+
+		\item Value of the optimal policy
+		      $$\E_{\covarrv}[\optpol(\covarrv)] = ?$$
+
+		\item Estimated Value of the optimal policy
+
+		      $$\valhatn(\polhatn(\covarrv)) = ?$$
+	\end{itemize}
+	\vfill
+
+\end{frame}
+
+\begin{frame}{Operator Notation Exercise}
+	Rewrite the following in operator notation:
+	\vfill
+	\begin{itemize}
+
+		\item Conditional Value of the estimated optimal policy
+		      \pause
+		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
+		      \pause
+		\item Value of the optimal policy
+		      \pause
+		      $$\E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
+		      \pause
+		\item Estimated Value of the estimated optimal policy
+		      \pause
+		      $$\valhatn(\polhatn(\covarrv)) = \Pn \val(\polhatn(\covarrv))$$
+	\end{itemize}
+	\vfill
+
+\end{frame}
+
+
+\begin{frame}{Operator Notation Exercise}
+	Rewrite the following in operator notation:
+	\vfill
+	\begin{itemize}
+
+		\item Conditional Value of the estimated optimal policy
+
+		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
+
+		\item Value of the optimal policy
+		      $$\E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
+	\end{itemize}
+	\vfill
+
+\end{frame}
+
+
+\begin{frame}{The Estimated Optimal Policy}
+	Denote the estimated optimal policy $\polhatn$, and to simplify life assume
+	that there is a unique maximizer for every covariate value, or more formally
+
+	$$\text{For all} \covarrv \in \covarspace \text{ there exists an arm }k^*
+		\text{ such that } \meanfun_{\armindex^*}(\covarrv) > \max_{\armindex \neq
+			\armindex^*} \meanfunk(\covarrv)$$
+
+	\vfill \pause
+	This assumption ensures that the optimal policy is deterministic:
+	$$\polopt(\covarobs) = \argmax_{\armindex \in [\maxarmindex]}\meanfunk(\covarobs)$$
+
+	The estimated optimal policy
+\end{frame}
+
+\begin{frame}{Treatment Policy Notation}
+	A policy (aka DTR, treatment rule) $\pol$ maps contexts to actions $\pol: \covarspace \mapsto \armspace$.
+
+	\vfill \pause
+	The expected response given
+	the covariates and arm assignment $\E[\resprv \vert \covarobs, \armobs =
+			\armindex]$is given by $\meanfun(\covarobs, \armobs = \armindex) \equiv \meanfunk(x)$
+	for some function $\meanfun \in \funclass$.
+
+	\vfill \pause
+	Define the value of a policy $\pol$ as
+	\begin{equation}
+		\polval = \val(\pol) \doteq \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
+	\end{equation}
+
+	\vfill \pause
+	An optimal policy $\optpol$ is any policy that satisfies
+	\begin{equation}
+		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
+	\end{equation}
+
+	\vfill \pause
+	Denote the estimated optimal policy $\polhatn$, and for conciseness, assume
+	that there is a unique maximizer for every covariate value.
+
+\end{frame}
+
+
+
+\appendix
+\printbibliography
+
+\end{document}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:

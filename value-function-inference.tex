@@ -174,93 +174,25 @@
 		      \vfill \pause
 
 		\item Value of the optimal policy
-		      $$\val(\optpol) = \E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
+		      $$\val(\optpol) = \E_{\covarrv}[\optpol(\covarrv)] = \Pop
+			      \optpol(\covarrv)$$
+
+		\item Value of a fixed policy $\pol$
+		      $$\val(\pol) = \Pop \pol(\covarrv)$$
+
 	\end{enumerate}
 
 	\vfill \pause
-
-	Will estimators of these functions asymptotically equivalent?
-
-	\vfill \pause
-	Brainstorm a scenario for each of the value functions where that estimand
-	would 	make the most sense.
+	These three will not generally be equivalent even asymptotically.
 \end{frame}
 
+\begin{frame}{Today's Focus}
+	Single-stage
 
-\begin{frame}{The Estimated Optimal Policy}
-	Denote the estimated optimal policy $\polhatn$, and to simplify life assume
-	that there is a unique maximizer for every covariate value, or more formally
+	Fixed policy
 
-	$$\text{For all} \covarrv \in \covarspace \text{ there exists an arm }k^*
-		\text{ such that } \meanfun_{\armindex^*}(\covarrv) > \max_{\armindex \neq
-			\armindex^*} \meanfunk(\covarrv)$$
-
-	\vfill \pause
-	This assumption ensures that the optimal policy is deterministic:
-	$$\polopt(\covarobs) = \argmax_{\armindex \in [\maxarmindex]}\meanfunk(\covarobs)$$
-
-	The estimated optimal policy
+	No parametric assumptions
 \end{frame}
-
-
-\begin{frame}{Operator Notation Exercise}
-	Rewrite the following in operator notation:
-	\vfill
-	\begin{itemize}
-
-		\item Conditional Value of the estimated optimal policy
-
-		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = ?$$
-
-		\item Value of the optimal policy
-		      $$\E_{\covarrv}[\optpol(\covarrv)] = ?$$
-
-		\item Estimated Value of the optimal policy
-
-		      $$\valhatn(\polhatn(\covarrv)) = ?$$
-	\end{itemize}
-	\vfill
-
-\end{frame}
-
-\begin{frame}{Operator Notation Exercise}
-	Rewrite the following in operator notation:
-	\vfill
-	\begin{itemize}
-
-		\item Conditional Value of the estimated optimal policy
-		      \pause
-		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
-		      \pause
-		\item Value of the optimal policy
-		      \pause
-		      $$\E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
-		      \pause
-		\item Estimated Value of the estimated optimal policy
-		      \pause
-		      $$\valhatn(\polhatn(\covarrv)) = \Pn \val(\polhatn(\covarrv))$$
-	\end{itemize}
-	\vfill
-
-\end{frame}
-
-
-\begin{frame}{Operator Notation Exercise}
-	Rewrite the following in operator notation:
-	\vfill
-	\begin{itemize}
-
-		\item Conditional Value of the estimated optimal policy
-
-		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
-
-		\item Value of the optimal policy
-		      $$\E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
-	\end{itemize}
-	\vfill
-
-\end{frame}
-
 
 \section{Nonregular Introduction}
 \begin{frame}{Toy Problem: Max of Gaussian Means}
