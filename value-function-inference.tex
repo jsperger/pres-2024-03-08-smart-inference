@@ -1,5 +1,7 @@
 \documentclass[aspectratio=169, professionalfonts]{beamer}
 
+\usepackage{mathtools} % \mathclap for shortening overbrace text
+
 \usepackage{graphicx}
 \usepackage{subfig}
 \usepackage{longtable}
@@ -58,18 +60,23 @@
 	\begin{itemize}
 		\item Identify the fundamental challenge facing value function inference
 		      that applies to all temporal settings.
-		      %		\item Provide an example of other problems in statistics that face a similar hurdle
+		      %\item Provide an example of other problems in statistics that
+              %face a similar hurdle
 		\item Define the potential value function estimands and contrast the
 		      reasons for choosing them.
 
 		\item Explain the projection-based approach to constructing confidence intervals
 
 		\item Explain the bound-based approach to constructing confidence intervals
-		      %		\item Explain inference for OWL
-		      %		\item Name the keywords to search for to find relevant theory
+		      %\item Explain inference for OWL
+		      %\item Name the keywords to search for to find relevant theory
 	\end{itemize}
 	\vfill
 \end{frame}
+
+\begin{frame}{Key concepts}
+    Smoothness
+    \end{frame}
 
 \subsection{OWL}
 \begin{frame}{OWL}
@@ -194,82 +201,97 @@
 	No parametric assumptions
 \end{frame}
 
-\section{Nonregular Introduction}
-\begin{frame}{Toy Problem: Max of Gaussian Means}
-	Suppose we have a random iid sample of size $n$ where
-	\begin{equation*}
-		X_i \sim \MVN \left(\symbf{\mu} = \begin{pmatrix}2 \\ -1 \end{pmatrix},\, \Sigma = \begin{bmatrix}1 & 0
-               \\ 0 & 1\end{bmatrix} \right)
-	\end{equation*}
-
-	\vfill
-	\pause
-
-	In the general case let $p$ denote the dimension of $\symbf{\mu}$ and assume
-	that the covariance matrix is the identity matrix. Suppose we are interested
-	in $\theta$:
-
-	$$\theta = \max_{j \in
-			[p]} \mu_j = \maxsym_{j = 1}^{p} \mu_j$$
-	\vfill
-
-	Here $\theta = \max \{2, -1\} = 2$
-
-	\vfill
-	\pause
-	Let $$\hat{\theta}_n = \max_{j \in \{1, 2 \}} \Pn {X}_j $$
-	\vfill
-	\pause
-	What is the limiting distribution of $\rootn (\hat{\theta} - \theta)$ for $\symbf{\mu} =
-		(2, -1 )^{\trans}$?
-
-	Hint: don't overthink it
-\end{frame}
-
-\begin{frame}{Max of Gaussian Means continued}
-	A: $\rootn (\hat{\theta} - \theta) \convd \symtt{N}(0, 1)$
-	\pause
-	\vfill
-	Suppose $\symbf{\mu} = (0 , 0)^{\trans}$
-
-	Now what is the limiting distribution of $ \rootn (\hat{\theta} - \theta)$?
-
-	\vfill \pause
-
-	$$\rootn (\hat{\theta} - \theta) \convd \max(\symtt{N}(0, 1), \symtt{N}(0, 1))$$
-
-	Now the limiting distribution is the maximum of two independent standard
-	normal RVs.
-
-	\vfill \pause
-
-	Problem: the limiting distribution depends on the value of the parameter
-	$\symbf{\mu}$
-
-	\vfill
-
-	To analyze the value function we'll need to address nonregular asymptotics.
-\end{frame}
-
+\section{Non-smooth Operators}
 \begin{frame}{Nonregularity}
-	\ddef{Regularity}{
+Nonregular is the catch-all term when the standard regularity conditions do not hold.
+  \ddef{Nonsmooth}{
 
 	}
 \end{frame}
 
+\begin{frame}{Examples}
+Suppose $\covarrv_1, \ldots, \covarrv_{\asymindex}$ are iid copies of a random vector
+$\covarrv \in \mbbR^{p}$ drawn from an unknown distribution $P$. Let $\mu_0 = \Pop X
+= (\mu_{01}, \ldots, \mu_{0p})$
+
+\vfill \pause
+
+  \textbf{Superefficient estimators}
+Define the estimator $\widetilde{\mu}_n$
+  \begin{displaymath}
+    \widetilde{\mu}_n = \begin{cases} \Pn X & \text { if } \Pn X \geq 1/4 \\
+    0 & \text { if } \Pn X < 1/4 \end{cases}
+    \end{displaymath}
+
+  \vfill \pause
+
+\textbf{Max of Means}
+Define $\theta_0$ as the component-wise maximum mean
+\begin{displaymath}
+\theta_0 = \maxsym_{j = 1}^p \mu_{0j} = \max_{j \in [p]} \mu_{0j}
+    \end{displaymath}
+    \end{frame}
+
+  \begin{frame}{Max of Means Limiting Distribution}
+
+Consider the estimators $\widehat{\mu}_{\asymindex} = \Pn \covarrv$  and $\widehat{\theta}_{\asymindex}$
+
+$$\widehat{\theta}_{\asymindex} = \maxsym_{j = 1}^p \widehat{\mu}_{\asymindex j}$$
+
+\begin{lemma}[Limiting Distribution of $\widehat{\theta}_{\asymindex} $]
+      Define the set $\argmaxsetx{\mu_{0}} = \argmax_j \mu_{0j}$ and assume
+$\widehat{\mu}_n$ is regular $\rootn (\Pn - \Pop)X \convd \MVN(\zerovec, \Sigma)$. Then
+\begin{displaymath}
+\rootn (\widehat{\theta}_{\asymindex} - \theta_0) \convd \maxsym_{j \in \argmaxsetx{\mu_0}} Z_j
+    \end{displaymath}
+where $Z \sim \MVN(\zerovec, \Sigma)$
+\end{lemma}
+
+    \end{frame}
+
+  \begin{frame}{Proof of the Limiting Distribution}
+Define the event $\eventn = \indfunx{\max_{k \notin \argmaxsetx{\mu_0}}
+\widehat{\mu}_{nk} \geq \max_{j \in\argmaxsetx{\mu_0}} \widehat{\mu}_{nj}}$. Note that
+\begin{enumerate}
+  \item  $\eventn = \op{1}$
+\item When $E_n$ holds the maximizer(s) is not in $\argmaxsetx{\mu_0}$ and vice versa
+%When $E_n$ holds the maximizer(s) is not in $\argmaxsetx{\mu_0}$
+%    and the converse is true for the complement $E_n^{\text{C}} = 1 - E_n $
+\end{enumerate}
+
+\begin{align*}
+\rootn &(\widehat{\theta}_{\asymindex} - \theta_0) =  \maxsym_{j = 1}^p
+                                        \rootn(  \widehat{\mu}_{\asymindex j} -
+         \theta_0) \\
+  &= (1 - \eventn + \eventn) \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+    \widehat{\mu}_{\asymindex j} - \theta_0) \\
+  &=  \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+    \widehat{\mu}_{\asymindex j} - \theta_0) + \eventn \left(\maxsym_{k \notin\argmaxsetx{\mu_0}}^p \rootn(
+    \widehat{\mu}_{\asymindex k} - \theta_0)  - \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+    \widehat{\mu}_{\asymindex j} - \theta_0)\right)
+\end{align*}
+\end{frame}
+
+\begin{frame}{Proof Continued}
+   {$${\color{red}\overbrace{\maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+    \widehat{\mu}_{\asymindex j} - \theta_0)}^{\mathclap{\substack{\text{{\small The
+desired }} \\ \text{{\small result}}}}}} + {\color{purple}\overbrace{\eventn \left(\maxsym_{k \notin\argmaxsetx{\mu_0}}^p \rootn(
+    \widehat{\mu}_{\asymindex k} - \theta_0)  - \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+    \widehat{\mu}_{\asymindex j} - \theta_0)\right)
+}^{\mathclap{\text{{\small A nuisance we'll show is $\op{1}$}}}}}$$} % see https://tex.stackexchange.com/questions/333744/a-more-beautiful-output-of-under-and-overbrace
+
+
+    \end{frame}
 
 \begin{frame}{Estimator or Target?}
 	This is intrinsic to the problem due to the nondifferentiability of the
-	target functional.
+	target functional\autocite{hirano2012Impossibility}.
 	\vfill
-	In other words, we can't clever our way out of it\autocite{hirano2012Impossibility}
 \end{frame}
 
 \begin{frame}{Visualizing the Problem --- Fixed $\delta$}
 \end{frame}
 
-\begin{frame}{Visualizing the Problem --- Varying $\delta$}
-\end{frame}
 
 \begin{frame}{Abstract problem}
 	Nonsmooth functional of a smooth function
@@ -316,22 +338,24 @@
 
 	% Please add the following required packages to your document preamble:
 	% \usepackage{booktabs}
-	\begin{table}[]
+  \begin{table}[]
 		\begin{tabular}{@{}lcccc@{}}
-			\toprule
-			                & \begin{tabular}[c]{@{}c@{}}Theoretical \\
-				                  Guarantees\end{tabular}
-			                & \begin{tabular}[c]{@{}c@{}}Easy to \\
-				                  Implement\end{tabular}
-			                & Conservative                              & Empirical Performance      \\
+          \toprule
+          & \begin{tabular}[c]{@{}c@{}}Theoretical \\ Guarantees\end{tabular}
+          & \begin{tabular}[c]{@{}c@{}}Easy to \\ Implement\end{tabular}
+          & Conservative
+          & \begin{tabular}[c]{@{}c@{}}Empirical \\ Performance\end{tabular}  \\
 			\midrule
-			Projection sets & $\checkmark^{+}$                          &                       &  & \\
-			Bounding        & $\checkmark^{+}$                          &                       &  & \\
-			\mon Bootstrap  & $\checkmark$                              &                       &  & \\
-			Regularization  & \symbol{"2610}                            &                       &  & \\
+			Projection sets & $\checkmark^{+}$           & \symbol{"2610} & $\checkmark^{+}$ & $\checkmark$\\
+			Bounding        & $\checkmark^{+}$           & \symbol{"2610} & $\checkmark$ &  \checkmark \\
+			\mon  \, Bootstrap  & $\checkmark$             & $\checkmark^{+}$  & \symbol{"2610} & \checkmark \\
+			Regularization  & \symbol{"2610} & $\checkmark$ &  \symbol{"2610} & $\checkmark^{+}$\\
 			\bottomrule
 		\end{tabular}
-	\end{table}
+      \end{table}
+
+     \vfill \pause
+Regularization may induce infinite bias in certain scenarios.
 \end{frame}
 
 \begin{frame}{Not recommended: (Current) Regularization Approaches}

@@ -259,6 +259,62 @@
 
 \end{frame}
 
+\begin{frame}{Toy Problem: Max of Gaussian Means}
+	Suppose we have a random iid sample of size $n$ where
+	\begin{equation*}
+		X_i \sim \MVN \left(\symbf{\mu} = \begin{pmatrix}2 \\ -1 \end{pmatrix},\, \Sigma = \begin{bmatrix}1 & 0
+               \\ 0 & 1\end{bmatrix} \right)
+	\end{equation*}
+
+	\vfill
+	\pause
+
+	In the general case let $p$ denote the dimension of $\symbf{\mu}$ and assume
+	that the covariance matrix is the identity matrix. Suppose we are interested
+	in $\theta$:
+
+	$$\theta = \max_{j \in
+			[p]} \mu_j = \maxsym_{j = 1}^{p} \mu_j$$
+	\vfill
+
+	Here $\theta = \max \{2, -1\} = 2$
+
+	\vfill
+	\pause
+	Let $$\hat{\theta}_n = \max_{j \in \{1, 2 \}} \Pn {X}_j $$
+	\vfill
+	\pause
+	What is the limiting distribution of $\rootn (\hat{\theta} - \theta)$ for $\symbf{\mu} =
+		(2, -1 )^{\trans}$?
+
+	Hint: don't overthink it
+\end{frame}
+
+\begin{frame}{Max of Gaussian Means continued}
+	A: $\rootn (\hat{\theta} - \theta) \convd \symtt{N}(0, 1)$
+	\pause
+	\vfill
+	Suppose $\symbf{\mu} = (0 , 0)^{\trans}$
+
+	Now what is the limiting distribution of $ \rootn (\hat{\theta} - \theta)$?
+
+	\vfill \pause
+
+	$$\rootn (\hat{\theta} - \theta) \convd \max(\symtt{N}(0, 1), \symtt{N}(0, 1))$$
+
+	Now the limiting distribution is the maximum of two independent standard
+	normal RVs.
+
+	\vfill \pause
+
+	Problem: the limiting distribution depends on the value of the parameter
+	$\symbf{\mu}$
+
+	\vfill
+
+	To analyze the value function we'll need to address nonregular asymptotics.
+\end{frame}
+
 
 
 \appendix
