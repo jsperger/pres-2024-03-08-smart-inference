@@ -40,18 +40,6 @@
 \begin{frame}{Outline}
 	\tableofcontents[hideallsubsections]
 \end{frame}
-
-\begin{frame}[label={overview:time}]{What we won't cover --- a non-exhaustive list}
-
-	Differences in temporal setup: Single-stage, Multi-stage, Infinite Horizon
-	\vfill
-	Assumptions about these settings, e.g. recent seminar speaker Chengchun
-	Shi's work on testing the Markov Assumption in MDPs
-	\vfill
-	Estimands: model parameters, embedded DTRs, and many other SMART-related quantities
-
-\end{frame}
-
 \begin{frame}[label={overview:objectives}]{Learning Objectives}
 	We will cover: value function inference for a single-stage treatment policy /
 	dynamic treatment regime (DTR)
@@ -60,14 +48,22 @@
 	\begin{itemize}
 		\item Identify the fundamental challenge facing value function inference
 		      that applies to all temporal settings.
+\vfill \pause
+
 		      %\item Provide an example of other problems in statistics that
               %face a similar hurdle
-		\item Define the potential value function estimands and contrast the
-		      reasons for choosing them.
+%		\item Define the potential value function estimands and contrast the
+%		      reasons for choosing them.
 
-		\item Explain the projection-based approach to constructing confidence intervals
+\item Categorize the major approaches to inference in this setting
 
-		\item Explain the bound-based approach to constructing confidence intervals
+\vfill \pause
+
+		\item Contrast the projection, bound, and bootstrap approaches to constructing confidence intervals
+\vfill \pause
+
+		\item Explain the connection between the finite-sample approach and the
+asymptotic approaches
 		      %\item Explain inference for OWL
 		      %\item Name the keywords to search for to find relevant theory
 	\end{itemize}
