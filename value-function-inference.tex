@@ -36,23 +36,21 @@
 	\tableofcontents[hideallsubsections]
 \end{frame}
 
-\begin{frame}[label={overview:time}]{Inference for DTRs}
+\begin{frame}[label={overview:time}]{What we won't cover --- a non-exhaustive list}
 
 	Differences in temporal setup: Single-stage, Multi-stage, Infinite Horizon
 	\vfill
 	Assumptions about these settings, e.g. recent seminar speaker Chengchun
 	Shi's work on testing the Markov Assumption in MDPs
 	\vfill
-	Estimands: model parameters, value-function-related, and SMARTs have
-	multiple non-DTR
-	\vfill \pause
-	Today's focus: Value Function Inference in the Single-stage Setting
+	Estimands: model parameters, embedded DTRs, and many other SMART-related quantities
+
 \end{frame}
 
-% \begin{frame}{SMARTs and DTRs are not synonymous}
-% \end{frame}
-
 \begin{frame}[label={overview:objectives}]{Learning Objectives}
+	We will cover: value function inference for a single-stage treatment policy /
+	dynamic treatment regime (DTR)
+	\vfill \pause
 	At the end of today's talk you should be able to:
 	\begin{itemize}
 		\item Explain the fundamental challenge facing value function inference
@@ -77,7 +75,6 @@
 		\includegraphics[width=.6\textwidth]{figures/how-to-draw-an-owl}
 	\end{figure}
 \end{frame}
-\subsection{Notation}
 \subsection{Math notation}
 \begin{frame}[label={sec:org00d2d44}]{Notation}
 
@@ -162,6 +159,33 @@
 	\end{equation}
 \end{frame}
 
+\begin{frame}{Value Functions}
+	\begin{enumerate}
+		\item Conditional Value of the estimated optimal policy
+
+		      $$\val(\polhatn) = \E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
+
+		      \vfill \pause
+
+		\item (Expected) Value of an estimated optimal policy
+		      $$\E_{\covarrv}[\polhatn(\covarrv)]$$
+
+		      \vfill \pause
+
+		\item Value of the optimal policy
+		      $$\val(\optpol) = \E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
+	\end{enumerate}
+
+	\vfill \pause
+
+	Will estimators of these functions asymptotically equivalent?
+
+	\vfill \pause
+	Brainstorm a scenario for each of the value functions where that estimand
+	would 	make the most sense.
+\end{frame}
+
+
 \begin{frame}{The Estimated Optimal Policy}
 	Denote the estimated optimal policy $\polhatn$, and to simplify life assume
 	that there is a unique maximizer for every covariate value, or more formally
@@ -236,29 +260,6 @@
 
 \end{frame}
 
-\section{Estimands and Inferential Targets}
-
-\begin{frame}{Value Functions}
-	\begin{enumerate}
-		\item Conditional Value of the estimated optimal policy
-
-		      $$\E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
-
-		\item (Expected) Value of an estimated optimal policy
-		      $$\E_{\covarrv}[\polhatn(\covarrv)]$$
-
-		\item Value of the optimal policy
-		      $$\E_{\covarrv}[\optpol(\covarrv)] = \Pop \optpol(\covarrv)$$
-	\end{enumerate}
-
-	\vfill \pause
-
-	Are estimators of these functions asymptotically equivalent?
-
-	\vfill \pause
-	Brainstorm a scenario for each of the value functions where that estimand would
-	make the most sense.
-\end{frame}
 
 \section{Nonregular Introduction}
 \begin{frame}{Toy Problem: Max of Gaussian Means}
@@ -317,6 +318,12 @@
 	To analyze the value function we'll need to address nonregular asymptotics.
 \end{frame}
 
+\begin{frame}{Visualizing the Problem}
+\end{frame}
+
+\begin{frame}{The Local Alternative}
+
+\end{frame}
 
 \subsection{Asymptotics --- What are we doing here?}
 \begin{frame}{Why (when) do we trust asymptotic approximations?}
