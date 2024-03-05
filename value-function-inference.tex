@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage{subfig}
 \usepackage{longtable}
+\usepackage{booktabs}
 \usepackage{wrapfig}
 \usepackage{rotating}
 \usepackage[normalem]{ulem}
@@ -82,28 +83,27 @@
 	Let $[K]$ denote the set $\{1, \ldots, K \}$ for a positive integer $K$. Assume
 	the data is comprised of iid replicates:
 
-	\begin{equation}
+	\begin{equation*}
 		\left\{{\covarrv}_{\obsindex},\, {\armrv}_{\obsindex},\,
 		{\resprv}_{\obsindex} \right\}_{\obsindex = 1}^{\maxobsindex}
-	\end{equation}
+	\end{equation*}
 
-	where
-	\vfill \pause
+	%	following the standard convention where
 
-	\begin{itemize}
-		\item $\covarrv_{\obsindex} \in \covarspace \subseteq
-			      \symbb{R}^{\dimarmparam}$ denotes the covariates (contexts)
+	$\covarrv_{\obsindex} \in \covarspace \subseteq
+		\symbb{R}^{\dimarmparam}$ denotes the covariates (contexts)
 
-		\item $\armrv_{ \obsindex} \in \armspace$ denotes the treatment arm (arm,
-		      intervention, action)
+	$\armrv_{ \obsindex} \in \armspace$ denotes the treatment arm (arm,
+	intervention, action), and
 
-		\item $\resprv_{ \obsindex} \in \symbb{R}$ denotes the response (reward)
-	\end{itemize}
+	$\resprv_{ \obsindex} \in \symbb{R}$ denotes the response (reward)
 
 	\vfill \pause
 
 	We'll use the potential outcome framework and denote the potential outcome 	$\po(\armobs)$
 
+	\vfill \pause
+	I'll use the index $\asymindex$ when discussing asymptotics and $\obsindex$ when discussing finite samples.	I'll try to maintain consistency but might slip up.
 \end{frame}
 
 
@@ -139,18 +139,13 @@
 \subsection{Treatment Policy Notation}
 
 \begin{frame}{Treatment Policy Notation}
-	A policy (aka DTR, treatment rule) $\pol$ maps contexts to actions $\pol: \covarspace \mapsto \armspace$.
-
-	\vfill \pause
-	The expected response given
-	the covariates and arm assignment $\E[\resprv \vert \covarobs, \armobs =
-			\armindex]$is given by $\meanfun(\covarobs, \armobs = \armindex) \equiv \meanfunk(x)$
-	for some function $\meanfun \in \funclass$.
+	A policy (aka DTR, treatment rule) $\pol$ maps contexts to actions $\pol:
+		\covarspace \mapsto \armspace$.
 
 	\vfill \pause
 	Define the value of a policy $\pol$ as
 	\begin{equation}
-		\val(\pol) = \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
+		\polval = \val(\pol) \doteq \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
 	\end{equation}
 
 	\vfill \pause
@@ -158,6 +153,11 @@
 	\begin{equation}
 		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
 	\end{equation}
+
+	\vfill \pause
+	Denote the estimated optimal policy $\polhatn$, and for conciseness, assume
+	that there is a unique maximizer for every covariate value.
+
 \end{frame}
 
 \begin{frame}{Value Functions}
@@ -365,6 +365,31 @@
 
 
 \section{Constructing Asymptotic Confidence Intervals}
+\subsection{Regularization}
+\begin{frame}{Asymptotic Approach Overview}
+
+	% Please add the following required packages to your document preamble:
+	% \usepackage{booktabs}
+	\begin{table}[]
+		\begin{tabular}{@{}lcccc@{}}
+			\toprule
+			                & \begin{tabular}[c]{@{}c@{}}Theoretical \\
+				                  Guarantees\end{tabular}
+			                & \begin{tabular}[c]{@{}c@{}}Easy to \\
+				                  Implement\end{tabular}
+			                & Conservative                              & Empirical Performance      \\
+			\midrule
+			Projection sets & $\checkmark^{+}$                          &                       &  & \\
+			Bounding        & $\checkmark^{+}$                          &                       &  & \\
+			\mon Bootstrap  & $\checkmark$                              &                       &  & \\
+			Regularization  & \symbol{"2610}                            &                       &  & \\
+			\bottomrule
+		\end{tabular}
+	\end{table}
+\end{frame}
+
+\begin{frame}{Not recommended: (Current) Regularization Approaches}
+\end{frame}
 \subsection{Projections}
 \begin{frame}{Projection Region Big Picture}
 	%	Recall our formulation $\theta_n = \theta_0 + h(n)s$
