@@ -1,10 +1,13 @@
+library(tidyverse)
 library(mvtnorm)
 
 max_mean_param <- 1
 param_dim <- 5
-dif_means <- .3
-n_observations <- 100
-n_reps <- 1000
+n_observations <- 400
+#dif_means <- 1/sqrt(n_observations)
+#dif_means <- 1/(n_observations)
+dif_means <- 1/sqrt(sqrt(n_observations))
+n_reps <- 10000
 set.seed(42)
 
 ###
@@ -40,6 +43,32 @@ SimulateMaxOfMeansInstance <- function(param_vec, n_obs) {
   return(sim_data)
 }
 
+SimulateSpec <- function(param_dim,
+                         max_mean_param,
+                         dif_means,
+                         n_observations,
+                         n_reps){
+    param_vec <- DefineMeanVector(
+        p_params = param_dim,
+        max_mean_param = max_mean_param,
+        dif_mean_param = dif_means
+    )
+
+    example_res <- replicate(
+        SimulateMaxOfMeansInstance(param_vec = param_vec,
+                                   n_obs = n_observations),
+        n = n_reps)
+
+    max_ests <- unlist(example_res[2, ])
+
+    sim_df <- tibble(ID = 1:length(est_dens),
+                     MaxEst = max_ests) %>%
+        mutate(NormalizedMaxEst = sqrt(n_observations) * (MaxEst - max_mean_param),
+               RnormDraw = rnorm(n = n(), mean = 0, sd = 1))
+
+  return(sim_df)
+}
+
 ###
 # Simulation
 #
@@ -50,6 +79,28 @@ param_vec <- DefineMeanVector(
     dif_mean_param = dif_means
 )
 
-example_res <- replicate(SimulateMaxOfMeansInstance(param_vec = param_vec, n_obs = n_observations), n = n_reps)
+example_res <- replicate(
+    SimulateMaxOfMeansInstance(param_vec = param_vec,
+                               n_obs = n_observations),
+    n = n_reps)
+
 max_ests <- unlist(example_res[2, ])
-est_probs <- dnorm(max_ests, mean = 1)
+
+# Asymptotically the distribution of the transformed estimates should be N(0,1)
+transformed_ests <- sqrt(n_observations) * (max_ests - max_mean_param)
+# est_dens<- dnorm(transformed_ests)
+
+sim_df <- tibble(ID = 1:length(est_dens),
+                 MaxEst = max_ests,
+                 NormalizedMaxEst = transformed_ests,
+                 Dens = est_dens) %>%
+    mutate(RnormDraw = rnorm(n = n(), mean = 0, sd = 1))
+
+
+
+ggplot(data = sim_df, aes(x = NormalizedMaxEst)) +
+    geom_density(color = "orange", adjust = 0.75) +
+    geom_vline(xintercept = mean(sim_df$NormalizedMaxEst), linetype = "dashed", color = "orange") +
+    geom_density(aes(x=RnormDraw), color = "grey", adjust = 0.75) +
+        geom_vline(xintercept = mean(sim_df$RnormDraw), linetype = "dashed", color = "grey") +
+    xlim(-4, 4)
