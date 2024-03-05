@@ -323,7 +323,25 @@
 \begin{frame}{Visualizing the Problem --- Varying $\delta$}
 \end{frame}
 
+\begin{frame}{Abstract problem}
+	Nonsmooth functional of a smooth function
+
+	Approach overview:
+
+	$m$ out of $n$ directly approximate the nonsmooth functional - let the
+	perturbations in $m_n$ be larger than the perturbations from the non-regularlity
+\end{frame}
+
 \subsection{Asymptotic Aside}
+
+\begin{frame}{What makes a good approximation?}
+	Asymptotically valid does not guarantee a good approximation
+
+
+	Uncertainty about the set of maximizers needs to be reflected in our
+	approximation even if any positive difference results in asymptotic
+	normality for $\widehat{\theta}_n$
+\end{frame}
 
 \subsection{Local Alternatives}
 \begin{frame}{The Local Alternative}
@@ -408,6 +426,70 @@
 	the null $\E_{P_0}[M_\obsindex] \leq 1$ at any time $\obsindex$
 \end{frame}
 
+\begin{frame}{Additional Notation of Note}
+	Let $\histobs_{\obsindex}(\armrv_{\obsindex}, \covarrv_{\obsindex}) =
+		\prob(\armrv_{\obsindex} = \armobs \mid \covarrv_{\obsindex} = \covarobs, \histspace_{t-1})$
+\end{frame}
+
+\begin{frame}{Assumptions in this Setting}
+	$\resprv$ is bounded, and for convenience we'll assume $\resprv \in [0,1]$
+
+
+	Adapted
+
+	Exogenous
+
+	$$\prob(\armrv_{\obsindex} \mid \histspace_{\obsindex - 1}) =
+		\prob(\armrv_{\obsindex} \mid \covarrv_{\obsindex})$$
+\end{frame}
+
+\begin{frame}{Confidence Sequences}
+	\begin{definition}[Confidence Sequence]
+	\end{definition}
+\end{frame}
+
+\begin{frame}{Key Result}
+
+\end{frame}
+
+\begin{frame}{Practical Improvements}
+	\begin{itemize}
+		\item Double robustness
+		\item Trimming the observed rewards
+		\item Empirical weights
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{From Sequence to Interval}
+	Suppose that all we care about is a $(1 - \alpha)$ CI after $\maxobsindex$
+	observations.
+
+	\vfill
+	A CS is also trivially a CI at a fixed time, but the width of the interval
+	will be wider than if we only needed to guarantee coverage at one point in
+	time.
+
+	\vfill \pause
+
+	\begin{lemma}[The minimum and maximum bounds of a $1 - \alpha$ confidence
+			sequence form a $1 - \alpha$ confidence interval.] Define lower and upper bounds, $L^{\text{CI}}$ and
+		$L^{\text{CI}}$, as
+		$$L^{\text{CI}} = \max_{\obsindex \leq \maxobsindex}
+			L_{\obsindex}^{\text{CS}} \qquad \text{ and } U^{\text{CI}} = \max_{\obsindex \leq
+				\maxobsindex} U_{\obsindex}^{\text{CS}}$$
+
+		Then $(L^{\text{CI}},\, U^{\text{CI}})$ is a $(1 - \alpha)$ confidence
+		interval for $\val(\pol)$
+	\end{lemma}
+\end{frame}
+
+\begin{frame}{What we didn't get to}
+	Data-derived policies
+
+	Comparing multiple policies
+
+	Off policy evaluation
+\end{frame}
 \section{Where Next?}
 
 \begin{frame}{Where to Start}
