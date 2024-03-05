@@ -318,44 +318,29 @@
 	To analyze the value function we'll need to address nonregular asymptotics.
 \end{frame}
 
-\begin{frame}{Visualizing the Problem}
+\begin{frame}{Visualizing the Problem --- Fixed $\delta$}
 \end{frame}
 
+\begin{frame}{Visualizing the Problem --- Varying $\delta$}
+\end{frame}
+
+\subsection{Asymptotic Aside}
+
+\subsection{Local Alternatives}
 \begin{frame}{The Local Alternative}
+	Idea: decompose into a static part and a part that changes with $n$
 
+	$$\mu_n = \mu_0 + s h(n)$$
+
+	$\mu_0, s \in \mbbR^{p)}$ are both fixed
+
+	$h(n)$, often but not exclusively $n^{-1/2}$, controls the perturbations
 \end{frame}
 
-\subsection{Asymptotics --- What are we doing here?}
-\begin{frame}{Why (when) do we trust asymptotic approximations?}
-	Assuming standard regularity condition hold, what does the Central Limit
-	Theorem tell us about $\Pn \covarrv$?
-
-	Taylor Series
+\begin{frame}{Construction a confidence interval}
 \end{frame}
 
-\begin{frame}{Berry Essen Theorem}
-	Suppose $\covarrv_1, \ldots, \covarrv_{\asymindex}$ are iid with
-	\begin{align*}
-		\E[X]     & = 0                 \\
-		\E[X^2]   & = \sigma^2 < \infty \\
-		\E[|X|^3] & = \rho < \infty
-	\end{align*}
-	And let $Y_{\asymindex} = \Pn \covarrv$. Then
-	\vfill
-	\begin{equation}
-		\sup_{x \in \mathbb{R}}|F_{\asymindex}(\covarobs) - \Phi(\covarobs)| \leq \frac{C
-			\rho}{\sigma^{3} \rootn }
-	\end{equation}
-
-	Where $C$ is a universal constant and according to the wiki I haven't fact
-	checked our current best bounds are $.4097 \leq C \leq .4748$
-	\vfill
-\end{frame}
-
-\begin{frame}{But wait --- aren't all treatment effects nonzero?}
-	Even if the effect is $\epsilon^{-35}$ for some $\epsilon \ll 1$ we have asymptotic
-	normality. Don't all treatments have an  effect at that level even if it's
-	just the sugar in the pill?
+\begin{frame}{CI Proof}
 \end{frame}
 
 
