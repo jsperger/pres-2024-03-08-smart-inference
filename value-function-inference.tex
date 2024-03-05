@@ -53,16 +53,15 @@
 	\vfill \pause
 	At the end of today's talk you should be able to:
 	\begin{itemize}
-		\item Explain the fundamental challenge facing value function inference
+		\item Identify the fundamental challenge facing value function inference
 		      that applies to all temporal settings.
 		      %		\item Provide an example of other problems in statistics that face a similar hurdle
 		\item Define the potential value function estimands and contrast the
 		      reasons for choosing them.
 
-		\item Summarize the asymptotic techniques used in value function inference.
+		\item Explain the projection-based approach to constructing confidence intervals
 
-		\item Identify alternative approaches to asymptotic inference for the
-		      value function.
+		\item Explain the bound-based approach to constructing confidence intervals
 		      %		\item Explain inference for OWL
 		      %		\item Name the keywords to search for to find relevant theory
 	\end{itemize}
@@ -348,11 +347,33 @@
 \section{Constructing Asymptotic Confidence Intervals}
 \subsection{Projections}
 \begin{frame}{Projection Region Big Picture}
-	Recall our formulation $\theta_n = \theta_0 + h(n)s$
-	\begin{enumerate}
+	%	Recall our formulation $\theta_n = \theta_0 + h(n)s$
+	\begin{itemize}
 		\item The empirical estimator $\widehat{\mu}_n = \Pn X$ is well-behaved (regular, asymptotically normal)
-		\item If we knew $\mu_0$ forming confidence intervals for $\widehat{\mu}_n$
+		      \vfill \pause
+		\item If we knew $\mu_0$ forming confidence intervals for ${\theta}_0$
+		      would be simple --- we'd know $\mu_{01}$ is the maximizer and
+		      construct a CI for $\mu_{01}$
+	\end{itemize}
+	\vfill \pause
+	Solution:
+	\begin{enumerate}
+		\item Determine all plausible values of $\mu_0$ using the $(1- \alpha)$ CI
+		\item For each plausible value of $\mu_0$, construct a CI for ${\theta}_0$
+		      treating the plausible $\mu_0$ as fixed
+		\item Take a union over over all of these CIs
 	\end{enumerate}
+	\vfill \pause
+	Can be very conservative
+
+	%	Particularly in the context of DTRs because
+\end{frame}
+
+\begin{frame}{Projection Proof}
+\end{frame}
+
+\begin{frame}{Adaptive Projection Regions}
+
 \end{frame}
 \subsection{Bound-based}
 \begin{frame}{Bound-based}
@@ -372,8 +393,19 @@
 \section{Avoiding Nonregularity}
 \begin{frame}{Alternatives to Asymptotics}
 	If the blow-up happens in the limit, what if we just don't take it to the limit?
+\end{frame}
 
+\begin{frame}{Finite-sample bounds}
+	Similar in spirit to the asymptotic bound-based approach, but with Martingales
+	playing the role of the nicely behaved functions.
 
+	More specifically test super-martingales. Recall that a super martingale is
+	a stochastic process satisfying
+
+	$$\E[Z(\obsindex + s) | Z(\obsindex)] \leq Z(s) \forall \obsindex, s \in \mbbN^+$$
+
+	A test super-martingale $M_t$ is a non-negative super-martingale that under
+	the null $\E_{P_0}[M_\obsindex] \leq 1$ at any time $\obsindex$
 \end{frame}
 
 \section{Where Next?}
