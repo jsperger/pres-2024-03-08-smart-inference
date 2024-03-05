@@ -429,27 +429,60 @@
 \begin{frame}{Additional Notation of Note}
 	Let $\histobs_{\obsindex}(\armrv_{\obsindex}, \covarrv_{\obsindex}) =
 		\prob(\armrv_{\obsindex} = \armobs \mid \covarrv_{\obsindex} = \covarobs, \histspace_{t-1})$
+
+	\[\iwt \doteq \iwtdef \]
 \end{frame}
 
 \begin{frame}{Assumptions in this Setting}
 	$\resprv$ is bounded, and for convenience we'll assume $\resprv \in [0,1]$
 
-
+	$\polval_{\obsindex} \doteq \E_{\pol} [\resprv_{\obsindex} \mid \history_{\obsindex-1}]$
 	Adapted
 
 	Exogenous
 
 	$$\prob(\armrv_{\obsindex} \mid \histspace_{\obsindex - 1}) =
 		\prob(\armrv_{\obsindex} \mid \covarrv_{\obsindex})$$
+
+	Common assumption on importance weights
+
+	\[\wmax := \esssup_{\obsindex \in \NN, \armobs \in \armspace, \covarobs \in \covarspace} \frac{\pi(\armobs \mid \covarobs)}{h_{\obsindex}(\armobs \mid \covarobs)} \]
+\end{frame}
+
+\begin{frame}{Assumptions for the method}
 \end{frame}
 
 \begin{frame}{Confidence Sequences}
 	\begin{definition}[Confidence Sequence]
+		We say that a sequence of intervals $[L_\obsindex, U_\obsindex]_{\obsindex=1}^\infty$ is a confidence sequence for the parameter $\theta \in \RR$ if
+		\begin{equation*}\label{eq:cs}
+			\prob \left ( \forall \obsindex \in \NN,\ \theta \in [L_\obsindex, U_\obsindex] \right ) \geq 1-\alpha \end{equation*}
+		or equivalently,
+		\begin{equation*}
+			\prob \left ( \exists \obsindex \in \NN : \theta \notin [L_\obsindex, U_\obsindex] \right ) \leq \alpha
+		\end{equation*}
 	\end{definition}
+
+	\vfill \pause
+	For comparison, recall that a $(1- \alpha)$ confidence interval (CI) satisfies
+
+	$$\forall \obsindex \in \NN,\ \prob(\theta \in [L_\obsindex, U_\obsindex]) \geq 1-\alpha$$
 \end{frame}
 
 \begin{frame}{Key Result}
+	Define the weighted rewards $\phi_\obsindex^\IWL \doteq \iwt \resprv_\obsindex$ and $\phi_\obsindex^\IWU \doteq
+		\iwt(1-\resprv_\obsindex)$
+	\vfill
+	Let   $(\lambda_t^L(\candpolval))_{t=1}^\infty$ be any $[0, 1/\candpolval)$-valued
+	predictable sequence
 
+	\vfill
+	\begin{equation}\label{eq:kmr-cs}
+		L_t^\IW \doteq \inf\left \{ \candpolval \in [0, 1] : \prod_{i=1}^t \left ( 1 + \lambda_i^L(\candpolval) \cdot (\phi_t^\IWL - \candpolval) \right ) < \frac{1}{\alpha} \right \}
+	\end{equation}
+	forms a lower $(1-\alpha)$ confidence sequence for $\polval$, meaning
+
+	$\prob(\forall t \in \NN,\ \polval \geq L_t^\IW) \geq 1-\alpha$.
 \end{frame}
 
 \begin{frame}{Practical Improvements}
