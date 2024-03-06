@@ -21,7 +21,7 @@
 \input{components/combined-macros.tex}
 %% Paper-specific macros
 
-\usepackage[style=verbose-ibid,backend=biber, isbn=false, url=false, doi=false,
+\usepackage[style=verbose,backend=biber, isbn=false, url=false, doi=false,
 	eprint=false, dashed=false]{biblatex}
 \addbibresource{my-biblatex-library.bib}
 
@@ -48,38 +48,32 @@
 	\begin{itemize}
 		\item Identify the fundamental challenge facing value function inference
 		      that applies to all temporal settings.
-\vfill \pause
+		      \vfill \pause
 
 		      %\item Provide an example of other problems in statistics that
-              %face a similar hurdle
-%		\item Define the potential value function estimands and contrast the
-%		      reasons for choosing them.
+		      %face a similar hurdle
+		      %		\item Define the potential value function estimands and contrast the
+		      %		      reasons for choosing them.
 
-\item Categorize the major approaches to inference in this setting
+		\item Categorize the major approaches to inference in this setting
 
-\vfill \pause
+		      \vfill \pause
 
 		\item Contrast the projection, bound, and bootstrap approaches to constructing confidence intervals
-\vfill \pause
+		      \vfill \pause
 
 		\item Explain the connection between the finite-sample approach and the
-asymptotic approaches
+		      asymptotic approaches
 		      %\item Explain inference for OWL
 		      %\item Name the keywords to search for to find relevant theory
 	\end{itemize}
 	\vfill
 \end{frame}
 
-\begin{frame}{Key concepts}
-    Smoothness
-    \end{frame}
+% \begin{frame}{Key concepts}
+%     Smoothness
+%     \end{frame}
 
-\subsection{OWL}
-\begin{frame}{OWL}
-	\begin{figure}
-		\includegraphics[width=.6\textwidth]{figures/how-to-draw-an-owl}
-	\end{figure}
-\end{frame}
 \subsection{Math notation}
 \begin{frame}[label={sec:org00d2d44}]{Notation}
 
@@ -197,92 +191,131 @@ asymptotic approaches
 	No parametric assumptions
 \end{frame}
 
-\section{Non-smooth Operators}
-\begin{frame}{Nonregularity}
-Nonregular is the catch-all term when the standard regularity conditions do not hold.
-  \ddef{Nonsmooth}{
 
+\section{High-level Overview}
+\begin{frame}{Nonregularity}
+	Nonregular is the catch-all term when the standard regularity conditions do
+	not hold. The general problem we'll be addressing is when the limiting
+	distribution depends sharply on the parameter values.
+
+	\vfill \pause
+	\ddef{Smoothness}{
+		A function $f$ is a smooth if it has continuous derivatives up to some
+		desired order over some domain. The number of derivatives is problem-specific.
 	}
+
+	\vfill
+	%	\tiny ``Continuously differentiable'' does not mean infinitely
+	%	differentiable as a young me once confusedly thought.
 \end{frame}
 
-\begin{frame}{Examples}
-Suppose $\covarrv_1, \ldots, \covarrv_{\asymindex}$ are iid copies of a random vector
-$\covarrv \in \mbbR^{p}$ drawn from an unknown distribution $P$. Let $\mu_0 = \Pop X
-= (\mu_{01}, \ldots, \mu_{0p})$
+\begin{frame}{Examples of Nonregularity}
+	Suppose $\covarrv_1, \ldots, \covarrv_{\asymindex}$ are iid copies of a random vector
+	$\covarrv \in \mbbR^{p}$ drawn from an unknown distribution $P$. Let $\mu_0 = \Pop X
+		= (\mu_{01}, \ldots, \mu_{0p})$
 
-\vfill \pause
+	\vfill \pause
 
-  \textbf{Superefficient estimators}
-Define the estimator $\widetilde{\mu}_n$
-  \begin{displaymath}
-    \widetilde{\mu}_n = \begin{cases} \Pn X & \text { if } \Pn X \geq 1/4 \\
-    0 & \text { if } \Pn X < 1/4 \end{cases}
-    \end{displaymath}
+	\textbf{Superefficient estimators}
+	Define the estimator $\widetilde{\mu}_n$
+	\begin{displaymath}
+		\widetilde{\mu}_n = \begin{cases} \Pn X & \text { if } \Pn X \geq 1/4 \\
+              0     & \text { if } \Pn X < 1/4\end{cases}
+	\end{displaymath}
 
-  \vfill \pause
+	\vfill \pause
 
-\textbf{Max of Means}
-Define $\theta_0$ as the component-wise maximum mean
-\begin{displaymath}
-\theta_0 = \maxsym_{j = 1}^p \mu_{0j} = \max_{j \in [p]} \mu_{0j}
-    \end{displaymath}
-    \end{frame}
+	\textbf{Max of Means}
+	Define $\theta_0$ as the component-wise maximum mean
+	\begin{displaymath}
+		\theta_0 = \maxsym_{j = 1}^p \mu_{0j} = \max_{j \in [p]} \mu_{0j}
+	\end{displaymath}
+\end{frame}
 
-  \begin{frame}{Max of Means Limiting Distribution}
+\begin{frame}{Is Nonregularity Avoidable?}
 
-Consider the estimators $\widehat{\mu}_{\asymindex} = \Pn \covarrv$  and $\widehat{\theta}_{\asymindex}$
+	``All \sout{happy families} regular estimators are alike; each \sout{unhappy
+		family} nonregular estimator is unhappy in its own way.'' --- Markov
+	quoting Tolstoy\pause... possibly
 
-$$\widehat{\theta}_{\asymindex} = \maxsym_{j = 1}^p \widehat{\mu}_{\asymindex j}$$
+	\vfill \pause
+	For the superefficient estimator $\tilde{\mu}$ the form of the estimator, not
+	the underlying estimand was the source of the nonregularity.
 
-\begin{lemma}[Limiting Distribution of $\widehat{\theta}_{\asymindex} $]
-      Define the set $\argmaxsetx{\mu_{0}} = \argmax_j \mu_{0j}$ and assume
-$\widehat{\mu}_n$ is regular $\rootn (\Pn - \Pop)X \convd \MVN(\zerovec, \Sigma)$. Then
-\begin{displaymath}
-\rootn (\widehat{\theta}_{\asymindex} - \theta_0) \convd \maxsym_{j \in \argmaxsetx{\mu_0}} Z_j
-    \end{displaymath}
-where $Z \sim \MVN(\zerovec, \Sigma)$
-\end{lemma}
+	\vfill \pause
 
-    \end{frame}
+	Unfortunately, that's not the case for value function inference.
 
-  \begin{frame}{Proof of the Limiting Distribution}
-Define the event $\eventn = \indfunx{\max_{k \notin \argmaxsetx{\mu_0}}
-\widehat{\mu}_{nk} \geq \max_{j \in\argmaxsetx{\mu_0}} \widehat{\mu}_{nj}}$. Note that
-\begin{enumerate}
-  \item  $\eventn = \op{1}$
-\item When $E_n$ holds the maximizer(s) is not in $\argmaxsetx{\mu_0}$ and vice versa
-%When $E_n$ holds the maximizer(s) is not in $\argmaxsetx{\mu_0}$
-%    and the converse is true for the complement $E_n^{\text{C}} = 1 - E_n $
-\end{enumerate}
+	\vfill
 
-\begin{align*}
-\rootn &(\widehat{\theta}_{\asymindex} - \theta_0) =  \maxsym_{j = 1}^p
-                                        \rootn(  \widehat{\mu}_{\asymindex j} -
-         \theta_0) \\
-  &= (1 - \eventn + \eventn) \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
-    \widehat{\mu}_{\asymindex j} - \theta_0) \\
-  &=  \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
-    \widehat{\mu}_{\asymindex j} - \theta_0) + \eventn \left(\maxsym_{k \notin\argmaxsetx{\mu_0}}^p \rootn(
-    \widehat{\mu}_{\asymindex k} - \theta_0)  - \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
-    \widehat{\mu}_{\asymindex j} - \theta_0)\right)
-\end{align*}
+	The nonregularity is due to the nondifferentiability of the treatment
+	policy/DTR, and this kind of nonregularity is unavoidable
+	\footnote<4->{\fullcite{hirano2012Impossibility}}.
+	\vfill
+\end{frame}
+
+
+\begin{frame}{PLACEHOLDER: Visual Examples of Approaches}
+\end{frame}
+
+\subsection{OWL}
+\begin{frame}{OWL}
+	\begin{figure}
+		\includegraphics[width=.6\textwidth]{figures/how-to-draw-an-owl}
+	\end{figure}
+\end{frame}
+
+\section{Detailed Overview}
+\subsection{Max of Means Example}
+\begin{frame}{Max of Means Limiting Distribution}
+
+	Consider the estimators $\widehat{\mu}_{\asymindex} = \Pn \covarrv$  and $\widehat{\theta}_{\asymindex}$
+
+	$$\widehat{\theta}_{\asymindex} = \maxsym_{j = 1}^p \widehat{\mu}_{\asymindex j}$$
+
+	\begin{lemma}[Limiting Distribution of $\widehat{\theta}_{\asymindex} $]
+		Define the set $\argmaxsetx{\mu_{0}} = \argmax_j \mu_{0j}$ and assume
+		$\widehat{\mu}_n$ is regular $\rootn (\Pn - \Pop)X \convd \MVN(\zerovec, \Sigma)$. Then
+		\begin{displaymath}
+			\rootn (\widehat{\theta}_{\asymindex} - \theta_0) \convd \maxsym_{j \in \argmaxsetx{\mu_0}} Z_j
+		\end{displaymath}
+		where $Z \sim \MVN(\zerovec, \Sigma)$
+	\end{lemma}
+
+\end{frame}
+
+\begin{frame}{Proof of the Limiting Distribution}
+	Define the event $\eventn = \indfunx{\max_{k \notin \argmaxsetx{\mu_0}}
+			\widehat{\mu}_{nk} \geq \max_{j \in\argmaxsetx{\mu_0}} \widehat{\mu}_{nj}}$. Note that
+	\begin{enumerate}
+		\item  $\eventn = \op{1}$
+		\item When $E_n$ holds the maximizer(s) is not in $\argmaxsetx{\mu_0}$ and vice versa
+		      %When $E_n$ holds the maximizer(s) is not in $\argmaxsetx{\mu_0}$
+		      %    and the converse is true for the complement $E_n^{\text{C}} = 1 - E_n $
+	\end{enumerate}
+
+	\begin{align*}
+		\rootn & (\widehat{\theta}_{\asymindex} - \theta_0) =  \maxsym_{j = 1}^p
+		\rootn(  \widehat{\mu}_{\asymindex j} -
+		\theta_0)                                                                      \\
+		       & = (1 - \eventn + \eventn) \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+		\widehat{\mu}_{\asymindex j} - \theta_0)                                       \\
+		       & =  \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+		\widehat{\mu}_{\asymindex j} - \theta_0) + \eventn \left(\maxsym_{k \notin\argmaxsetx{\mu_0}}^p \rootn(
+		\widehat{\mu}_{\asymindex k} - \theta_0)  - \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+		\widehat{\mu}_{\asymindex j} - \theta_0)\right)
+	\end{align*}
 \end{frame}
 
 \begin{frame}{Proof Continued}
-   {$${\color{red}\overbrace{\maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
-    \widehat{\mu}_{\asymindex j} - \theta_0)}^{\mathclap{\substack{\text{{\small The
-desired }} \\ \text{{\small result}}}}}} + {\color{purple}\overbrace{\eventn \left(\maxsym_{k \notin\argmaxsetx{\mu_0}}^p \rootn(
-    \widehat{\mu}_{\asymindex k} - \theta_0)  - \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
-    \widehat{\mu}_{\asymindex j} - \theta_0)\right)
-}^{\mathclap{\text{{\small A nuisance we'll show is $\op{1}$}}}}}$$} % see https://tex.stackexchange.com/questions/333744/a-more-beautiful-output-of-under-and-overbrace
+	{$${\color{red}\overbrace{\maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+				\widehat{\mu}_{\asymindex j} - \theta_0)}^{\mathclap{\substack{\text{{\small The
+								desired }} \\ \text{{\small result}}}}}} + {\color{purple}\overbrace{\eventn \left(\maxsym_{k \notin\argmaxsetx{\mu_0}}^p \rootn(
+				\widehat{\mu}_{\asymindex k} - \theta_0)  - \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+				\widehat{\mu}_{\asymindex j} - \theta_0)\right)
+			}^{\mathclap{\text{{\small A nuisance we'll show is $\op{1}$}}}}}$$} % see https://tex.stackexchange.com/questions/333744/a-more-beautiful-output-of-under-and-overbrace
 
 
-    \end{frame}
-
-\begin{frame}{Estimator or Target?}
-	This is intrinsic to the problem due to the nondifferentiability of the
-	target functional\autocite{hirano2012Impossibility}.
-	\vfill
 \end{frame}
 
 \begin{frame}{Visualizing the Problem --- Fixed $\delta$}
@@ -295,11 +328,14 @@ desired }} \\ \text{{\small result}}}}}} + {\color{purple}\overbrace{\eventn \le
 	Approach overview:
 
 	$m$ out of $n$ directly approximate the nonsmooth functional - let the
-	perturbations in $m_n$ be larger than the perturbations from the non-regularlity
+	perturbations in $m_n$ be larger than the perturbations from the
+	non-regularlity
+
+	$m$ is $o(n)$ i.e. as $m \to \infty$ $\frac{m}{n} \to 0$
 \end{frame}
 
 \begin{frame}{Placeholder: Draw the approaches}
-    \end{frame}
+\end{frame}
 
 \subsection{Asymptotic Aside}
 
@@ -323,6 +359,8 @@ desired }} \\ \text{{\small result}}}}}} + {\color{purple}\overbrace{\eventn \le
 	$h(n)$, often but not exclusively $n^{-1/2}$, controls the perturbations
 \end{frame}
 
+
+
 \begin{frame}{Construction a confidence interval}
 \end{frame}
 
@@ -337,24 +375,24 @@ desired }} \\ \text{{\small result}}}}}} + {\color{purple}\overbrace{\eventn \le
 
 	% Please add the following required packages to your document preamble:
 	% \usepackage{booktabs}
-  \begin{table}[]
+	\begin{table}[]
 		\begin{tabular}{@{}lcccc@{}}
-          \toprule
-          & \begin{tabular}[c]{@{}c@{}}Theoretical \\ Guarantees\end{tabular}
-          & \begin{tabular}[c]{@{}c@{}}Easy to \\ Implement\end{tabular}
-          & Conservative
-          & \begin{tabular}[c]{@{}c@{}}Empirical \\ Performance\end{tabular}  \\
+			\toprule
+			                   & \begin{tabular}[c]{@{}c@{}}Theoretical \\ Guarantees\end{tabular}
+			                   & \begin{tabular}[c]{@{}c@{}}Easy to \\ Implement\end{tabular}
+			                   & Conservative
+			                   & \begin{tabular}[c]{@{}c@{}}Empirical \\ Performance\end{tabular}                                                           \\
 			\midrule
-			Projection sets & $\checkmark^{+}$           & \symbol{"2610} & $\checkmark^{+}$ & $\checkmark$\\
-			Bounding        & $\checkmark^{+}$           & \symbol{"2610} & $\checkmark$ &  \checkmark \\
-			\mon  \, Bootstrap  & $\checkmark$             & $\checkmark^{+}$  & \symbol{"2610} & \checkmark \\
-			Regularization  & \symbol{"2610} & $\checkmark$ &  \symbol{"2610} & $\checkmark^{+}$\\
+			Projection sets    & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark^{+}$ & $\checkmark$     \\
+			Bounding           & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark$     & \checkmark       \\
+			\mon  \, Bootstrap & $\checkmark$                                                      & $\checkmark^{+}$ & \symbol{"2610}   & \checkmark       \\
+			Regularization     & \symbol{"2610}                                                    & $\checkmark$     & \symbol{"2610}   & $\checkmark^{+}$ \\
 			\bottomrule
 		\end{tabular}
-      \end{table}
+	\end{table}
 
-     \vfill \pause
-Regularization may induce infinite bias in certain scenarios.
+	\vfill \pause
+	Regularization may induce infinite bias in certain scenarios.
 \end{frame}
 
 \begin{frame}{Not recommended: (Current) Regularization Approaches}
@@ -383,19 +421,19 @@ Regularization may induce infinite bias in certain scenarios.
 	%	Particularly in the context of DTRs because
 \end{frame}
 \begin{frame}{Projection Confidence Set}
-    Let $\waldset$ denote a $(1-\alpha)$ confidence set $\mu_0$. For concreteness, take
-the Wald CI
+	Let $\waldset$ denote a $(1-\alpha)$ confidence set $\mu_0$. For concreteness, take
+	the Wald CI
 
-$$\waldset = \waldsetdef$$
+	$$\waldset = \waldsetdef$$
 
-\vfill \pause
-\ddef{Projection Confidence Set}{
-\begin{displaymath}
-\projset = \projsetdef
-    \end{displaymath}
-is a valid confidence interval for $\theta_0$
-}
-    \end{frame}
+	\vfill \pause
+	\ddef{Projection Confidence Set}{
+		\begin{displaymath}
+			\projset = \projsetdef
+		\end{displaymath}
+		is a valid confidence interval for $\theta_0$
+	}
+\end{frame}
 \begin{frame}{Projection Proof}
 \end{frame}
 
@@ -426,8 +464,10 @@ is a valid confidence interval for $\theta_0$
 \begin{frame}{The $m$-out-of-$n$ Bootstrap}
 \end{frame}
 \begin{frame}{Fundamental Ideas}
-\end{frame}
-\begin{frame}{Fundamental Math}
+
+	Caveat: Not as straightforwardly valid as Projection and Bounding approaches
+	(modulo a certain definition of ``straightforward''), and can fail
+	\autocite{andrews2010Asymptotic}
 \end{frame}
 \begin{frame}{Practical Improvements}
 	Double bootstrap
@@ -448,6 +488,49 @@ is a valid confidence interval for $\theta_0$
 \end{frame}
 
 
+
+\section{Value Function Inference}
+\begin{frame}{Setup}
+	\begin{itemize}
+		\item	Two arms $\armrv \in \{-1, 1\}$
+		\item $\polhatnx = \sign(\covarobs^{\trans}\widehat{\beta}_{\asymindex})$
+	\end{itemize}
+
+	\begin{displaymath}
+		\nonregindclass = \nonregindclassdef
+	\end{displaymath}
+\end{frame}
+
+\begin{frame}{Assumptions}
+\end{frame}
+
+\begin{frame}{Joint Distribution Before Maximizing}
+
+	\begin{displaymath}
+		\rootn \begin{bmatrix}\Pn - Pop_{\asymindex} \\
+			\betahatn - \betao     \\
+			(\Pn - \Pop_{\asymindex})\resprv \indfunx{\armrv \covarrv^{\trans}\betao
+				> 0}\end{bmatrix} \convd \begin{pmatrix} \mbbT \\ \mbbZ \\
+			\mbbW\end{pmatrix}
+	\end{displaymath}
+
+	where
+
+	\begin{itemize}
+		\item $\mbbT$ is a Brownian Bridge indexed by $\mbbR^p$
+		\item $\mbbZ$ and $\mbbW$ are normal
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Distribution after Maximizing}
+	\begin{displaymath}
+		\rootn (\valhatn (\betahatn) - \val(\betahatn)) \convd \mbbT(\mbbZ + s)
+		+ \mbbW
+	\end{displaymath}
+
+	where $s$ is a local parameter
+
+\end{frame}
 
 \section{Avoiding Nonregularity}
 \begin{frame}{Alternatives to Asymptotics}
