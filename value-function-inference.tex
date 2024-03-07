@@ -110,7 +110,7 @@
 		      fixed but unknown distribution $\Pop$
 		\item $\genericfun$ is a generic parametric function indexed by $\theta \in \Theta$
 		\item $\hat{\theta} \in \Theta$ is a random variable constructed from the sample
-		      $\covarrv_1, \ldots, \covarrv_{\maxasymindex}$
+		      $\covarrv_1, \ldots, \covarrv_{\asymindex}$
 	\end{itemize}
 	\vfill \pause
 
@@ -136,20 +136,34 @@
 \subsection{Treatment Policy Notation}
 
 \begin{frame}{Treatment Policy Notation}
-	A policy (aka DTR, treatment rule) $\pol$ maps contexts to actions $\pol:
-		\covarspace \mapsto \armspace$.
+	A policy (aka DTR, treatment rule) $\pol$ is a function relating
+	contexts and actions.
+
+	\vfill
+	Policies may be deterministic, $\pol: \covarspace
+		\mapsto \armspace$ or stochastic
+	$\pol: \covarspace \times \armspace \mapsto [0, 1]$.
+
+	\vfill \pause
+
+	Authors may write $\pol(\covarobs,
+		\armobs)$, $\pol(\armobs \mid \covarobs)$, $\pol(\covarobs)$, or
+	simply $\pol$ depending on what the author wishes to emphasize.
 
 	\vfill \pause
 	Define the value of a policy $\pol$ as
-	\begin{equation}
-		\polval = \val(\pol) \doteq \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
-	\end{equation}
+	\begin{equation*}
+		\val(\pol) \doteq \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
+		%	\polval = \val(\pol) \doteq \E_{\covarrv}[\po(\armobs =\pol(\covarrv))]
+	\end{equation*}
 
 	\vfill \pause
 	An optimal policy $\optpol$ is any policy that satisfies
-	\begin{equation}
-		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
-	\end{equation}
+	\begin{equation*}
+		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in
+		\polset
+		% \polvalopt = \val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
+	\end{equation*}
 
 	\vfill \pause
 	Denote the estimated optimal policy $\polhatn$, and for conciseness, assume
@@ -158,6 +172,7 @@
 \end{frame}
 
 \begin{frame}{Value Functions}
+	Why don't I have Y here?
 	\begin{enumerate}
 		\item Conditional Value of the estimated optimal policy
 
@@ -170,35 +185,82 @@
 
 		      \vfill \pause
 
-		\item Value of the optimal policy
+		\item Value of the optimal policy (or, more broadly, any fixed policy)
 		      $$\val(\optpol) = \E_{\covarrv}[\optpol(\covarrv)] = \Pop
 			      \optpol(\covarrv)$$
-
-		\item Value of a fixed policy $\pol$
-		      $$\val(\pol) = \Pop \pol(\covarrv)$$
-
 	\end{enumerate}
 
 	\vfill \pause
 	These three will not generally be equivalent even asymptotically.
 \end{frame}
 
-\begin{frame}{Today's Focus}
-	Single-stage
+\begin{frame}{Estimating the Value Function}
+	There are two common approaches to estimating the value function:
+	\begin{enumerate}
+		\item Inverse Probability Weighting (IPW) / Importance Weighting
 
-	Fixed policy
+		\item Augmented Inverse Probability Weighting (AIPW) / Doubly Robust Estimation
+	\end{enumerate}
 
-	No parametric assumptions
 \end{frame}
+\begin{frame}{Other Distinctions}
+
+	Let $\histpol(\armobs \mid \covarobs)$ denote the policy that was used to assign treatment
+	during the experiment and $\pol(\armobs \mid \covarobs)$ the policy we are intersested in
+	evaluating.
+
+	\begin{columns}[T]
+		\begin{column}{.5\textwidth}
+			\ddef{Technical Word}{
+				\begin{itemize}
+					\setlength\itemsep{0.5em}
+					\item[\textendash] On-policy $\pol = \histpol$
+					\item[\textendash] Off-policy $\pol \neq \histpol$. Requires additional
+						assumptions about the overlap between the policies, which
+						may vary slightly but have the general flavor:
+
+						$$\impwt =
+							\frac{\pol(\covarobs)}{\histpol(\covarobs)}$$
+				\end{itemize}
+			}
+		\end{column}
+		\pause
+		\begin{column}{.5\textwidth}
+			\ddef{Technical Word}{
+				\begin{itemize}
+					\setlength\itemsep{0.5em}
+					\item[\textendash] Data-derived or estimated policy
+					\item[\textendash] Fixed policy
+
+						\[\wmax \doteq \esssup_{\obsindex \in \NN, \armobs \in \armspace, \covarobs \in \covarspace} \frac{\pi(\armobs \mid \covarobs)}{h_{\obsindex}(\armobs \mid \covarobs)} \]
+				\end{itemize}
+			}
+		\end{column}%
+	\end{columns}
+
+
+\end{frame}
+
+
+% \begin{frame}{Today's Focus}
+% 	Single-stage
+
+% 	Fixed policy
+
+% 	No parametric assumptions
+% \end{frame}
 
 
 \section{High-level Overview}
 \begin{frame}{Nonregularity}
-	Nonregular is the catch-all term when the standard regularity conditions do
-	not hold. The general problem we'll be addressing is when the limiting
+	Nonregular is the catch-all for when standard regularity conditions do
+	not hold.
+	\vfill \pause
+	The general problem we'll be addressing is when the limiting
 	distribution depends sharply on the parameter values.
 
-	\vfill \pause
+	\vfill
+	A common cause is a lack of
 	\ddef{Smoothness}{
 		A function $f$ is a smooth if it has continuous derivatives up to some
 		desired order over some domain. The number of derivatives is problem-specific.
@@ -539,9 +601,9 @@
 	near the boundary vs. on the boundary.
 
 	This shows up in many proofs. Use the good old multiply by one trick using
-    indicators for being on/not on the boundary.
+	indicators for being on/not on the boundary.
 
-  \end{frame}
+\end{frame}
 
 \section{Avoiding Nonregularity}
 \begin{frame}{Alternatives to Asymptotics}
@@ -565,7 +627,7 @@
 	Let $\histobs_{\obsindex}(\armrv_{\obsindex}, \covarrv_{\obsindex}) =
 		\prob(\armrv_{\obsindex} = \armobs \mid \covarrv_{\obsindex} = \covarobs, \histspace_{t-1})$
 
-	\[\iwt \doteq \iwtdef \]
+	\[\impwtt \doteq \impwtdef \]
 \end{frame}
 
 \begin{frame}{Assumptions in this Setting}
@@ -581,7 +643,9 @@
 
 	Common assumption on importance weights
 
-	\[\wmax := \esssup_{\obsindex \in \NN, \armobs \in \armspace, \covarobs \in \covarspace} \frac{\pi(\armobs \mid \covarobs)}{h_{\obsindex}(\armobs \mid \covarobs)} \]
+	\[\wmax \doteq \esssup_{\obsindex \in \NN, \armobs \in \armspace, \covarobs \in
+			\covarspace} \frac{\pi(\armobs \mid \covarobs)}{h_{\obsindex}(\armobs \mid
+			\covarobs)} \] is finite.
 \end{frame}
 
 \begin{frame}{Assumptions for the method}
@@ -605,8 +669,8 @@
 \end{frame}
 
 \begin{frame}{Key Result}
-	Define the weighted rewards $\phi_\obsindex^\IWL \doteq \iwt \resprv_\obsindex$ and $\phi_\obsindex^\IWU \doteq
-		\iwt(1-\resprv_\obsindex)$
+	Define the weighted rewards $\phi_\obsindex^\IWL \doteq \impwtt \resprv_\obsindex$ and $\phi_\obsindex^\IWU \doteq
+		\impwtt(1-\resprv_\obsindex)$
 	\vfill
 	Let   $(\lambda_t^L(\candpolval))_{t=1}^\infty$ be any $[0, 1/\candpolval)$-valued
 	predictable sequence
@@ -711,6 +775,23 @@
 	\end{itemize}
 	\vfill
 
+	\begin{frame}{Conformal Inference?}
+		Stuff that might be relevant but I haven't looked into it yet.
+		Prediction intervals not CIs. More cites because this list isn't
+		as filtered.
+		\begin{itemize}
+			\item \fullcite{vovk2009OnLine}
+			      \vfill
+			\item \fullcite{chernozhukov2018Exact}
+			      \vfill
+			\item \fullcite{barber2021Predictive}
+			      \vfill
+			\item \fullcite{lei2021Conformal}
+			      \vfill
+			\item \fullcite{jin2023Sensitivity}
+			      \vfill
+		\end{itemize}
+	\end{frame}
 
 \end{frame}
 
