@@ -536,21 +536,6 @@
 \end{frame}
 
 
-\subsection{Conformal Inference}
-\begin{frame}{The Jackknife+}
-\end{frame}
-\begin{frame}{What exactly is conformal inference guaranteeing}
-\end{frame}
-\begin{frame}{Fundamental Ideas}
-\end{frame}
-\begin{frame}{Fundamental Math}
-\end{frame}
-\begin{frame}{Practical Improvements}
-	Double bootstrap
-\end{frame}
-
-
-
 \section{Value Function Inference}
 \begin{frame}{Setup}
 	\begin{itemize}
@@ -680,7 +665,7 @@
 		L_t^\IW \doteq \inf\left \{ \candpolval \in [0, 1] : \prod_{i=1}^t \left ( 1 + \lambda_i^L(\candpolval) \cdot (\phi_t^\IWL - \candpolval) \right ) < \frac{1}{\alpha} \right \}
 	\end{equation}
 	forms a lower $(1-\alpha)$ confidence sequence for $\polval$, meaning
-
+	\vfill                  \vfill
 	$\prob(\forall t \in \NN,\ \polval \geq L_t^\IW) \geq 1-\alpha$.
 \end{frame}
 
