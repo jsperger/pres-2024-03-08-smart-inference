@@ -198,7 +198,7 @@
 
 	The nonregularity in value function inference is due to the nondifferentiability of the treatment
 	policy/DTR, and this kind of nonregularity is unavoidable
-	\footnote<4->{\fullcite{hirano2012Impossibility}}.
+	\footnote<4->{\fullcite{hirano2012Impossibility}}\footnote<4->{Or additional assumptions that change the problem.}.
 	\vfill
 \end{frame}
 
@@ -260,8 +260,56 @@
 \end{frame}
 
 \begin{frame}{Max of Means Simulations}
+	We'll look at a few simulated examples to get a better understanding of the
+	problem. \vfill
+
+	Let $\mu_0 = (1, 1-\delta, \ldots, 1-\delta)$ with $p = 6$ total parameters comprised of
+	one maximizer and five equally sub-maximal components. Again let
+
+	\begin{displaymath}
+		\widehat{\mu}_{\asymindex} = \Pn \covarrv \qquad
+		widehat{\theta}_{\asymindex} = \maxsym_{j = 1}^{6} \widehat{\mu}_{\asymindex j}
+	\end{displaymath}
+
+	\vfill \pause
+	We will \begin{enumerate}
+		\item Standardize the resulting estimates $\widehat{\theta}_{\asymindex}$,
+		      ie calculate $\rootn (\widehat{\theta}_{\asymindex} - \theta_0) = \rootn
+			      (\widehat{\theta}_{\asymindex} - 1)$ for each
+		      simulation replicate
+
+		\item Estimate the density of the standardized estimates
+
+		\item Plot the density estimate and compare it to the
+		      density of the standard normal distribution.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Max of Means with Fixed $\delta$ \& Varying $n$}
+	Let $\delta = .01$ so $\mu_0 = (1, .99, \ldots, .99)$ and consider
+	$n \in \{100, 800, 1200, 2000 \}$. Before we look at the densities for
+	$\widehat{\theta}_n$, as a refresher let's look at the same plot for $\rootn(\widehat{\mu}_{n1}
+		- \mu_{01})$
+	\vfill
+	PLACEHOLDER
+	\vfill \pause
+	For all sample sizes the distribution of $\rootn(\widehat{\mu}_{n1} - \mu_{01})$ is
+	approximately normal, with slightly heavier tails for smaller $n$.
+
+\end{frame}
+
+\begin{frame}{Max of Means with Fixed $\delta$ \& Varying $n$}
+	PLACEHOLDER
+
+	How does this relate to the assertion that ``no effects,
+	however small, are ever really zero?''
 
 
+\end{frame}
+
+\begin{frame}{Max of Means with Sample-size-dependent $\delta$}
+	Now consider different values of $\delta$ that scale with $n$: $\delta = n^{-1}$,
+	$\delta = n^{-1/2}$, and $\delta = n^{-1/4}$.
 \end{frame}
 
 \begin{frame}
@@ -535,43 +583,43 @@
 % \end{frame}
 \begin{frame}{Other Distinctions in Evaluating Policies}
 
-  Let $\histpol(\armobs \mid \covarobs)$ denote the policy that was used to assign
-  treatment during the experiment and $\pol(\armobs \mid \covarobs)$ the policy we
-  are intersested in evaluating.
+	Let $\histpol(\armobs \mid \covarobs)$ denote the policy that was used to assign
+	treatment during the experiment and $\pol(\armobs \mid \covarobs)$ the policy we
+	are intersested in evaluating.
 
 	\begin{columns}[T]
 		\begin{column}{.65\textwidth}
-		  \ddef{On/Off-Policy}{
+			\ddef{On/Off-Policy}{
 				\begin{itemize}
-				  \setlength\itemsep{0.5em}
-				\item[\textendash] On-policy evaluation: $\pol = \histpol$
-                                  for all $\covarobs$
-				\item[\textendash] Off-policy evaluation: $\pol(\armobs \mid
-                                  \covarobs) \neq \histpol(\armobs \mid \covarobs)$
-                                  for some $\covarobs$ and $\armobs$.
+					\setlength\itemsep{0.5em}
+					\item[\textendash] On-policy evaluation: $\pol = \histpol$
+						for all $\covarobs$
+					\item[\textendash] Off-policy evaluation: $\pol(\armobs \mid
+							\covarobs) \neq \histpol(\armobs \mid \covarobs)$
+						for some $\covarobs$ and $\armobs$.
 
-				  Requires additional assumptions. Ex:
+						Requires additional assumptions. Ex:
 						\[\wmax \doteq \esssup_{\obsindex \in \NN, \armobs \in \armspace,
-						  \covarobs \in \covarspace}
-                                                \frac{\pi(\armobs \mid
-                                                  \covarobs)}{h_{\obsindex}(\armobs
-                                                  \mid \covarobs)} < \infty\]
+								\covarobs \in \covarspace}
+							\frac{\pi(\armobs \mid
+								\covarobs)}{h_{\obsindex}(\armobs
+								\mid \covarobs)} < \infty\]
 
 						% $$\impwt =
 						% 	\frac{\pol(\covarobs)}{\histpol(\covarobs)}$$
 				\end{itemize}
-		  }
+			}
 		\end{column}
 		\pause
 		\begin{column}{.35\textwidth}
-		  \ddef{Fixed or Estimated}{
+			\ddef{Fixed or Estimated}{
 				\begin{itemize}
-				  \setlength\itemsep{0.5em}
-				\item[\textendash] Data-derived or estimated policy
-				\item[\textendash] Fixed policy that's pre-specified
-                                  before looking at the data.
+					\setlength\itemsep{0.5em}
+					\item[\textendash] Data-derived or estimated policy
+					\item[\textendash] Fixed policy that's pre-specified
+						before looking at the data.
 				\end{itemize}
-		  }
+			}
 		\end{column}%
 	\end{columns}
 
