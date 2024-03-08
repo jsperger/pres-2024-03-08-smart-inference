@@ -18,7 +18,7 @@
 %% Personal macros across multiple projects
 \input{components/combined-macros.tex}
 %% Paper-specific macros
-
+\newcommand{\prode}[2]{E_{#1}^{#2}}
 \usepackage[style=verbose,backend=biber, isbn=false, url=false, doi=false,
 	eprint=false, dashed=false]{biblatex}
 \addbibresource{my-biblatex-library.bib}
@@ -30,7 +30,7 @@
 \author{John Sperger}
 \date{March 8\textsuperscript{th} 2024}
 \title{Value Function Inference}
-\subtitle{A Moderately Technical Introduction}
+\subtitle{A Mildly Technical Introduction}
 \begin{document}
 \maketitle
 
@@ -131,116 +131,6 @@
 
 	\vfill
 \end{frame}
-
-\subsection{Treatment Policy Notation}
-
-\begin{frame}{Treatment Policy Notation}
-	A policy (aka DTR, treatment rule) $\pol$ is a function relating
-	contexts and actions.
-
-	\vfill
-	Policies may be deterministic, $\pol: \covarspace
-		\mapsto \armspace$ or stochastic
-	$\pol: \covarspace \times \armspace \mapsto [0, 1]$.
-
-	\vfill \pause
-
-	Authors may write $\pol(\covarobs,
-		\armobs)$, $\pol(\armobs \mid \covarobs)$, $\pol(\covarobs)$, or
-	simply $\pol$ depending on what the author wishes to emphasize.
-
-	\vfill \pause
-	Define the value of a policy $\pol$ as
-	\begin{equation*}
-		\val(\pol) \doteq \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
-		%	\polval = \val(\pol) \doteq \E_{\covarrv}[\po(\armobs =\pol(\covarrv))]
-	\end{equation*}
-
-	\vfill \pause
-	An optimal policy $\optpol$ is any policy that satisfies
-	\begin{equation*}
-		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in
-		\polset
-		% \polvalopt = \val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
-	\end{equation*}
-
-	\vfill \pause
-	Denote the estimated optimal policy $\polhatn$, and for conciseness, assume
-	that there is a unique maximizer for every covariate value.
-
-\end{frame}
-
-\begin{frame}{Value Functions}
-	Why don't I have Y here?
-	\begin{enumerate}
-		\item (Conditional) Value of the estimated optimal policy
-
-		      $$\val(\polhatn) = \E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
-
-		      \vfill \pause
-
-		\item Expected Value of an estimated optimal policy
-		      $$\E_{\covarrv}[\polhatn(\covarrv)]$$
-
-		      \vfill \pause
-
-		\item (Conditional\footnote{Not truly conditional because the
-			      policy is not a RV})Value of the optimal policy (or, more broadly, any fixed policy)
-		      $$\val(\optpol) = \E_{\covarrv}[\optpol(\covarrv)] = \Pop
-			      \optpol(\covarrv)$$
-	\end{enumerate}
-
-	\vfill \pause
-	These three will not generally be equivalent even asymptotically.
-\end{frame}
-
-\begin{frame}{Estimating the Value Function}
-	There are two common approaches to estimating the value function:
-	\begin{enumerate}
-		\item Inverse Probability Weighting (IPW) / Importance Weighting
-
-		\item Augmented Inverse Probability Weighting (AIPW) / Doubly Robust Estimation
-	\end{enumerate}
-
-\end{frame}
-\begin{frame}{Other Distinctions}
-
-	Let $\histpol(\armobs \mid \covarobs)$ denote the policy that was used to assign treatment
-	during the experiment and $\pol(\armobs \mid \covarobs)$ the policy we are intersested in
-	evaluating.
-
-	\begin{columns}[T]
-		\begin{column}{.5\textwidth}
-			\ddef{Technical Word}{
-				\begin{itemize}
-					\setlength\itemsep{0.5em}
-					\item[\textendash] On-policy $\pol = \histpol$
-					\item[\textendash] Off-policy $\pol \neq \histpol$. Requires additional
-						assumptions about the overlap between the policies, which
-						may vary slightly but have the general flavor:
-
-						$$\impwt =
-							\frac{\pol(\covarobs)}{\histpol(\covarobs)}$$
-				\end{itemize}
-			}
-		\end{column}
-		\pause
-		\begin{column}{.5\textwidth}
-			\ddef{Technical Word}{
-				\begin{itemize}
-					\setlength\itemsep{0.5em}
-					\item[\textendash] Data-derived or estimated policy
-					\item[\textendash] Fixed policy
-
-						\[\wmax \doteq \esssup_{\obsindex \in \NN, \armobs \in \armspace, \covarobs \in \covarspace} \frac{\pi(\armobs \mid \covarobs)}{h_{\obsindex}(\armobs \mid \covarobs)} \]
-				\end{itemize}
-			}
-		\end{column}%
-	\end{columns}
-
-
-\end{frame}
-
 
 % \begin{frame}{Today's Focus}
 % 	Single-stage
@@ -403,9 +293,6 @@
 % 	$m$ is $o(n)$ i.e. as $m \to \infty$ $\frac{m}{n} \to 0$
 % \end{frame}
 
-\begin{frame}{Placeholder: Draw the approaches}
-\end{frame}
-
 \subsection{Asymptotic Aside}
 
 \begin{frame}{What makes a good approximation?}
@@ -427,6 +314,10 @@
 
 	Our approximation ought to reflect our uncertainty about the set
 	of 	maximizers.
+
+	% \vfill pause
+	% Ask yourself what kind of closeness would cause me to be nervous if my
+	% statistic couldn't handle small perturbations of the model?
 \end{frame}
 
 \subsection{Local Alternatives}
@@ -461,31 +352,33 @@
 			                   & \begin{tabular}[c]{@{}c@{}}Theoretical \\ Guarantees\end{tabular}
 			                   & \begin{tabular}[c]{@{}c@{}}Easy to \\ Implement\end{tabular}
 			                   & Conservative
-			                   & \begin{tabular}[c]{@{}c@{}}Empirical \\ Performance\end{tabular}                                                           \\
+			                   & \begin{tabular}[c]{@{}c@{}}Empirical \\ Performance\end{tabular}                                                       \\
 			\midrule
-			Projection sets    & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark^{+}$ & $\checkmark$     \\
-			Bounding           & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark$     & \checkmark       \\
-			\mon  \, Bootstrap & $\checkmark$                                                      & $\checkmark^{+}$ & \symbol{"2610}   & \checkmark       \\
-			Regularization     & \symbol{"2610}                                                    & $\checkmark$     & \symbol{"2610}   & $\checkmark^{+}$ \\
+			Projection sets    & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark^{+}$ & $\checkmark$ \\
+			Bounding           & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark$     & \checkmark   \\
+			\mon  \, Bootstrap & $\checkmark$
+			                   & $\checkmark^{+}$                                                  & \symbol{"2610}   & \checkmark                      \\
+			Regularization     & \textcolor{red}{!!}
+			                   & $\checkmark$                                                      & \symbol{"2610}   & $\checkmark$                    \\
+			The Jackknife      & \symbol{"2610}                                                    & $\checkmark^{+}$ &                  & $\checkmark$ \\
 			\bottomrule
 		\end{tabular}
 	\end{table}
 
-	\vfill \pause
-	Regularization may induce infinite bias in certain scenarios.
+	\textcolor{red}{!!}	Regularization may induce infinite bias in certain scenarios.
 \end{frame}
 
-\begin{frame}{Not recommended: (Current) Regularization Approaches}
-\end{frame}
+
 \subsection{Projections}
 \begin{frame}{Projection Region Big Picture}
-	%	Recall our formulation $\theta_n = \theta_0 + h(n)s$
+	Recall $\theta_0$ and $\mu_0$ from the max of means problem. What do we know?
 	\begin{itemize}
-		\item The empirical estimator $\widehat{\mu}_n = \Pn X$ is well-behaved (regular, asymptotically normal)
+		\item The empirical estimator $\widehat{\mu}_n = \Pn X$ is well-behaved
+		      (regular)
 		      \vfill \pause
 		\item If we knew $\mu_0$ forming confidence intervals for ${\theta}_0$
-		      would be simple --- we'd know $\mu_{01}$ is the maximizer and
-		      construct a CI for $\mu_{01}$
+		      would be simple% --- we'd know $\mu_{01}$ is the maximizer and
+		      %construct a CI for $\mu_{01}$
 	\end{itemize}
 	\vfill \pause
 	Solution:
@@ -514,62 +407,169 @@
 		is a valid confidence interval for $\theta_0$
 	}
 \end{frame}
-\begin{frame}{Projection Proof}
-\end{frame}
 
-\begin{frame}{Adaptive Projection Regions}
-\end{frame}
-\begin{frame}{Fundamental Ideas}
-\end{frame}
-\begin{frame}{Fundamental Math}
-\end{frame}
+\subsection{Bound-based CIs}
+\begin{frame}{Bound-based CIs}
+	Try to sandwich the nonsmooth functional between smooth upper and lower
+	bounds.
 
-
-\subsection{Adaptive CIs by Bounding}
-\begin{frame}{Bound-based}
-\end{frame}
-\begin{frame}{Fundamental Ideas}
-\end{frame}
-\begin{frame}{Fundamental Math}
-\end{frame}
-\begin{frame}{Practical Improvements}
-	Double bootstrap
+	\vfill
+	Fertile ground seems to looking at the $\inf$ and $\sup$ of the nonsmooth functional
 \end{frame}
 
 \subsection{\mon Bootstrap}
-\begin{frame}{The $m$-out-of-$n$ Bootstrap}
-\end{frame}
-\begin{frame}{Fundamental Ideas}
 
+\begin{frame}{The $m$-out-of-$n$ Bootstrap}
+	It's the bootstrap, but with subsamples of size $m_n$ instead of samples of size $n$
+	\vfill \pause
+
+	This allows the \mon Bootstrap to directly approximates nonsmooth
+	functionals by dark magic (even more magical than the standard bootstrap)
+
+	$m_n$ is $o(n)$ i.e. as $m_n \to \infty$ $\frac{m}{n} \to 0$
+	\vfill
+	Intuition: bootstrap samples will tend to have the same characteristics as
+	the original sample (very similar means, variances etc.). Subsamples get
+	weird.
+	\vfill \pause
 	Caveat: Not as straightforwardly valid as Projection and Bounding approaches
 	(modulo a certain definition of ``straightforward''), and can fail
-	\autocite{andrews2010Asymptotic}
+	\footnote<3->{\fullcite{andrews2010Asymptotic}}.
 \end{frame}
-\begin{frame}{Practical Improvements}
-	Double bootstrap
-\end{frame}
-
-
 \section{Value Function Inference}
-\begin{frame}{Setup}
+
+\subsection{Treatment Policy Notation}
+
+\begin{frame}{Treatment Policy Notation}
+	A policy (aka DTR, treatment rule) $\pol$\footnote{	Authors may write $\pol(\covarobs,
+			\armobs)$, $\pol(\armobs \mid \covarobs)$, $\pol(\covarobs)$, or
+		simply $\pol$ depending on what the author wishes to emphasize.
+	} is a function which maps contexts to actions $\pol: \covarspace
+		\mapsto \armspace$
+
+
+
+	\vfill \pause
+	Define the value of a policy $\pol$ as
+	\begin{equation*}
+		\val(\pol) \doteq \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
+		%	\polval = \val(\pol) \doteq \E_{\covarrv}[\po(\armobs =\pol(\covarrv))]
+	\end{equation*}
+
+	\vfill \pause
+	An optimal policy $\optpol$ is any policy that satisfies
+	\begin{equation*}
+		\val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in
+		\polset
+		% \polvalopt = \val(\optpol) \geq \val(\pol) \qquad \text{for all }\pol \in \polset
+	\end{equation*}
+
+	\vfill \pause
+	Denote the estimated optimal policy $\polhatn$, and for conciseness, assume
+	that there is a unique maximizer for every covariate value.
+
+\end{frame}
+
+\begin{frame}{Value Functions}
+	\begin{enumerate}
+		\item (Conditional) Value of the estimated optimal policy
+
+		      $$\val(\polhatn) = \valfundef = \valfundefop$$
+
+		      \vfill \pause
+
+		\item Expected Value of an estimated optimal policy
+		      $$\valfunexpdef$$
+
+		      \vfill \pause
+
+		\item (Conditional\footnote{Not truly conditional because the
+			      policy is not a RV})Value of the optimal policy (or, more broadly, any fixed policy)
+		      $$\val(\optpol) = \valfunoptdef$$
+	\end{enumerate}
+
+	\vfill \pause
+	These three will not generally be equivalent even asymptotically.
+\end{frame}
+
+\begin{frame}{Estimating the Value Function}
+	There are two common approaches to estimating the value function:
+	\vfill
+	\begin{enumerate}
+		\item Inverse Probability Weighting (IPW) / Importance Weighting
+
+		\item Augmented Inverse Probability Weighting (AIPW) / Doubly Robust Estimation
+	\end{enumerate}
+	\vfill
+\end{frame}
+\begin{frame}{Other Distinctions in Evaluating Policies}
+
+	Let $\histpol(\armobs \mid \covarobs)$ denote the policy that was used to
+	assign treatment during the experiment and $\pol(\armobs \mid \covarobs)$ the
+	policy we are intersested in evaluating.
+
+	\begin{columns}[T]
+		\begin{column}{.65\textwidth}
+			\ddef{On/Off-Policy}{
+				\begin{itemize}
+					\setlength\itemsep{0.5em}
+					\item[\textendash] On-policy evaluation: $\pol = \histpol$ for all
+						$\covarobs$
+					\item[\textendash] Off-policy evaluation: $\pol(\armobs \mid \covarobs) \neq
+							\histpol(\armobs \mid \covarobs)$ for some $\covarobs$
+						and $\armobs$.
+
+						Requires additional assumptions. Ex:
+						\[\wmax \doteq \esssup_{\obsindex \in \NN, \armobs \in \armspace,
+								\covarobs \in \covarspace} \frac{\pi(\armobs \mid
+								\covarobs)}{h_{\obsindex}(\armobs \mid \covarobs)} < \infty\]
+
+						% $$\impwt =
+						% 	\frac{\pol(\covarobs)}{\histpol(\covarobs)}$$
+				\end{itemize}
+			}
+		\end{column}
+		\pause
+		\begin{column}{.35\textwidth}
+			\ddef{Fixed or Estimated}{
+				\begin{itemize}
+					\setlength\itemsep{0.5em}
+					\item[\textendash] Data-derived or estimated policy
+					\item[\textendash] Fixed policy that's pre-specified before looking at
+						the data.
+				\end{itemize}
+			}
+		\end{column}%
+	\end{columns}
+
+
+\end{frame}
+
+
+\begin{frame}{Technical Setup}
 	\begin{itemize}
 		\item	Two arms $\armrv \in \{-1, 1\}$
+		      \vfill
+
 		\item $\polhatnx = \sign(\covarobs^{\trans}\widehat{\beta}_{\asymindex})$
 	\end{itemize}
+	\vfill
 
+	Define $\nonregindclass$
 	\begin{displaymath}
 		\nonregindclass = \nonregindclassdef
 	\end{displaymath}
-\end{frame}
+	\vfill
 
-\begin{frame}{Assumptions}
+	See \fullcite{tsiatis2019Dynamic} for the assumptions. They're long and
+	Donsker makes an appearance
 \end{frame}
 
 \begin{frame}{Joint Distribution Before Maximizing}
 
 	\begin{displaymath}
-		\rootn \begin{bmatrix}\Pn - Pop_{\asymindex} \\
-			\betahatn - \betao     \\
+		\rootn \begin{bmatrix}\Pn - \Pop_{\asymindex} \\
+			\betahatn - \betao      \\
 			(\Pn - \Pop_{\asymindex})\resprv \indfunx{\armrv \covarrv^{\trans}\betao
 				> 0}\end{bmatrix} \convd \begin{pmatrix} \mbbT \\ \mbbZ \\
 			\mbbW\end{pmatrix}
@@ -593,16 +593,16 @@
 
 \end{frame}
 
-\begin{frame}{Life at the Boundary}
-	The boundary is the source of the action
+% \begin{frame}{Life at the Boundary}
+% 	The boundary is the source of the action
 
-	In finite samples we can't identify observations that, in expectation, are
-	near the boundary vs. on the boundary.
+% 	In finite samples we can't identify observations that, in expectation, are
+% 	near the boundary vs. on the boundary.
 
-	This shows up in many proofs. Use the good old multiply by one trick using
-	indicators for being on/not on the boundary.
+% 	This shows up in many proofs. Use the good old multiply by one trick using
+% 	indicators for being on/not on the boundary.
 
-\end{frame}
+% \end{frame}
 
 \section{Avoiding Nonregularity}
 \begin{frame}{Alternatives to Asymptotics}
@@ -610,41 +610,56 @@
 \end{frame}
 
 \begin{frame}{Finite-sample bounds}
-	Similar in spirit to the asymptotic bound-based approach, but with Martingales
-	playing the role of the nicely behaved functions.
+	Similar in spirit to the asymptotic bound-based approach, but with
+	$E$-processes and test	supermartingales playing the role of the nicely behaved functions.
+	\vfill
+	\[\text{Test supermartingale} \quad \E[Z_{\obsindex + 1} | Z_{\obsindex}] \leq
+		Z_{\obsindex} \, \forall \obsindex \in \mbbN^+ \]
 
-	More specifically test super-martingales. Recall that a super martingale is
-	a stochastic process satisfying
+	\vfill \pause
 
-	$$\E[Z(\obsindex + s) | Z(\obsindex)] \leq Z(s) \forall \obsindex, s \in \mbbN^+$$
+	A test supermartingale $M_t$ is a non-negative supermartingale that under
+	the null $P_0$ satisfies $\E_{P_0}[M_\obsindex] \leq 1$ at any time $\obsindex$
 
-	A test super-martingale $M_t$ is a non-negative super-martingale that under
-	the null $\E_{P_0}[M_\obsindex] \leq 1$ at any time $\obsindex$
+	\vfill \pause
+
+	A nonnegative process $\prode{}{}$ is called an \emph{e-process} for $\symbf{P}$
+	if there is a test martingale family $(M^P)_{P \in \symbf{P}}$ such that
+
+	$$\prode{t}{} \leq M_{t}^{P} \text{ for every } P \in \symbf{P},  t \geq 0$$
 \end{frame}
 
-\begin{frame}{Additional Notation of Note}
-	Let $\histobs_{\obsindex}(\armrv_{\obsindex}, \covarrv_{\obsindex}) =
-		\prob(\armrv_{\obsindex} = \armobs \mid \covarrv_{\obsindex} = \covarobs, \histspace_{t-1})$
+% \begin{frame}{Additional Notation of Note}
+% 	Let $\histobs_{\obsindex}(\armrv_{\obsindex}, \covarrv_{\obsindex}) =
+% 		\prob(\armrv_{\obsindex} = \armobs \mid \covarrv_{\obsindex} = \covarobs, \histspace_{t-1})$
 
-	\[\impwtt \doteq \impwtdef \]
-\end{frame}
+% 	\[\impwtt \doteq \impwtdef \]
+% \end{frame}
 
 \begin{frame}{Assumptions in this Setting}
-	$\resprv$ is bounded, and for convenience we'll assume $\resprv \in [0,1]$
+	\begin{itemize}
+		\item $\resprv$ is bounded, and for convenience we'll assume $\resprv \in [0,1]$
+		      \vfill
+		\item $\polval_{\obsindex} \doteq \E_{\pol} [\resprv_{\obsindex} \mid
+				      \history_{\obsindex-1}]$ and is adapted to the filtration $\history_{\obsindex-1}$
+		      \vfill
 
-	$\polval_{\obsindex} \doteq \E_{\pol} [\resprv_{\obsindex} \mid \history_{\obsindex-1}]$
-	Adapted
+		\item 	Exogenous treatment
 
-	Exogenous
+		      $$\prob(\armrv_{\obsindex} \mid \histspace_{\obsindex - 1}) =
+			      \prob(\armrv_{\obsindex} \mid \covarrv_{\obsindex})$$
 
-	$$\prob(\armrv_{\obsindex} \mid \histspace_{\obsindex - 1}) =
-		\prob(\armrv_{\obsindex} \mid \covarrv_{\obsindex})$$
+		\item Finite importance weights
+		      \[\wmax \doteq \esssup_{\obsindex \in \NN, \armobs \in \armspace, \covarobs \in
+				      \covarspace} \frac{\pi(\armobs \mid \covarobs)}{h_{\obsindex}(\armobs \mid
+				      \covarobs)} < \infty\]
+	\end{itemize}
 
-	Common assumption on importance weights
 
-	\[\wmax \doteq \esssup_{\obsindex \in \NN, \armobs \in \armspace, \covarobs \in
-			\covarspace} \frac{\pi(\armobs \mid \covarobs)}{h_{\obsindex}(\armobs \mid
-			\covarobs)} \] is finite.
+
+
+
+
 \end{frame}
 
 \begin{frame}{Assumptions for the method}
@@ -678,13 +693,26 @@
 	\begin{equation}\label{eq:kmr-cs}
 		L_t^\IW \doteq \inf\left \{ \candpolval \in [0, 1] : \prod_{i=1}^t \left ( 1 + \lambda_i^L(\candpolval) \cdot (\phi_t^\IWL - \candpolval) \right ) < \frac{1}{\alpha} \right \}
 	\end{equation}
-	forms a lower $(1-\alpha)$ confidence sequence for $\polval$, meaning
-	\vfill                  \vfill
-	$\prob(\forall t \in \NN,\ \polval \geq L_t^\IW) \geq 1-\alpha$.
+	forms a lower $(1-\alpha)$ confidence sequence for $\polval$, $\prob(\forall t \in \NN,\ \polval \geq L_t^\IW) \geq 1-\alpha$.
+	\vfill \pause
+	$\candpolval$ represents candidate policy value estimates
 \end{frame}
 
-\begin{frame}{Practical Improvements}
+\begin{frame}{Key Tools: Ville's Theoerem \& Inequality}
+	For any discrete-time stochastic process $P$ an event $A$ has measure zero under
+	$P$ if and only if there is a test martingale for $P$ that grows to
+	infinity on all of $A$.
 
+	\vfill \pause
+
+	Moreover, $P(A) < \epsilon$ if and only if there is a test
+	martingale for $P$ that exceeds $1/\epsilon$ on all of $A$.
+
+	\vfill \pause
+	\ddef{The Gambler's Ruin (Ville's Inequality)}{
+		If $M$ is a test martingale for $P$ then
+		$$\prob\left(\sup_t M_t \ge \alpha \right) \le \frac{1}{\alpha} \qquad \text{ for any }\alpha \ge 1$$
+	}
 \end{frame}
 
 \begin{frame}{From Sequence to Interval}
@@ -710,17 +738,20 @@
 	\end{lemma}
 \end{frame}
 
-\begin{frame}{What we didn't get to}
-	Comparing multiple policies
+% \begin{frame}{What we didn't get to}
+% 	Comparing multiple policies
 
-	Off policy evaluation
-\end{frame}
+% 	Off policy evaluation
+% \end{frame}
 \section{Where Next?}
 
 \begin{frame}{Practical Improvements}
+	Pre-testing/Screening for Projection Intervals
+	\vfill
+
 	Double bootstrap, other ways of selecting $m$ iteratively
 
-	\vfill \pause
+	\vfill
 
 	E-process Confidence Sequences
 	\begin{itemize}
