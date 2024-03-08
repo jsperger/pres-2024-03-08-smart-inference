@@ -36,7 +36,7 @@
 \begin{document}
 \maketitle
 
-\section{Overview}
+\section{Introduction}
 \begin{frame}{Outline}
 	\tableofcontents[hideallsubsections]
 \end{frame}
@@ -46,7 +46,8 @@
 	\vfill \pause
 	At the end of today's talk you should be able to:
 	\begin{itemize}
-		\item Identify the fundamental challenge facing value function inference
+		\item Identify the fundamental challenge facing value function
+		      inference
 		      that applies to all temporal settings.
 		      \vfill \pause
 
@@ -174,18 +175,19 @@
 \begin{frame}{Value Functions}
 	Why don't I have Y here?
 	\begin{enumerate}
-		\item Conditional Value of the estimated optimal policy
+		\item (Conditional) Value of the estimated optimal policy
 
 		      $$\val(\polhatn) = \E_{\covarrv}[\polhatn(\covarrv) \vert \polhatn] = \Pop \polhatn(\covarrv)$$
 
 		      \vfill \pause
 
-		\item (Expected) Value of an estimated optimal policy
+		\item Expected Value of an estimated optimal policy
 		      $$\E_{\covarrv}[\polhatn(\covarrv)]$$
 
 		      \vfill \pause
 
-		\item Value of the optimal policy (or, more broadly, any fixed policy)
+		\item (Conditional\footnote{Not truly conditional because the
+			      policy is not a RV})Value of the optimal policy (or, more broadly, any fixed policy)
 		      $$\val(\optpol) = \E_{\covarrv}[\optpol(\covarrv)] = \Pop
 			      \optpol(\covarrv)$$
 	\end{enumerate}
@@ -251,7 +253,7 @@
 % \end{frame}
 
 
-\section{High-level Overview}
+\section{Overview}
 \begin{frame}{Nonregularity}
 	Nonregular is the catch-all for when standard regularity conditions do
 	not hold.
@@ -756,25 +758,26 @@
 	\end{itemize}
 	\vfill
 
-	\begin{frame}{Conformal Inference?}
-		Stuff that might be relevant but I haven't looked into it yet.
-		Prediction intervals not CIs. More cites because this list isn't
-		as filtered.
-		\begin{itemize}
-			\item \fullcite{vovk2009OnLine}
-			      \vfill
-			\item \fullcite{chernozhukov2018Exact}
-			      \vfill
-			\item \fullcite{barber2021Predictive}
-			      \vfill
-			\item \fullcite{lei2021Conformal}
-			      \vfill
-			\item \fullcite{jin2023Sensitivity}
-			      \vfill
-		\end{itemize}
-	\end{frame}
-
 \end{frame}
+\begin{frame}{Conformal Inference?}
+	Stuff that might be relevant but I haven't looked into it yet.
+	Prediction intervals not CIs. More cites because this list isn't
+	as filtered.
+	\begin{itemize}
+		\item \fullcite{vovk2009OnLine}
+		      \vfill
+		\item \fullcite{chernozhukov2018Exact}
+		      \vfill
+		\item \fullcite{barber2021Predictive}
+		      \vfill
+		\item \fullcite{lei2021Conformal}
+		      \vfill
+		\item \fullcite{jin2023Sensitivity}
+		      \vfill
+	\end{itemize}
+\end{frame}
+
+
 
 \appendix
 \printbibliography
