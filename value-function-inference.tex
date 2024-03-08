@@ -211,13 +211,6 @@
 \begin{frame}{PLACEHOLDER: Visual Examples of Approaches}
 \end{frame}
 
-\subsection{OWL}
-\begin{frame}{OWL}
-	\begin{figure}
-		\includegraphics[width=.6\textwidth]{figures/how-to-draw-an-owl}
-	\end{figure}
-\end{frame}
-
 \subsection{Max of Means Example}
 \begin{frame}{Max of Means Limiting Distribution}
 
@@ -273,13 +266,16 @@
 			\theta_0)\right) }_{\mathclap{\text{\small A nuisance that's
 				$\op{1}$}}}}
 	\end{align*}
-
-
-	% see
-	% https://tex.stackexchange.com/questions/333744/a-more-beautiful-output-of-under-and-overbrace
-
-
 \end{frame}
+
+\subsection{OWL}
+\begin{frame}{OWL}
+	\begin{figure}
+		\includegraphics[width=.6\textwidth]{figures/how-to-draw-an-owl}
+	\end{figure}
+\end{frame}
+
+
 
 % \begin{frame}{Abstract problem}
 % 	Nonsmooth functional of a smooth function
@@ -590,6 +586,16 @@
 	\end{displaymath}
 
 	where $s$ is a local parameter
+
+	\vfill \pause
+	We can construct a bound-based CI by
+	\begin{enumerate}
+		\item Partition $\covarspace$ into $\covarobs$s near the decision boundary
+		      ($\covarobs^{\trans}\betahatn \approx 0$) and those far away
+
+		\item Take $\sup$/$\inf$ over local perturbations in the group close
+		      to the b oundary
+	\end{enumerate}
 
 \end{frame}
 
