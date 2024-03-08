@@ -1,7 +1,5 @@
 \documentclass[aspectratio=169, professionalfonts]{beamer}
-
 \usepackage{mathtools} % \mathclap for shortening overbrace text
-
 \usepackage{graphicx}
 \usepackage{subfig}
 \usepackage{longtable}
@@ -41,14 +39,13 @@
 	\tableofcontents[hideallsubsections]
 \end{frame}
 \begin{frame}[label={overview:objectives}]{Learning Objectives}
-	We will cover: value function inference for a single-stage treatment policy /
-	dynamic treatment regime (DTR)
+	%	We will cover: value function inference for a single-stage treatment policy /
+	%	dynamic treatment regime (DTR)
 	\vfill \pause
 	At the end of today's talk you should be able to:
 	\begin{itemize}
 		\item Identify the fundamental challenge facing value function
-		      inference
-		      that applies to all temporal settings.
+		      inference		      that applies to all temporal settings.
 		      \vfill \pause
 
 		      %\item Provide an example of other problems in statistics that
@@ -60,7 +57,8 @@
 
 		      \vfill \pause
 
-		\item Contrast the projection, bound, and bootstrap approaches to constructing confidence intervals
+		\item Provide reasons when projection intervals may be preferable to
+		      bootstrap intervals and vice versa.
 		      \vfill \pause
 
 		\item Explain the connection between the finite-sample approach and the
@@ -253,7 +251,7 @@
 % \end{frame}
 
 
-\section{Overview}
+\section{Non-smooth Operators}
 \begin{frame}{Nonregularity}
 	Nonregular is the catch-all for when standard regularity conditions do
 	not hold.
@@ -300,7 +298,7 @@
 
 	``All \sout{happy families} regular estimators are alike; each \sout{unhappy
 		family} nonregular estimator is unhappy in its own way.'' --- Markov,
-	quoting Tolstoy\pause... possibly
+	quoting Tolstoy\pause... maybe
 
 	\vfill \pause
 	For the superefficient estimator $\tilde{\mu}$ the form of the estimator, not
@@ -314,6 +312,11 @@
 	\vfill
 \end{frame}
 
+\begin{frame}
+	\begin{figure}
+		\includegraphics[width=.9\textwidth]{figures/max_means_sim_plot}
+	\end{figure}
+\end{frame}
 
 \begin{frame}{PLACEHOLDER: Visual Examples of Approaches}
 \end{frame}
@@ -325,7 +328,6 @@
 	\end{figure}
 \end{frame}
 
-\section{Detailed Overview}
 \subsection{Max of Means Example}
 \begin{frame}{Max of Means Limiting Distribution}
 
@@ -344,7 +346,7 @@
 
 \end{frame}
 
-\begin{frame}{Proof of the Limiting Distribution}
+\begin{frame}{Details of the Limiting Distribution}
 	Define the event $\eventn = \indfunx{\max_{k \notin \argmaxsetx{\mu_0}}
 			\widehat{\mu}_{nk} \geq \max_{j \in\argmaxsetx{\mu_0}} \widehat{\mu}_{nj}}$. Note that
 	\begin{enumerate}
@@ -367,32 +369,39 @@
 	\end{align*}
 \end{frame}
 
-\begin{frame}{Proof Continued}
-	{$${\color{red}\overbrace{\maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
-				\widehat{\mu}_{\asymindex j} - \theta_0)}^{\mathclap{\substack{\text{{\small The
-								desired }} \\ \text{{\small result}}}}}} + {\color{purple}\overbrace{\eventn \left(\maxsym_{k \notin\argmaxsetx{\mu_0}}^p \rootn(
-				\widehat{\mu}_{\asymindex k} - \theta_0)  - \maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
-				\widehat{\mu}_{\asymindex j} - \theta_0)\right)
-			}^{\mathclap{\text{{\small A nuisance we'll show is $\op{1}$}}}}}$$} % see https://tex.stackexchange.com/questions/333744/a-more-beautiful-output-of-under-and-overbrace
+\begin{frame}{Proof Concept}
+
+	\large
+	\begin{align*}
+		\color{black} & \overbrace{\maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn(
+			\widehat{\mu}_{\asymindex j} -
+			\theta_0)}^{\mathclap{\substack{\text{\small The
+		desired }                                                                 \\ \text{\small result}}}}  \\
+		+             & \quad {\color{purple}\underbrace{\eventn \left(\maxsym_{k
+				\notin\argmaxsetx{\mu_0}}^p \rootn( \widehat{\mu}_{\asymindex k} - \theta_0) -
+			\maxsym_{j \in\argmaxsetx{\mu_0}}^p \rootn( \widehat{\mu}_{\asymindex j} -
+			\theta_0)\right) }_{\mathclap{\text{\small A nuisance that's
+				$\op{1}$}}}}
+	\end{align*}
+
+
+	% see
+	% https://tex.stackexchange.com/questions/333744/a-more-beautiful-output-of-under-and-overbrace
 
 
 \end{frame}
 
-\begin{frame}{Visualizing the Problem --- Fixed $\delta$}
-\end{frame}
+% \begin{frame}{Abstract problem}
+% 	Nonsmooth functional of a smooth function
 
+% 	Approach overview:
 
-\begin{frame}{Abstract problem}
-	Nonsmooth functional of a smooth function
+% 	$m$ out of $n$ directly approximate the nonsmooth functional - let the
+% 	perturbations in $m_n$ be larger than the perturbations from the
+% 	non-regularlity
 
-	Approach overview:
-
-	$m$ out of $n$ directly approximate the nonsmooth functional - let the
-	perturbations in $m_n$ be larger than the perturbations from the
-	non-regularlity
-
-	$m$ is $o(n)$ i.e. as $m \to \infty$ $\frac{m}{n} \to 0$
-\end{frame}
+% 	$m$ is $o(n)$ i.e. as $m \to \infty$ $\frac{m}{n} \to 0$
+% \end{frame}
 
 \begin{frame}{Placeholder: Draw the approaches}
 \end{frame}
@@ -400,37 +409,48 @@
 \subsection{Asymptotic Aside}
 
 \begin{frame}{What makes a good approximation?}
-	Asymptotically valid does not guarantee a good approximation
+	Asymptotically valid does not guarantee a good approximation in finite
+	samples.
+
+	\vfill
 
 
-	Uncertainty about the set of maximizers needs to be reflected in our
-	approximation even if any positive difference results in asymptotic
-	normality for $\widehat{\theta}_n$
+	Recall that the limiting distribution of $\widehat{\theta}_n$ didn't depend on
+	the differences in $\mu_0$ just the relevanat subelements of $\Sigma$ that are in $\argmaxsetx{\mu_0}$
+
+
+	\vfill
+	In finite samples, the sample size limits how large the differences
+	need to be for us to distinguish them (remember the simulation plots).
+
+	\vfill
+
+	Our approximation ought to reflect our uncertainty about the set
+	of 	maximizers.
 \end{frame}
 
 \subsection{Local Alternatives}
 \begin{frame}{The Local Alternative}
 	Idea: decompose into a static part and a part that changes with $n$
 
-	$$\mu_n = \mu_0 + s h(n)$$
+	$$\mu_n = \mu_0 + s \times h(n)$$
+	\begin{itemize}
+		\item Where $\mu_0, \,s \in \mbbR^{p}$ are both fixed.
+		      \vfill
+		\item $h(n)$ controls the perturbations. It is often, but not
+		      exclusively, $n^{-1/2}$ depending on the problem.
+	\end{itemize}
+	\vfill
 
-	$\mu_0, s \in \mbbR^{p)}$ are both fixed
+	When we're trying to recover regular estimators $n^{-1/2}$ will be the target
 
-	$h(n)$, often but not exclusively $n^{-1/2}$, controls the perturbations
 \end{frame}
 
+\begin{frame}{Triangular Array}
 
-
-\begin{frame}{Construction a confidence interval}
 \end{frame}
-
-\begin{frame}{CI Proof}
-\end{frame}
-
-
 
 \section{Constructing Asymptotic Confidence Intervals}
-\subsection{Regularization}
 \begin{frame}{Asymptotic Approach Overview}
 
 	% Please add the following required packages to your document preamble:
@@ -503,10 +523,6 @@
 \end{frame}
 \begin{frame}{Fundamental Math}
 \end{frame}
-\begin{frame}{Practical Improvements}
-	Double bootstrap
-\end{frame}
-
 
 
 \subsection{Adaptive CIs by Bounding}
@@ -668,11 +684,7 @@
 \end{frame}
 
 \begin{frame}{Practical Improvements}
-	\begin{itemize}
-		\item Double robustness
-		\item Trimming the observed rewards
-		\item Empirical weights
-	\end{itemize}
+
 \end{frame}
 
 \begin{frame}{From Sequence to Interval}
@@ -704,6 +716,20 @@
 	Off policy evaluation
 \end{frame}
 \section{Where Next?}
+
+\begin{frame}{Practical Improvements}
+	Double bootstrap, other ways of selecting $m$ iteratively
+
+	\vfill \pause
+
+	E-process Confidence Sequences
+	\begin{itemize}
+		\item Double robustness
+		\item Trimming the observed rewards
+		\item Empirical weights
+	\end{itemize}
+\end{frame}
+
 
 \begin{frame}{Where to Start}
 	\vfill
@@ -764,7 +790,7 @@
 	Prediction intervals not CIs. More cites because this list isn't
 	as filtered.
 	\begin{itemize}
-		\item \fullcite{vovk2009OnLine}
+		\item \fullcite{vovk2009Online}
 		      \vfill
 		\item \fullcite{chernozhukov2018Exact}
 		      \vfill
