@@ -202,15 +202,6 @@
 	\vfill
 \end{frame}
 
-\begin{frame}
-	\begin{figure}
-		\includegraphics[width=.9\textwidth]{figures/max_means_sim_plot}
-	\end{figure}
-\end{frame}
-
-\begin{frame}{PLACEHOLDER: Visual Examples of Approaches}
-\end{frame}
-
 \subsection{Max of Means Example}
 \begin{frame}{Max of Means Limiting Distribution}
 
@@ -268,12 +259,23 @@
 	\end{align*}
 \end{frame}
 
+\begin{frame}
+	\begin{figure}
+		\includegraphics[width=.9\textwidth]{figures/max_means_sim_plot}
+	\end{figure}
+\end{frame}
+
+\subsection{Visual Introduction to Asymptotic Approaches}
+
+\begin{frame}{PLACEHOLDER: Visual Examples of Approaches}
+\end{frame}
 \subsection{OWL}
 \begin{frame}{OWL}
 	\begin{figure}
 		\includegraphics[width=.6\textwidth]{figures/how-to-draw-an-owl}
 	\end{figure}
 \end{frame}
+
 
 
 
@@ -318,9 +320,11 @@
 
 \subsection{Local Alternatives}
 \begin{frame}{The Local Alternative}
-	Idea: decompose into a static part and a part that changes with $n$
+	Idea: allow the data generating model to change with $n$. The new models are
+	comprised of a static part and a part that changes with $n$ which
+	will go to zero in the limit.
 
-	$$\mu_n = \mu_0 + s \times h(n)$$
+	$$\mu_{0n} = \mu_0 + s \times h(n)$$
 	\begin{itemize}
 		\item Where $\mu_0, \,s \in \mbbR^{p}$ are both fixed.
 		      \vfill
@@ -334,7 +338,9 @@
 \end{frame}
 
 \begin{frame}{Triangular Array}
-
+	\begin{figure}
+		\includegraphics[width=.85\textwidth]{figures/triangular-array}
+	\end{figure}
 \end{frame}
 
 \section{Constructing Asymptotic Confidence Intervals}
@@ -416,21 +422,23 @@
 \subsection{\mon Bootstrap}
 
 \begin{frame}{The $m$-out-of-$n$ Bootstrap}
-	It's the bootstrap, but with subsamples of size $m_n$ instead of samples of size $n$
+	It's the bootstrap, but with subsamples of size $m_n$ instead of samples of
+	size $n$
+	\vfill
+	$m_n$ is $o(n)$ i.e. as $m_n \to \infty$ $\frac{m}{n} \to 0$
 	\vfill \pause
 
 	This allows the \mon Bootstrap to directly approximates nonsmooth
 	functionals by dark magic (even more magical than the standard bootstrap)
 
-	$m_n$ is $o(n)$ i.e. as $m_n \to \infty$ $\frac{m}{n} \to 0$
-	\vfill
+	\vfill \pause
 	Intuition: bootstrap samples will tend to have the same characteristics as
 	the original sample (very similar means, variances etc.). Subsamples get
 	weird.
 	\vfill \pause
 	Caveat: Not as straightforwardly valid as Projection and Bounding approaches
 	(modulo a certain definition of ``straightforward''), and can fail
-	\footnote<3->{\fullcite{andrews2010Asymptotic}}.
+	\footnote<4->{\fullcite{andrews2010Asymptotic}}.
 \end{frame}
 \section{Value Function Inference}
 
@@ -542,21 +550,23 @@
 \end{frame}
 
 
-\begin{frame}{Technical Setup}
+\begin{frame}{Setup Specifics}
 	\begin{itemize}
 		\item	Two arms $\armrv \in \{-1, 1\}$
 		      \vfill
 
 		\item $\polhatnx = \sign(\covarobs^{\trans}\widehat{\beta}_{\asymindex})$
+		      \vfill
+
+		\item Assume $\widehat{\Sigma}_n$ is a consistent estimator of the asymptotic variance of $\betahatn$
 	\end{itemize}
+	\vfill \pause
+
+	Define $\nonregindclass = \nonregindclassdef$.
 	\vfill
 
-	Define $\nonregindclass$
-	\begin{displaymath}
-		\nonregindclass = \nonregindclassdef
-	\end{displaymath}
-	\vfill
-
+	We'll think of $\rootn(\Pn - \Popn)$ as a random element of $l^{\infty}(\mbbR^p)$
+	\footnotesize
 	See \fullcite{tsiatis2019Dynamic} for the assumptions. They're long and
 	Donsker makes an appearance
 \end{frame}
@@ -585,20 +595,50 @@
 		+ \mbbW
 	\end{displaymath}
 
-	where $s$ is a local parameter
+	where $s$ is a local parameter. Again $\mbbT$ is a Brownian Bridge, and $\mbbZ$, $\mbbW$ normal.
+
+	\vfill \pause
+	Having $s$ in the limit shows this is nonregular\footnote{Note it wasn't in the
+		joint distribution}.
 
 	\vfill \pause
 	We can construct a bound-based CI by
 	\begin{enumerate}
 		\item Partition $\covarspace$ into $\covarobs$s near the decision boundary
 		      ($\covarobs^{\trans}\betahatn \approx 0$) and those far away
+		      \vfill
 
 		\item Take $\sup$/$\inf$ over local perturbations in the group close
-		      to the b oundary
+		      to the boundary
 	\end{enumerate}
+	\vfill
 
 \end{frame}
+\begin{frame}{Upper Bound}
+	\vfill
 
+	Let $\tau_n$ be a sequence of tuning parameters that satisfies $\tau_n \to \infty$ and
+	$\tau_n = o(n)$ as $n \to \infty$
+	\vfill
+	\large
+
+	\begin{align*}
+		U_n  = \sup_{\omega \in \mbbR^p} & \rootn(\Pn - \Popn)\resprv \indfunx{\armrv
+			\covarrv^{\trans}\omega >
+			0}\indfunx{\frac{\asymindex(\covarrv^{\trans}\betahatn)^2}{\covarrv^{\trans}\widehat{\Sigma}_n
+		\covarrv} \leq \tau_{\asymindex}}                                               \\
+		                                 & + \rootn(\Pn - \Popn)\resprv \indfunx{\armrv
+			\covarrv^{\trans}\betahatn >
+			0}\indfunx{\frac{\asymindex(\covarrv^{\trans}\betahatn)^2}{\covarrv^{\trans}\widehat{\Sigma}_n
+				\covarrv} > \tau_{\asymindex}}
+	\end{align*}
+	\normalsize
+	\vfill \pause
+
+	Note that $\omega$ has been replaced with $\betahatn$ in the second line. Why?
+	\vfill \pause
+	Lower bound is analagous, replace $\sup$ with $\inf$
+\end{frame}
 % \begin{frame}{Life at the Boundary}
 % 	The boundary is the source of the action
 
@@ -668,8 +708,8 @@
 
 \end{frame}
 
-\begin{frame}{Assumptions for the method}
-\end{frame}
+% \begin{frame}{Assumptions for the method}
+% \end{frame}
 
 \begin{frame}{Confidence Sequences}
 	\begin{definition}[Confidence Sequence]
