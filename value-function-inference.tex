@@ -259,12 +259,69 @@
 	\end{align*}
 \end{frame}
 
+\begin{frame}{Max of Means Simulations}
+
+
+\end{frame}
+
 \begin{frame}
 	\begin{figure}
 		\includegraphics[width=.9\textwidth]{figures/max_means_sim_plot}
 	\end{figure}
 \end{frame}
+\subsection{Local Alternatives}
+\begin{frame}{What makes a good approximation?}
+	Asymptotically valid does not guarantee a good approximation in finite
+	samples.
 
+	\vfill
+
+
+	Recall that the limiting distribution of $\widehat{\theta}_n$ didn't depend on
+	the differences in $\mu_0$ just the relevanat subelements of $\Sigma$ that are in $\argmaxsetx{\mu_0}$
+
+
+	\vfill
+	In finite samples, the sample size limits how large the differences
+	need to be for us to distinguish them (remember the simulation plots).
+
+	\vfill
+
+	Our approximation ought to reflect our uncertainty about the set
+	of 	maximizers.
+
+	% \vfill pause
+	% Ask yourself what kind of closeness would cause me to be nervous if my
+	% statistic couldn't handle small perturbations of the model?
+\end{frame}
+
+\begin{frame}{The Local Alternative}
+	Idea: allow the data generating model to change with $n$. The new models are
+	comprised of a static part and a part that changes with $n$ which
+	will go to zero in the limit.
+
+	$$\mu_{0n} = \mu_0 + s \times h(n)$$
+	\begin{itemize}
+		\item Where $\mu_0, \,s \in \mbbR^{p}$ are both fixed.
+		      \vfill
+		\item $h(n)$ controls the perturbations. It is often, but not
+		      exclusively, $n^{-1/2}$ depending on the problem.
+	\end{itemize}
+	\vfill
+
+	When we're trying to recover regular estimators $n^{-1/2}$ will be the target
+
+\end{frame}
+
+\begin{frame}{Triangular Array}
+	\begin{figure}
+		\includegraphics[width=.85\textwidth]{figures/triangular-array}
+	\end{figure}
+\end{frame}
+
+
+
+\section{Constructing Asymptotic Confidence Intervals}
 \subsection{Visual Introduction to Asymptotic Approaches}
 \begin{frame}{Asymptotic Approach Overview}
 
@@ -340,58 +397,6 @@
 % 	$m$ is $o(n)$ i.e. as $m \to \infty$ $\frac{m}{n} \to 0$
 % \end{frame}
 
-
-\subsection{Local Alternatives}
-\begin{frame}{What makes a good approximation?}
-	Asymptotically valid does not guarantee a good approximation in finite
-	samples.
-
-	\vfill
-
-
-	Recall that the limiting distribution of $\widehat{\theta}_n$ didn't depend on
-	the differences in $\mu_0$ just the relevanat subelements of $\Sigma$ that are in $\argmaxsetx{\mu_0}$
-
-
-	\vfill
-	In finite samples, the sample size limits how large the differences
-	need to be for us to distinguish them (remember the simulation plots).
-
-	\vfill
-
-	Our approximation ought to reflect our uncertainty about the set
-	of 	maximizers.
-
-	% \vfill pause
-	% Ask yourself what kind of closeness would cause me to be nervous if my
-	% statistic couldn't handle small perturbations of the model?
-\end{frame}
-
-\begin{frame}{The Local Alternative}
-	Idea: allow the data generating model to change with $n$. The new models are
-	comprised of a static part and a part that changes with $n$ which
-	will go to zero in the limit.
-
-	$$\mu_{0n} = \mu_0 + s \times h(n)$$
-	\begin{itemize}
-		\item Where $\mu_0, \,s \in \mbbR^{p}$ are both fixed.
-		      \vfill
-		\item $h(n)$ controls the perturbations. It is often, but not
-		      exclusively, $n^{-1/2}$ depending on the problem.
-	\end{itemize}
-	\vfill
-
-	When we're trying to recover regular estimators $n^{-1/2}$ will be the target
-
-\end{frame}
-
-\begin{frame}{Triangular Array}
-	\begin{figure}
-		\includegraphics[width=.85\textwidth]{figures/triangular-array}
-	\end{figure}
-\end{frame}
-
-\section{Constructing Asymptotic Confidence Intervals}
 
 \subsection{Projections}
 \begin{frame}{Projection Region Big Picture}
@@ -530,41 +535,43 @@
 % \end{frame}
 \begin{frame}{Other Distinctions in Evaluating Policies}
 
-	Let $\histpol(\armobs \mid \covarobs)$ denote the policy that was used to
-	assign treatment during the experiment and $\pol(\armobs \mid \covarobs)$ the
-	policy we are intersested in evaluating.
+  Let $\histpol(\armobs \mid \covarobs)$ denote the policy that was used to assign
+  treatment during the experiment and $\pol(\armobs \mid \covarobs)$ the policy we
+  are intersested in evaluating.
 
 	\begin{columns}[T]
 		\begin{column}{.65\textwidth}
-			\ddef{On/Off-Policy}{
+		  \ddef{On/Off-Policy}{
 				\begin{itemize}
-					\setlength\itemsep{0.5em}
-					\item[\textendash] On-policy evaluation: $\pol = \histpol$ for all
-						$\covarobs$
-					\item[\textendash] Off-policy evaluation: $\pol(\armobs \mid \covarobs) \neq
-							\histpol(\armobs \mid \covarobs)$ for some $\covarobs$
-						and $\armobs$.
+				  \setlength\itemsep{0.5em}
+				\item[\textendash] On-policy evaluation: $\pol = \histpol$
+                                  for all $\covarobs$
+				\item[\textendash] Off-policy evaluation: $\pol(\armobs \mid
+                                  \covarobs) \neq \histpol(\armobs \mid \covarobs)$
+                                  for some $\covarobs$ and $\armobs$.
 
-						Requires additional assumptions. Ex:
+				  Requires additional assumptions. Ex:
 						\[\wmax \doteq \esssup_{\obsindex \in \NN, \armobs \in \armspace,
-								\covarobs \in \covarspace} \frac{\pi(\armobs \mid
-								\covarobs)}{h_{\obsindex}(\armobs \mid \covarobs)} < \infty\]
+						  \covarobs \in \covarspace}
+                                                \frac{\pi(\armobs \mid
+                                                  \covarobs)}{h_{\obsindex}(\armobs
+                                                  \mid \covarobs)} < \infty\]
 
 						% $$\impwt =
 						% 	\frac{\pol(\covarobs)}{\histpol(\covarobs)}$$
 				\end{itemize}
-			}
+		  }
 		\end{column}
 		\pause
 		\begin{column}{.35\textwidth}
-			\ddef{Fixed or Estimated}{
+		  \ddef{Fixed or Estimated}{
 				\begin{itemize}
-					\setlength\itemsep{0.5em}
-					\item[\textendash] Data-derived or estimated policy
-					\item[\textendash] Fixed policy that's pre-specified before looking at
-						the data.
+				  \setlength\itemsep{0.5em}
+				\item[\textendash] Data-derived or estimated policy
+				\item[\textendash] Fixed policy that's pre-specified
+                                  before looking at the data.
 				\end{itemize}
-			}
+		  }
 		\end{column}%
 	\end{columns}
 
@@ -588,6 +595,8 @@
 	\vfill
 
 	We'll think of $\rootn(\Pn - \Popn)$ as a random element of $l^{\infty}(\mbbR^p)$
+	\vfill
+
 	\footnotesize
 	See \fullcite{tsiatis2019Dynamic} for the assumptions. They're long and
 	Donsker makes an appearance
@@ -674,7 +683,11 @@
 
 \section{Avoiding Nonregularity}
 \begin{frame}{Alternatives to Asymptotics}
-	If the blow-up happens in the limit, what if we just don't take it to the limit?
+	\vfill
+
+	If the problems happen in the limit, what if we just don't take it to the limit?
+
+	\vfill
 \end{frame}
 
 \begin{frame}{Finite-sample bounds}
@@ -689,12 +702,12 @@
 	A test supermartingale $M_t$ is a non-negative supermartingale that under
 	the null $P_0$ satisfies $\E_{P_0}[M_\obsindex] \leq 1$ at any time $\obsindex$
 
-	\vfill \pause
+	%% \vfill \pause
 
-	A nonnegative process $\prode{}{}$ is called an \emph{e-process} for $\symbf{P}$
-	if there is a test martingale family $(M^P)_{P \in \symbf{P}}$ such that
+	%% A nonnegative process $\prode{}{}$ is called an \emph{e-process} for $\symbf{P}$
+	%% if there is a test martingale family $(M^P)_{P \in \symbf{P}}$ such that
 
-	$$\prode{t}{} \leq M_{t}^{P} \text{ for every } P \in \symbf{P},  t \geq 0$$
+	%% $$\prode{t}{} \leq M_{t}^{P} \text{ for every } P \in \symbf{P},  t \geq 0$$
 \end{frame}
 
 % \begin{frame}{Additional Notation of Note}
