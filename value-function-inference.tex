@@ -266,84 +266,6 @@
 \end{frame}
 
 \subsection{Visual Introduction to Asymptotic Approaches}
-
-\begin{frame}{PLACEHOLDER: Visual Examples of Approaches}
-\end{frame}
-\subsection{OWL}
-\begin{frame}{OWL}
-	\begin{figure}
-		\includegraphics[width=.6\textwidth]{figures/how-to-draw-an-owl}
-	\end{figure}
-\end{frame}
-
-
-
-
-% \begin{frame}{Abstract problem}
-% 	Nonsmooth functional of a smooth function
-
-% 	Approach overview:
-
-% 	$m$ out of $n$ directly approximate the nonsmooth functional - let the
-% 	perturbations in $m_n$ be larger than the perturbations from the
-% 	non-regularlity
-
-% 	$m$ is $o(n)$ i.e. as $m \to \infty$ $\frac{m}{n} \to 0$
-% \end{frame}
-
-\subsection{Asymptotic Aside}
-
-\begin{frame}{What makes a good approximation?}
-	Asymptotically valid does not guarantee a good approximation in finite
-	samples.
-
-	\vfill
-
-
-	Recall that the limiting distribution of $\widehat{\theta}_n$ didn't depend on
-	the differences in $\mu_0$ just the relevanat subelements of $\Sigma$ that are in $\argmaxsetx{\mu_0}$
-
-
-	\vfill
-	In finite samples, the sample size limits how large the differences
-	need to be for us to distinguish them (remember the simulation plots).
-
-	\vfill
-
-	Our approximation ought to reflect our uncertainty about the set
-	of 	maximizers.
-
-	% \vfill pause
-	% Ask yourself what kind of closeness would cause me to be nervous if my
-	% statistic couldn't handle small perturbations of the model?
-\end{frame}
-
-\subsection{Local Alternatives}
-\begin{frame}{The Local Alternative}
-	Idea: allow the data generating model to change with $n$. The new models are
-	comprised of a static part and a part that changes with $n$ which
-	will go to zero in the limit.
-
-	$$\mu_{0n} = \mu_0 + s \times h(n)$$
-	\begin{itemize}
-		\item Where $\mu_0, \,s \in \mbbR^{p}$ are both fixed.
-		      \vfill
-		\item $h(n)$ controls the perturbations. It is often, but not
-		      exclusively, $n^{-1/2}$ depending on the problem.
-	\end{itemize}
-	\vfill
-
-	When we're trying to recover regular estimators $n^{-1/2}$ will be the target
-
-\end{frame}
-
-\begin{frame}{Triangular Array}
-	\begin{figure}
-		\includegraphics[width=.85\textwidth]{figures/triangular-array}
-	\end{figure}
-\end{frame}
-
-\section{Constructing Asymptotic Confidence Intervals}
 \begin{frame}{Asymptotic Approach Overview}
 
 	% Please add the following required packages to your document preamble:
@@ -370,6 +292,106 @@
 	\textcolor{red}{!!}	Regularization may induce infinite bias in certain scenarios.
 \end{frame}
 
+
+\begin{frame}{Visual Example --- Projection}
+	\begin{figure}
+		\includegraphics[width=.5\textwidth]{figures/sketch-projection}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Visual Example --- Bounding}
+	\begin{figure}
+		\includegraphics[width=\textwidth]{figures/sketch-bounding}
+	\end{figure}
+
+\end{frame}
+\begin{frame}{Visual Example --- \mon Bootstrap}
+	\begin{figure}
+		\includegraphics[width=.55\textwidth]{figures/sketch-bootstrap1}
+	\end{figure}
+
+\end{frame}
+\begin{frame}{Visual Example --- \mon Bootstrap}
+	\begin{figure}
+		\includegraphics[width=\textwidth]{figures/sketch-bootstrap2}
+	\end{figure}
+
+\end{frame}
+
+\subsection{OWL}
+\begin{frame}{OWL}
+	\begin{figure}
+		\includegraphics[width=.6\textwidth]{figures/how-to-draw-an-owl}
+	\end{figure}
+\end{frame}
+
+
+
+
+% \begin{frame}{Abstract problem}
+% 	Nonsmooth functional of a smooth function
+
+% 	Approach overview:
+
+% 	$m$ out of $n$ directly approximate the nonsmooth functional - let the
+% 	perturbations in $m_n$ be larger than the perturbations from the
+% 	non-regularlity
+
+% 	$m$ is $o(n)$ i.e. as $m \to \infty$ $\frac{m}{n} \to 0$
+% \end{frame}
+
+
+\subsection{Local Alternatives}
+\begin{frame}{What makes a good approximation?}
+	Asymptotically valid does not guarantee a good approximation in finite
+	samples.
+
+	\vfill
+
+
+	Recall that the limiting distribution of $\widehat{\theta}_n$ didn't depend on
+	the differences in $\mu_0$ just the relevanat subelements of $\Sigma$ that are in $\argmaxsetx{\mu_0}$
+
+
+	\vfill
+	In finite samples, the sample size limits how large the differences
+	need to be for us to distinguish them (remember the simulation plots).
+
+	\vfill
+
+	Our approximation ought to reflect our uncertainty about the set
+	of 	maximizers.
+
+	% \vfill pause
+	% Ask yourself what kind of closeness would cause me to be nervous if my
+	% statistic couldn't handle small perturbations of the model?
+\end{frame}
+
+\begin{frame}{The Local Alternative}
+	Idea: allow the data generating model to change with $n$. The new models are
+	comprised of a static part and a part that changes with $n$ which
+	will go to zero in the limit.
+
+	$$\mu_{0n} = \mu_0 + s \times h(n)$$
+	\begin{itemize}
+		\item Where $\mu_0, \,s \in \mbbR^{p}$ are both fixed.
+		      \vfill
+		\item $h(n)$ controls the perturbations. It is often, but not
+		      exclusively, $n^{-1/2}$ depending on the problem.
+	\end{itemize}
+	\vfill
+
+	When we're trying to recover regular estimators $n^{-1/2}$ will be the target
+
+\end{frame}
+
+\begin{frame}{Triangular Array}
+	\begin{figure}
+		\includegraphics[width=.85\textwidth]{figures/triangular-array}
+	\end{figure}
+\end{frame}
+
+\section{Constructing Asymptotic Confidence Intervals}
 
 \subsection{Projections}
 \begin{frame}{Projection Region Big Picture}
@@ -496,16 +518,16 @@
 	These three will not generally be equivalent even asymptotically.
 \end{frame}
 
-\begin{frame}{Estimating the Value Function}
-	There are two common approaches to estimating the value function:
-	\vfill
-	\begin{enumerate}
-		\item Inverse Probability Weighting (IPW) / Importance Weighting
+% \begin{frame}{Estimating the Value Function}
+% 	There are two common approaches to estimating the value function:
+% 	\vfill
+% 	\begin{enumerate}
+% 		\item Inverse Probability Weighting (IPW) / Importance Weighting
 
-		\item Augmented Inverse Probability Weighting (AIPW) / Doubly Robust Estimation
-	\end{enumerate}
-	\vfill
-\end{frame}
+% 		\item Augmented Inverse Probability Weighting (AIPW) / Doubly Robust Estimation
+% 	\end{enumerate}
+% 	\vfill
+% \end{frame}
 \begin{frame}{Other Distinctions in Evaluating Policies}
 
 	Let $\histpol(\armobs \mid \covarobs)$ denote the policy that was used to
