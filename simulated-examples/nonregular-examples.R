@@ -1,5 +1,6 @@
 library(tidyverse)
 library(mvtnorm)
+library(parallel)
 
 max_mean_param <- 1
 param_dim <- 5
@@ -61,46 +62,65 @@ SimulateSpec <- function(param_dim,
 
     max_ests <- unlist(example_res[2, ])
 
-    sim_df <- tibble(ID = 1:length(est_dens),
+    sim_df <- tibble(ID = 1:n_reps,
                      MaxEst = max_ests) %>%
-        mutate(NormalizedMaxEst = sqrt(n_observations) * (MaxEst - max_mean_param),
-               RnormDraw = rnorm(n = n(), mean = 0, sd = 1))
+                     mutate(NormalizedMaxEst = sqrt(n_observations) * (MaxEst - max_mean_param),
+                     RnormDraw = rnorm(n = n(), mean = 0, sd = 1))
 
   return(sim_df)
 }
 
-###
-# Simulation
-#
+# Adjust for parallel processing
+n_observations_values <- c(100, 400, 2000)
+scenarios <- expand.grid(n_observations = n_observations_values,
+                         dif_means_formula = c('sqrt', 'linear', 'fourth_root'))
 
-param_vec <- DefineMeanVector(
-    p_params = param_dim,
-    max_mean_param = max_mean_param,
-    dif_mean_param = dif_means
-)
+# Function to process each scenario
+process_scenario <- function(n_observations,
+                             dif_means_formula,
+                             ...) {
 
-example_res <- replicate(
-    SimulateMaxOfMeansInstance(param_vec = param_vec,
-                               n_obs = n_observations),
-    n = n_reps)
+  n_observatio<- n_observations
+  formula <- dif_means_formula
 
-max_ests <- unlist(example_res[2, ])
+  dif_means <- switch(as.character(formula),
+                      sqrt = 1/sqrt(n_observations),
+                      linear = 1/n_observations,
+                      fourth_root = 1/sqrt(sqrt(n_observations)))
 
-# Asymptotically the distribution of the transformed estimates should be N(0,1)
-transformed_ests <- sqrt(n_observations) * (max_ests - max_mean_param)
-# est_dens<- dnorm(transformed_ests)
+  scenario_mean_vec <- DefineMeanVector(param_dim, max_mean_param, dif_means)
 
-sim_df <- tibble(ID = 1:length(est_dens),
-                 MaxEst = max_ests,
-                 NormalizedMaxEst = transformed_ests,
-                 Dens = est_dens) %>%
-    mutate(RnormDraw = rnorm(n = n(), mean = 0, sd = 1))
+  sim_runs_single_scenario <- replicate(
+      SimulateMaxOfMeansInstance(param_vec = scenario_mean_vec,
+                                 n_obs = n_observations),
+      n = n_reps)
+
+  max_ests <- unlist(sim_runs_single_scenario[2, ])
+
+  scenario_results_df <- tibble(ID = 1:n_reps, MaxEst = max_ests) %>%
+    mutate(NormalizedMaxEst = sqrt(n_observations) * (MaxEst - max_mean_param),
+           RnormDraw = rnorm(n = n(), mean = 0, sd = 1))
+
+  # Placeholder for simulation execution code
+  sprintf("n_observations: %d, dif_means: %f, formula: %s", n_observations, dif_means, formula)
+  # Include actual simulation and analysis logic here
+
+  return(scenario_results_df)
+}
 
 
+results <- mapply(FUN = process_scenario,
+                  n_observations = c(scenarios$n_observations),
+                  dif_means_formula = scenarios$dif_means_formula,
+                  MoreArgs = list(param_dim = param_dim,
+                                    max_mean_param = max_mean_param,
+                                    n_reps = n_reps))
 
-ggplot(data = sim_df, aes(x = NormalizedMaxEst)) +
-    geom_density(color = "orange", adjust = 0.75) +
-    geom_vline(xintercept = mean(sim_df$NormalizedMaxEst), linetype = "dashed", color = "orange") +
-    geom_density(aes(x=RnormDraw), color = "grey", adjust = 0.75) +
-        geom_vline(xintercept = mean(sim_df$RnormDraw), linetype = "dashed", color = "grey") +
-    xlim(-4, 4)
+
+# Flatten the array into a single vector
+results_list_of_tibs <- apply(results, 2, as_tibble)
+
+# Convert the vector to a tibble
+results_tibble <- bind_rows(results_list_of_tibs) %>%
+  mutate(scenario = rep(scenarios$n_observations, each = n_reps),
+         dif_means_formula = rep(scenarios$dif_means_formula, each = n_reps))
