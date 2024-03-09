@@ -55,6 +55,24 @@ SimulateSpec <- function(param_dim,
         dif_mean_param = dif_means
     )
 
+
+results <- mapply(process_scenario, n_observations = c(100, 400, 800, 1200, 2000),
+                   dif_means_formula = "sqrt",
+                   param_dim = param_dim, max_mean_param = max_mean_param, n_reps = n_reps)
+
+results_list_of_tibs <- apply(results, 2, as_tibble)
+
+results_tibble <- bind_rows(results_list_of_tibs) %>%
+  mutate(scenario = rep(c(100, 400, 800, 1200, 2000), each = n_reps),
+         dif_means_formula = "sqrt") %>%
+  select(-ID) # assuming we don't need the original ID column for this analysis
+
+# Output results in desired format
+cat("Simulation with n_observation =", results$scenario[1], "and dif_means =", results$NormalizedMaxEst[1], "\n", sep="")
+cat("Simulation with n_observation =", results$scenario[2], "and dif_means =", results$NormalizedMaxEst[2], "\n", sep="")
+cat("Simulation with n_observation =", results$scenario[3], "and dif_means =", results$NormalizedMaxEst[3], "\n", sep="")
+cat("Simulation with n_observation =", results$scenario[4], "and dif_means =", results$NormalizedMaxEst[4], "\n", sep="")
+cat("Simulation with n_observation =", results$scenario[5], "and dif_means =", results$NormalizedMaxEst[5], "\n", sep="")
     example_res <- replicate(
         SimulateMaxOfMeansInstance(param_vec = param_vec,
                                    n_obs = n_observations),
@@ -124,3 +142,35 @@ results_list_of_tibs <- apply(results, 2, as_tibble)
 results_tibble <- bind_rows(results_list_of_tibs) %>%
   mutate(scenario = rep(scenarios$n_observations, each = n_reps),
          dif_means_formula = rep(scenarios$dif_means_formula, each = n_reps))
+
+SimulateFixedDifVaryN <- function(param_dim = 5,
+                                  max_mean_param = 1,
+                                  dif_means = .01,
+                                  n_observations = c(50, 100, 400, 800, 1200, 2000),
+                                  n_reps = 1000) {
+
+    scenario_mean_vec <- DefineMeanVector(param_dim, max_mean_param, dif_means)
+
+    sim_list <- map(n_observations, ~ replicate(n = n_reps, SimulateMaxOfMeansInstance(param_vec = scenario_mean_vec, n_obs = .x), simplify = "array"))
+
+    est_max_means <- map(sim_list, ~ unlist(t(.x)[, 2])) %>%
+        unlist(.)
+    # Convert the vector to a tibble
+
+    scenario_results_df <- tibble(
+        MaxEst = est_max_means,
+        N = rep(n_observations, each = n_reps)
+    ) %>%
+        mutate(
+            NormalizedMaxEst = sqrt(N) * (MaxEst - max_mean_param),
+            RnormDraw = rnorm(n = n(), mean = 0, sd = 1)
+        )
+
+    return(scenario_results_df)
+}
+
+# Call the simulation with varying n_observation and fixed dif_means
+sim_fixed_dif_vary_n_df <- SimulateFixedDifVaryN(n_reps = 1000)
+
+# Output the results in a format suitable for further analysis
+write.csv(sim_df, "simulation_results.csv", row.names = FALSE)

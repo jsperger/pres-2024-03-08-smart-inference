@@ -169,3 +169,11 @@ ggsave(filename = "/home/jsperger/work/presentations/2024-03-08-smart-inference/
 
 # Save the plot as a PNG file
 ggsave(filename = "/home/jsperger/work/presentations/2024-03-08-smart-inference/figures/max_means_sim_plot.png", plot = p, width = 8, height = 6)
+
+
+### Varying N
+vary_n_mean_data <- sim_fixed_dif_vary_n_df %>%
+  group_by(N) %>%
+  summarise(mean_NormalizedMaxEst = mean(NormalizedMaxEst),
+            mean_RnormDraw = mean(RnormDraw))
+
