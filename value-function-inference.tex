@@ -6,6 +6,9 @@
 \usepackage{booktabs}
 \usepackage{wrapfig}
 \usepackage{rotating}
+\usepackage[boxed,longend, linesnumbered]{algorithm2e}
+
+
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -260,41 +263,79 @@
 \end{frame}
 
 \begin{frame}{Max of Means Simulations}
-	We'll look at a few simulated examples to get a better understanding of the
-	problem. \vfill
+	Let $\mu_0 = (1, 1-\delta, \ldots, 1-\delta)$ comprised of a unique maximizer of 1 and
+	$p$ equally sub-optimal components with difference $\delta$.
+	\begin{algorithm}[H]
+		\KwIn{Sample size $n$, Mean vector $\mu_0$}
 
-	Let $\mu_0 = (1, 1-\delta, \ldots, 1-\delta)$ with $p = 6$ total parameters comprised of
-	one maximizer and five equally sub-maximal components. Again let
+		\ForEach{simulation replicate}{
+			Sample $X_i \sim N(\mu_0, \idmat)$ for $i = 1, \ldots, n$ \\
+			Estimate $\muhatn = \Pn \covarrv$ \\
+			Estimate $\thetahatn = \max_{j \in [p]} \muhat_{\asymindex j}$ \\
+			Calculate standardized estimate:
+			$\tilde{\theta}_{\asymindex} = \rootn (\widehat{\theta}_{\asymindex} - \theta_0)$
+		}
+		Plot the esimated density of $\tilde{\theta}_{\asymindex}$ against the density of $N(0,1)$
+	\end{algorithm}
+	\footnotesize In the following simulations we'll use $p = 6$ and by construction
+	$\tilde{\theta}_{\asymindex}= \rootn
+		(\widehat{\theta}_{\asymindex} - 1)$.
 
-	\begin{displaymath}
-		\widehat{\mu}_{\asymindex} = \Pn \covarrv \qquad
-		widehat{\theta}_{\asymindex} = \maxsym_{j = 1}^{6} \widehat{\mu}_{\asymindex j}
-	\end{displaymath}
+	% \begin{columns}[T]
+	% 	\begin{column}{.4\textwidth}
+	% 		Let $\mu_0 = (1, 1-\delta, \ldots, 1-\delta)$ with $p = 6$ total parameters comprised of
+	% 		one maximizer and five equally sub-maximal components. Again let
 
-	\vfill \pause
-	We will \begin{enumerate}
-		\item Standardize the resulting estimates $\widehat{\theta}_{\asymindex}$,
-		      ie calculate $\rootn (\widehat{\theta}_{\asymindex} - \theta_0) = \rootn
-			      (\widehat{\theta}_{\asymindex} - 1)$ for each
-		      simulation replicate
+	% 		\begin{displaymath}
+	% 			\widehat{\mu}_{\asymindex} = \Pn \covarrv \qquad
+	% 			\widehat{\theta}_{\asymindex} = \maxsym_{j = 1}^{6} \widehat{\mu}_{\asymindex j}
+	% 		\end{displaymath}
 
-		\item Estimate the density of the standardized estimates
+	% 	\end{column}
+	% 	\pause
+	% 	\begin{column}{.55\textwidth}
+	% 		\begin{algorithm}[H]
+	% 			\KwIn{Sample size $n$, Mean vector $\mu_0$}
 
-		\item Plot the density estimate and compare it to the
-		      density of the standard normal distribution.
-	\end{enumerate}
+	% 			\ForEach{simulation replicate}{
+	% 				Sample $X_i \sim N(\mu_0, \idmat)$ for $i = 1, \ldots, n$ \\
+	% 				Estimate $\muhatn = \overline{X}$ \\
+	% 				Estimate $\thetahatn = \max_{j \in [p]} \muhat_{\asymindex j}$ \\
+	% 				Calculate standardized estimate:
+	% 				$\tilde{\theta}_{\asymindex} = \rootn (\widehat{\theta}_{\asymindex} - \theta_0)$
+	% 			}
+	% 			Plot the esimated density of $\tilde{\theta}_{\asymindex}$ against the density of $N(0,1)$
+	% 		\end{algorithm}
+	% 		\footnotesize In the following simulations
+	% 		$\tilde{\theta}_{\asymindex}= \rootn
+	% 			(\widehat{\theta}_{\asymindex} - 1)$ and $p = 6$
+	% 	\end{column}
+	% \end{columns}
+
+
+	% We will \begin{enumerate}
+	% 	\item Standardize the resulting estimates $\widehat{\theta}_{\asymindex}$,
+	% 	      ie calculate $\rootn (\widehat{\theta}_{\asymindex} - \theta_0) = \rootn
+	% 		      (\widehat{\theta}_{\asymindex} - 1)$ for each
+	% 	      simulation replicate
+
+	% 	\item Estimate the density of the standardized estimates
+
+	% 	\item Plot the density estimate and compare it to the
+	% 	      density of the standard normal distribution.
+	% \end{enumerate}
 \end{frame}
 
 \begin{frame}{Max of Means with Fixed $\delta$ \& Varying $n$}
-	Let $\delta = .01$ so $\mu_0 = (1, .99, \ldots, .99)$ and consider
-	$n \in \{100, 800, 1200, 2000 \}$. Before we look at the densities for
+	Let $\delta = .01$ so $\mu_0 = (1, .99, \ldots, .99)$, and we'll investigate
+	$n = 100, \, 800, \, 1200, \, 2000$. Before we look at the densities for
 	$\widehat{\theta}_n$, as a refresher let's look at the same plot for $\rootn(\widehat{\mu}_{n1}
 		- \mu_{01})$
 	\vfill
 	PLACEHOLDER
 	\vfill \pause
-	For all sample sizes the distribution of $\rootn(\widehat{\mu}_{n1} - \mu_{01})$ is
-	approximately normal, with slightly heavier tails for smaller $n$.
+	As expected, the distribution of $\rootn(\widehat{\mu}_{n1} - \mu_{01})$ is
+	approximately normal at all simulated sample sizes, with slightly heavier tails for smaller $n$.
 
 \end{frame}
 
@@ -310,6 +351,11 @@
 \begin{frame}{Max of Means with Sample-size-dependent $\delta$}
 	Now consider different values of $\delta$ that scale with $n$: $\delta = n^{-1}$,
 	$\delta = n^{-1/2}$, and $\delta = n^{-1/4}$.
+
+	\vfill
+	TODO: The plots on the next slide use estimated densities for $N(0,1)$
+	as well as for the estimated max. Replace the estimated normal densities with
+	the exact density
 \end{frame}
 
 \begin{frame}
@@ -326,7 +372,7 @@
 
 
 	Recall that the limiting distribution of $\widehat{\theta}_n$ didn't depend on
-	the differences in $\mu_0$ just the relevanat subelements of $\Sigma$ that are in $\argmaxsetx{\mu_0}$
+	the differences in $\mu_0$ just the relevant sub-elements of $\Sigma$ that are in $\argmaxsetx{\mu_0}$
 
 
 	\vfill
@@ -372,29 +418,42 @@
 \section{Constructing Asymptotic Confidence Intervals}
 \subsection{Visual Introduction to Asymptotic Approaches}
 \begin{frame}{Asymptotic Approach Overview}
-
-	% Please add the following required packages to your document preamble:
-	% \usepackage{booktabs}
-	\begin{table}[]
-		\begin{tabular}{@{}lcccc@{}}
+	\begin{table}
+		\begin{tabular}{@{}lccc@{}}
 			\toprule
-			                   & \begin{tabular}[c]{@{}c@{}}Theoretical \\ Guarantees\end{tabular}
-			                   & \begin{tabular}[c]{@{}c@{}}Easy to \\ Implement\end{tabular}
-			                   & Conservative
-			                   & \begin{tabular}[c]{@{}c@{}}Empirical \\ Performance\end{tabular}                                                       \\
+			                  & \begin{tabular}[c]{@{}c@{}}Theoretical \\ Guarantees\end{tabular}
+			                  & \begin{tabular}[c]{@{}c@{}}Easy to \\ Implement\end{tabular}
+			                  & \begin{tabular}[c]{@{}c@{}}Conservative\end{tabular}                                                    \\
 			\midrule
-			Projection sets    & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark^{+}$ & $\checkmark$ \\
-			Bounding           & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark$     & \checkmark   \\
-			\mon  \, Bootstrap & $\checkmark$
-			                   & $\checkmark^{+}$                                                  & \symbol{"2610}   & \checkmark                      \\
-			Regularization     & \textcolor{red}{!!}
-			                   & $\checkmark$                                                      & \symbol{"2610}   & $\checkmark$                    \\
-			The Jackknife      & \symbol{"2610}                                                    & $\checkmark^{+}$ &                  & $\checkmark$ \\
+			Projection sets   & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark^{+}$ \\
+			Bounding          & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark$     \\
+			\mon \, Bootstrap & $\checkmark$                                                      & $\checkmark^{+}$ & \symbol{"2610}   \\
+			Regularization    & \textcolor{red}{!!}                                               & $\checkmark$     & \symbol{"2610}   \\
+			The Jackknife     & \symbol{"2610}                                                    & $\checkmark^{+}$ &                  \\
 			\bottomrule
 		\end{tabular}
 	\end{table}
 
-	\textcolor{red}{!!}	Regularization may induce infinite bias in certain scenarios.
+	% \begin{table}[]
+	% 	\begin{tabular}{@{}lcccc@{}}
+	% 		\toprule
+	% 		                   & \begin{tabular}[c]{@{}c@{}}Theoretical \\ Guarantees\end{tabular}
+	% 		                   & \begin{tabular}[c]{@{}c@{}}Easy to \\ Implement\end{tabular}
+	% 		                   & Conservative
+	% 		                   & \begin{tabular}[c]{@{}c@{}}Empirical \\ Performance\end{tabular}                                                       \\
+	% 		\midrule
+	% 		Projection sets    & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark^{+}$ & $\checkmark$ \\
+	% 		Bounding           & $\checkmark^{+}$                                                  & \symbol{"2610}   & $\checkmark$     & \checkmark   \\
+	% 		\mon  \, Bootstrap & $\checkmark$
+	% 		                   & $\checkmark^{+}$                                                  & \symbol{"2610}   & \checkmark                      \\
+	% 		Regularization     & \textcolor{red}{!!}
+	% 		                   & $\checkmark$                                                      & \symbol{"2610}   & $\checkmark$                    \\
+	% 		The Jackknife      & \symbol{"2610}                                                    & $\checkmark^{+}$ &                  & $\checkmark$ \\
+	% 		\bottomrule
+	% 	\end{tabular}
+	% \end{table}
+
+	\textcolor{red}{!!}	Regularization may induce infinite bias in certain scenarios. Has had empirical success in some applications but this approach is no longer recommended because of the potential for bias.
 \end{frame}
 
 
@@ -410,13 +469,13 @@
 	\end{figure}
 
 \end{frame}
-\begin{frame}{Visual Example --- \mon Bootstrap}
+\begin{frame}{Visual Example --- \mon \, Bootstrap}
 	\begin{figure}
 		\includegraphics[width=.55\textwidth]{figures/sketch-bootstrap1}
 	\end{figure}
 
 \end{frame}
-\begin{frame}{Visual Example --- \mon Bootstrap}
+\begin{frame}{Visual Example --- \mon \, Bootstrap}
 	\begin{figure}
 		\includegraphics[width=\textwidth]{figures/sketch-bootstrap2}
 	\end{figure}
@@ -531,7 +590,7 @@
 	\vfill \pause
 	Define the value of a policy $\pol$ as
 	\begin{equation*}
-		\val(\pol) \doteq \E_{\covarrv}[\po(\armobs = \pol(\covarrv))]
+		\val(\pol) \doteq \E[\po(\armobs = \pol(\covarrv))]
 		%	\polval = \val(\pol) \doteq \E_{\covarrv}[\po(\armobs =\pol(\covarrv))]
 	\end{equation*}
 
@@ -552,23 +611,21 @@
 \begin{frame}{Value Functions}
 	\begin{enumerate}
 		\item (Conditional) Value of the estimated optimal policy
-
 		      $$\val(\polhatn) = \valfundef = \valfundefop$$
-
 		      \vfill \pause
-
 		\item Expected Value of an estimated optimal policy
 		      $$\valfunexpdef$$
-
 		      \vfill \pause
-
-		\item (Conditional\footnote{Not truly conditional because the
-			      policy is not a RV})Value of the optimal policy (or, more broadly, any fixed policy)
+		\item (Conditional\footnote{\tiny Not truly conditional because the
+			      policy is not a random variable.})Value of the optimal policy (or, more broadly, any fixed policy)
 		      $$\val(\optpol) = \valfunoptdef$$
 	\end{enumerate}
-
-	\vfill \pause
+	\pause
 	These three will not generally be equivalent even asymptotically.
+
+	\tiny The
+	conditional value function is often simply called the value function in
+	many papers, you have to look at the formula to know.
 \end{frame}
 
 % \begin{frame}{Estimating the Value Function}
