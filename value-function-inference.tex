@@ -1,4 +1,4 @@
-\documentclass[aspectratio=169, professionalfonts]{beamer}
+\documentclass[aspectratio=169, professionalfonts, handout]{beamer}
 \usepackage{mathtools} % \mathclap for shortening overbrace text
 \usepackage{graphicx}
 \usepackage{subfig}
@@ -60,8 +60,8 @@
 
 		      \vfill \pause
 
-		\item Provide reasons when projection intervals may be preferable to
-		      bootstrap intervals and vice versa.
+		\item Provide a reason why projection intervals may be preferable to
+		      regularization for confidence intervals.
 		      \vfill \pause
 
 		\item Explain the connection between the finite-sample approach and the
@@ -194,8 +194,8 @@
 	quoting Tolstoy\pause... maybe
 
 	\vfill \pause
-	For the superefficient estimator $\tilde{\mu}$ the form of the estimator, not
-	the underlying estimand was the source of the nonregularity.
+	For the superefficient estimator $\tilde{\mu}$, the form of the estimator, not
+	the underlying estimand, was the source of the nonregularity.
 
 	\vfill \pause
 
@@ -464,6 +464,7 @@
 \end{frame}
 
 \begin{frame}{Visual Example --- Bounding}
+	Bounding approaches are distinct from convex relaxations
 	\begin{figure}
 		\includegraphics[width=\textwidth]{figures/sketch-bounding}
 	\end{figure}
